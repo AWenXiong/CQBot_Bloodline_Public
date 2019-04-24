@@ -1,6 +1,6 @@
 # 服务端口号
 server:
-  port: 40001
+  port: 8080
 
 spring:
   datasource: # 数据库配置
