@@ -51,7 +51,7 @@ public class ObjectKit {
      * @param o
      * @return
      */
-    public static JSONObject parseObjectPropToJSONObject(Object o) {
+    public static JSONObject parseObjectToJSONObject(Object o) {
         Field[] fields = o.getClass().getDeclaredFields();
         JSONObject res = new JSONObject();
         JSONArray prop = new JSONArray();
@@ -63,7 +63,6 @@ public class ObjectKit {
             prop.add(jsonObject);
         }
         res.put("prop", prop);
-
         return res;
     }
 
@@ -74,7 +73,7 @@ public class ObjectKit {
      * @param o
      * @return
      */
-    public static JSONObject parseObjectToJSONObject(Object o) {
+    public static JSONObject parseObjectToKVJSONObject(Object o) {
         JSONObject res = new JSONObject();
         Field[] fields = o.getClass().getDeclaredFields();
         try {
@@ -82,22 +81,62 @@ public class ObjectKit {
                 Field field = fields[i];
                 String fieldName = field.getName();
                 Object value = field.get(o);
-//                String fieldName = fields[i].getName();
-//                // 如果传进来的类的属性和对应的getter的大小写不规范的话会出问题
-//                // 这里将属性首字母大写，后面的不变
-//                String getter = "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
-//                Method method = o.getClass().getMethod(getter, new Class[]{});
-//                method.setAccessible(true);
-//                Object value = method.invoke(o, new Object[] {});
                 res.put(fieldName, value);
             }
             return res;
         } catch (Exception e) {
-//            e.printStackTrace();
             return null;
         }
     }
 
+    public static void deliverProp(Object to, Object from) throws Exception {
+        Class fromClass = from.getClass();
+        Class toClass = to.getClass();
+        Field[] fromFields = fromClass.getDeclaredFields();
+        try {
+            for (int i = 0; i < fromFields.length; i++) {
+                Field fromField = fromFields[i];
+                String fromFieldName = fromField.getName();
+                fromField.setAccessible(true);
+                Object fromFieldValue = fromField.get(from);
+                if (fromFieldValue != null) {
+                    Field toFiled = toClass.getDeclaredField(fromFieldName);
+                    toFiled.setAccessible(true);
+                    toFiled.set(to, fromFieldValue);
+                }
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public static void deliverPropIgnoreCase(Object to, Object from) throws Exception {
+        Class fromClass = from.getClass();
+        Class toClass = to.getClass();
+        Field[] fromFields = fromClass.getDeclaredFields();
+        Field[] toFields = toClass.getDeclaredFields();
+        try {
+            for (int i = 0; i < fromFields.length; i++) {
+                Field fromField = fromFields[i];
+                String fromFieldName = fromField.getName();
+                fromField.setAccessible(true);
+                Object fromFieldValue = fromField.get(from);
+                if (fromFieldValue != null) {
+                    for (int j = 0; j < toFields.length; j++) {
+                        String toFieldName = toFields[j].getName().toLowerCase();
+                        if (toFieldName.equals(fromFieldName.toLowerCase())) {
+                            Field toFiled = toFields[j];
+                            toFiled.setAccessible(true);
+                            toFiled.set(to, fromFieldValue);
+                            break;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
     /**
      * 遍历集合collection，转换为JSONArray
      * className为集合collection<T>的类型T的完整类名

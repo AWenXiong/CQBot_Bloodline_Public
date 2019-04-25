@@ -130,11 +130,11 @@ public class testController {
         return jsonObject;
     }
 
-    @RequestMapping(value = "/testMethod")
+    @RequestMapping(value = "/1")
     @ResponseBody
     public JSONObject testMethod(@RequestBody TestDTO testDTO) {
-        testClass.testMethod();
-        return new JSONObject();
+        JSONObject res = ObjectKit.parseObjectToJSONObject(testDTO);
+        return res;
     }
 
 }

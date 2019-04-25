@@ -28,6 +28,16 @@ public interface SzjinvitationcodeDao {
             "Id = #{Id}")
     Szjinvitationcode getById(@Param("Id") long Id);
 
+    @Select("select count(*) " +
+            "from szjinvitationcode " +
+            "where DeletionStateCode = 0 and InvitationCode = #{invitationCode}")
+    long existInvitationCode(@Param("invitationCode") String invitationCode);
+
+    @Select("select * " +
+            "from szjinvitationcode " +
+            "where DeletionStateCode = 0 and InvitationCode = #{invitationCode}")
+    Szjinvitationcode getByCode(@Param("invitationCode") String invitationCode);
+
     @Insert("insert into szjinvitationcode(Type, DueTime, EffectiveTime, InvitationCode, ExtraFrequency) " +
             "value(#{type}, #{dueTime}, #{effectiveTime}, #{invitationCode}, #{extraFrequency})")
     void createInvitationCode(@Param("type") String type,

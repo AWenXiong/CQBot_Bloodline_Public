@@ -5,6 +5,7 @@ import com.cq.httpapi.demo.dto.SZJ.Response.CardGroupResponse.*;
 import com.cq.httpapi.demo.entity.SZJ.Szjinvitationcode;
 import com.cq.httpapi.demo.entity.SZJ.Szjusercardgroupinfo;
 import com.cq.httpapi.demo.exception.SZJException.UserGroupInfoException.*;
+import com.cq.httpapi.demo.kit.ObjectKit;
 import com.cq.httpapi.demo.service.SZJInvitationCodeService;
 import com.cq.httpapi.demo.service.SZJUserCardGroupInfoService;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -103,14 +104,15 @@ public class CardGroupController {
         try {
             Szjusercardgroupinfo cardGroupInfo = cardGroupInfoService.getGroupInfo(request);
             Szjinvitationcode invitationCode = invitationCodeService.getByCode(cardGroupInfo.getInvitationCode());
-            response.setSuccess(true);
-            response.setId(cardGroupInfo.getId());
-            response.setName(cardGroupInfo.getName());
-            response.setInvitationCode(cardGroupInfo.getInvitationCode());
-            response.setType(invitationCode.getType());
-            response.setDueTime(invitationCode.getDueTime());
-            response.setEffectiveTime(invitationCode.getEffectiveTime());
-            response.setExtraFrequency(invitationCode.getExtrafrequency());
+
+            try {
+                response.setSuccess(true);
+                ObjectKit.deliverPropIgnoreCase(response, cardGroupInfo);
+                ObjectKit.deliverPropIgnoreCase(response, invitationCode);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         } catch (GetGroupInfoException e) {
             response.setError(false, e.getErrorCode(), e.getMessage());
         }

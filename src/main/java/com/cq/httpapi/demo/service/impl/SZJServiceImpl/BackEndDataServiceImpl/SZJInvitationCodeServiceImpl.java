@@ -26,16 +26,24 @@ public class SZJInvitationCodeServiceImpl implements SZJInvitationCodeService {
 
     @Override
     public boolean existInvitationCode(String invitationCode) {
-        return false;
+        long isExist = invitationCodeDao.existInvitationCode(invitationCode);
+        if (isExist > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public Szjinvitationcode getById(long id) {
-        return null;
+        return invitationCodeDao.getById(id);
     }
 
     @Override
     public Szjinvitationcode getByCode(String invitationCode) {
-        return null;
+        if (invitationCode == null || invitationCode.isEmpty()) {
+            return null;
+        }
+        return invitationCodeDao.getByCode(invitationCode);
     }
 }
