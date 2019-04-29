@@ -2,7 +2,7 @@ package com.cq.httpapi.demo.kit;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.cq.httpapi.demo.service.CardService;
+import com.cq.httpapi.demo.service.CQService.CardService;
 
 import java.util.Scanner;
 

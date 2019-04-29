@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public interface SzjusercardinfoDao {
@@ -30,15 +29,27 @@ public interface SzjusercardinfoDao {
             "Id = #{Id}")
     Szjusercardinfo getById(@Param("Id") long Id);
 
-    @Insert("insert into szjusercardinfo " +
-            "value ()")
-    void insertSzjusercardinfo();
+    @Select("select * " +
+            "from szjusercardinfo " +
+            "where DeletionStateCode = 0 and " +
+            "UserId = #{userId} and GroupId = #{groupId}")
+    ArrayList<Szjusercardinfo> getByUserId(@Param("userId") long userId,
+                                           @Param("groupId") long groupId);
+
+    @Insert("insert into szjusercardinfo(CardInfoId, UserId, GroupId, FightingCapacity, Fate, IsGodofWar) " +
+            "value (#{cardInfoId}, #{userId}, #{groupId}, #{fightingCapacity}, #{fate}, #{isGodofWar})")
+    void insertSzjusercardinfo(@Param("cardInfoId") long cardInfoId,
+                               @Param("userId") long userId,
+                               @Param("groupId") long groupId,
+                               @Param("fightingCapacity") long fightingCapacity,
+                               @Param("fate") long fate,
+                               @Param("isGodofWar") long isGodofWar);
 
     @Update("update szjusercardinfo " +
             "set CreateOn = #{CreateOn}, CreateUserId = #{CreateUserId}, CreateBy = #{CreateBy} " +
             "where Id = {Id}")
     void updateCreateInfo(@Param("Id") long Id,
-                          @Param("CreateOn") Timestamp CreateOn,
+                          @Param("CreateOn") String CreateOn,
                           @Param("CreateUserId") String CreateUserId,
                           @Param("CreateBy") String CreateBy);
 
@@ -46,7 +57,7 @@ public interface SzjusercardinfoDao {
             "set ModifiedOn = #{ModifiedOn}, ModifiedUserId = #{ModifiedUserId}, ModifiedBy = #{ModifiedBy} " +
             "where Id = #{Id}")
     void updateModifyInfo(@Param("Id") long Id,
-                          @Param("ModifiedOn") Timestamp ModifiedOn,
+                          @Param("ModifiedOn") String ModifiedOn,
                           @Param("ModifiedUserId") String ModifiedUserId,
                           @Param("ModifiedBy") String ModifiedBy);
 
@@ -67,11 +78,10 @@ public interface SzjusercardinfoDao {
             "where Id = #{Id}")
     void deleteById(@Param("Id") long Id);
 
-    @Select("select max(Id) from szjusercardinfo")
-    long getMaxId();
-
-    @Select("select last_insert_id() from szjusercardinfo")
-    long getLastInsert();
+    @Select("select max(Id) " +
+            "from szjusercardinfo " +
+            "where DeletionStateCode = 0 and GroupId = #{groupId}")
+    long getLastInsert(@Param("groupId") long groupId);
 
     @Update("update szjusercardinfo " +
             "set CardInfoId = #{CardInfoId} " +

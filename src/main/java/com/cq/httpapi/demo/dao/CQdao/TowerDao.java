@@ -3,6 +3,8 @@ package com.cq.httpapi.demo.dao.CQdao;
 import com.cq.httpapi.demo.entity.Tower;
 import org.apache.ibatis.annotations.*;
 
+import java.util.ArrayList;
+
 public interface TowerDao {
 
     //获取Tower表里所有信息
@@ -35,6 +37,12 @@ public interface TowerDao {
             "from tower " +
             "where id = #{id}")
     String getAnswerById(@Param("id") Long id);
+
+    // 通过群号获取该群的所有问题
+    @Select("select question " +
+            "from tower " +
+            "where guild = #{guild}")
+    ArrayList<Tower> getQuestionList(@Param("guild") String guild);
 
     //通过记录id更新问题答案
     @Update("update tower " +

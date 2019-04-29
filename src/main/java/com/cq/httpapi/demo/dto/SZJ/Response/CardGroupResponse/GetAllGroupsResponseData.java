@@ -4,7 +4,7 @@ import com.cq.httpapi.demo.entity.SZJ.Szjusercardgroupinfo;
 
 public class GetAllGroupsResponseData {
 
-    public long Id;
+    public Long Id;
     public String Name;
     public String InvitationCode;
 
@@ -21,29 +21,5 @@ public class GetAllGroupsResponseData {
                 ", Name='" + Name + '\'' +
                 ", InvitationCode='" + InvitationCode + '\'' +
                 '}';
-    }
-
-    public long getId() {
-        return Id;
-    }
-
-    public void setId(long id) {
-        Id = id;
-    }
-
-    public String getName() {
-        return Name;
-    }
-
-    public void setName(String name) {
-        Name = name;
-    }
-
-    public String getInvitationCode() {
-        return InvitationCode;
-    }
-
-    public void setInvitationCode(String invitationCode) {
-        InvitationCode = invitationCode;
     }
 }

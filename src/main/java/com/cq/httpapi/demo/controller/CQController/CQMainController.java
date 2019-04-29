@@ -63,8 +63,10 @@ public class CQMainController {
                         allResponse.add(cardHandler.cardChecker(grpMsgHttpReqHandler));
                         allResponse.add(cardHandler.cardHandler(grpMsgHttpReqHandler));
 
-                        // 禁言
-                        allResponse.add(BanHandler.banHandler(grpMsgHttpReqHandler));
+                        if (purchaseHandler.checkService(guild, "ban")) {
+                            // 禁言
+                            allResponse.add(BanHandler.banHandler(grpMsgHttpReqHandler));
+                        }
 
                         // 定时提醒
                         if (purchaseHandler.checkService(guild, "remind")) {
@@ -77,6 +79,7 @@ public class CQMainController {
                             // 服务
                             allResponse.add(purchaseHandler.getOwnPurchase(grpMsgHttpReqHandler));
                         }
+
 
                         break;
                     }
@@ -119,7 +122,6 @@ public class CQMainController {
 
 //            // import
 //            allResponse.add(ImportHandler.importHandler(reqHandler, cardService));
-
                 //=================================================================================
                 int count = 0;
                 try {

@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public interface SzjuserspellinfoDao {
@@ -28,15 +27,26 @@ public interface SzjuserspellinfoDao {
             "Id = #{Id}")
     Szjuserspellinfo getById(@Param("Id") long Id);
 
-    @Insert("insert into szjuserspellinfo " +
-            "value ()")
-    void insertSzjitemscolor();
+    @Select("select * " +
+            "from szjuserspellinfo " +
+            "where DeletionStateCode = 0 and " +
+            "UserId = #{userId} and GroupId = #{groupId}")
+    ArrayList<Szjuserspellinfo> getUserSpellsInfo(@Param("userId") long userId,
+                                                  @Param("groupId") long groupId);
+
+    @Insert("insert into szjuserspellinfo(UserId, GroupId, SpellId, FightingCapacity) " +
+            "value (#{userId}, #{groupId}, #{spellId}, #{fightingCapacity})")
+    void insertSzjuserspellinfo(@Param("userId") long userId,
+                                @Param("groupId") long groupId,
+                                @Param("spellId") long spellId,
+                                @Param("fightingCapacity") long fightingCapacity);
+
 
     @Update("update szjuserspellinfo " +
             "set CreateOn = #{CreateOn}, CreateUserId = #{CreateUserId}, CreateBy = #{CreateBy} " +
             "where Id = {Id}")
     void updateCreateInfo(@Param("Id") long Id,
-                          @Param("CreateOn") Timestamp CreateOn,
+                          @Param("CreateOn") String CreateOn,
                           @Param("CreateUserId") String CreateUserId,
                           @Param("CreateBy") String CreateBy);
 
@@ -44,7 +54,7 @@ public interface SzjuserspellinfoDao {
             "set ModifiedOn = #{ModifiedOn}, ModifiedUserId = #{ModifiedUserId}, ModifiedBy = #{ModifiedBy} " +
             "where Id = #{Id}")
     void updateModifyInfo(@Param("Id") long Id,
-                          @Param("ModifiedOn") Timestamp ModifiedOn,
+                          @Param("ModifiedOn") String ModifiedOn,
                           @Param("ModifiedUserId") String ModifiedUserId,
                           @Param("ModifiedBy") String ModifiedBy);
 
@@ -65,16 +75,16 @@ public interface SzjuserspellinfoDao {
             "where Id = #{Id}")
     void deleteById(@Param("Id") long Id);
 
-    @Select("select max(Id) from szjuserspellinfo")
-    long getMaxId();
-
-    @Select("select last_insert_id() from szjuserspellinfo")
-    long getLastInsert();
+    @Select("select max(Id) " +
+            "from szjuserspellinfo " +
+            "where DeletionStateCode = 0 and GroupId = #{groupId}")
+    long getLastInsert(@Param("groupId") long groupId);
 
     @Update("update szjuserspellinfo " +
-            "set " +
+            "set UserId = #{UserId} " +
             "where Id = #{Id}")
-    void updateUserId();
+    void updateUserId(@Param("Id") long Id,
+                      @Param("UserId") long UserId);
 
     @Update("update szjuserspellinfo " +
             "set GroupId = #{GroupId} " +
@@ -93,4 +103,9 @@ public interface SzjuserspellinfoDao {
             "where Id = #{Id}")
     void updateFightingCapacity(@Param("Id") long Id,
                                 @Param("FightingCapacity") long FightingCapacity);
+
+    @Update("update szjuserspellinfo " +
+            "set DeletionStateCode = 1 " +
+            "where Id = #{id}")
+    void deleteUserSpell(@Param("id") long id);
 }

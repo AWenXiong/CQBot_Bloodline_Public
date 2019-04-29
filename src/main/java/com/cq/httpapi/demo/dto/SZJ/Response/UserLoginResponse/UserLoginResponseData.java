@@ -1,6 +1,7 @@
 package com.cq.httpapi.demo.dto.SZJ.Response.UserLoginResponse;
 
 import com.cq.httpapi.demo.entity.SZJ.Szjuserinfo;
+import com.cq.httpapi.demo.kit.ObjectKit;
 
 public class UserLoginResponseData {
 
@@ -11,13 +12,8 @@ public class UserLoginResponseData {
     public String Mobile;
     public String Email;
 
-    public UserLoginResponseData(Szjuserinfo szjuserinfo) {
-        Id = szjuserinfo.getId();
-        Code = szjuserinfo.getCode();
-        Name = szjuserinfo.getName();
-        Openid = szjuserinfo.getOpenid();
-        Mobile = szjuserinfo.getMobile();
-        Email = szjuserinfo.getEmail();
+    public UserLoginResponseData(Szjuserinfo szjuserinfo) throws Exception {
+        ObjectKit.deliverPropIgnoreCase(this, szjuserinfo);
     }
 
     @Override
@@ -32,48 +28,24 @@ public class UserLoginResponseData {
                 '}';
     }
 
-    public Long getId() {
-        return Id;
-    }
-
     public void setId(Long id) {
         Id = id;
-    }
-
-    public String getCode() {
-        return Code;
     }
 
     public void setCode(String code) {
         Code = code;
     }
 
-    public String getName() {
-        return Name;
-    }
-
     public void setName(String name) {
         Name = name;
-    }
-
-    public String getOpenid() {
-        return Openid;
     }
 
     public void setOpenid(String openid) {
         Openid = openid;
     }
 
-    public String getMobile() {
-        return Mobile;
-    }
-
     public void setMobile(String mobile) {
         Mobile = mobile;
-    }
-
-    public String getEmail() {
-        return Email;
     }
 
     public void setEmail(String email) {

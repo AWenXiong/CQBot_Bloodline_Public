@@ -2,22 +2,17 @@ package com.cq.httpapi.demo.dto.SZJ.Response.AllCardInfoResponse;
 
 import com.cq.httpapi.demo.dto.SZJ.SZJResponse;
 
+import java.util.ArrayList;
+
 public class GetAllCardsOtherNameResponse extends SZJResponse {
 
-    public Object data;
+    public ArrayList<GetAllCardsOtherNameResponseData> data;
 
-    @Override
-    public String toString() {
-        return "GetAllCardsOtherNameResponse{" +
-                "date=" + data +
-                '}';
-    }
-
-    public Object getData() {
+    public ArrayList<GetAllCardsOtherNameResponseData> getData() {
         return data;
     }
 
-    public void setData(Object date) {
+    public void setData(ArrayList<GetAllCardsOtherNameResponseData> date) {
         this.data = date;
     }
 }

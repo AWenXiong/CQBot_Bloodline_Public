@@ -4,8 +4,8 @@ package com.cq.httpapi.demo.entity.SZJ;
 public class Szjenemyinfo {
 
     private long id;
-    private long code;
-    private long name;
+    private String code;
+    private String name;
     private long enabled;
     private String description;
     private long sortCode;
@@ -25,24 +25,21 @@ public class Szjenemyinfo {
         this.id = id;
     }
 
-
-    public long getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(long code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
-
-    public long getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(long name) {
+    public void setName(String name) {
         this.name = name;
     }
-
 
     public long getEnabled() {
         return enabled;

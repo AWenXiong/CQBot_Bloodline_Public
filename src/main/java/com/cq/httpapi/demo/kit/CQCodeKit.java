@@ -35,4 +35,45 @@ public class CQCodeKit {
         }
         return res.toString();
     }
+
+    // 发送文件系统内的图片
+    // filePath为绝对路径
+    public static String sendFSPic(String filePath) {
+        StringBuilder res = new StringBuilder("[CQ:image,file=file:///");
+        res.append(filePath);
+        res.append("]");
+        return res.toString();
+    }
+
+    // 发送自定义分享
+    public static String sendShare(String url, String title, String content, String image) {
+        StringBuilder res = new StringBuilder("[CQ:share,url=");
+        if (url != null && !url.isEmpty()) {
+            res.append(url);
+        }
+        if (title != null && !title.isEmpty()) {
+            res.append(",title=");
+            res.append(title);
+        }
+        if (content != null && !content.isEmpty()) {
+            res.append(",content=");
+            res.append(content);
+        }
+        if (image != null && !image.isEmpty()) {
+            res.append(",image=");
+            res.append(image);
+        }
+        res.append("]");
+        return res.toString();
+    }
+
+//    public static String getQQMusic(String guild, String title) {
+//        String qqMusicAPI = "https://api.bzqll.com/music/tencent/search?key=579621905&s=" + title + "&limit=100&offset=0&type=song";
+//        JSONObject res = UrlKit.sendGet(qqMusicAPI);
+//        JSONArray datas = res.getJSONArray("data");
+//        JSONObject firstData = datas.getJSONObject(0);
+//        String CQCode = music("qq", firstData.getString("id"));
+//        System.err.println(CQCode);
+//        return CQCode;
+//    }
 }

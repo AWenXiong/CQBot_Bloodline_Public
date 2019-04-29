@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public interface SzjqueuelevelDao {
@@ -28,15 +27,23 @@ public interface SzjqueuelevelDao {
             "Id = #{Id}")
     Szjqueuelevel getById(@Param("Id") long Id);
 
-    @Insert("insert into szjqueuelevel " +
-            "value ()")
-    void insertSzjitemscolor();
+    @Select("select * " +
+            "from szjqueuelevel " +
+            "where DeletionStateCode = 0 and " +
+            "QueueInfoId = #{queueInfoId}")
+    ArrayList<Szjqueuelevel> getQueueLevel(@Param("queueInfoId") long queueInfoId);
+
+    @Insert("insert into szjqueuelevel(QueueInfoId, Level, UserSpellInfo) " +
+            "value (#{queueInfoId}, #{level}, #{userSpellInfoId})")
+    void insertSzjqueuelevel(@Param("queueInfoId") long queueInfoId,
+                             @Param("level") double level,
+                             @Param("userSpellInfoId") long userSpellInfoId);
 
     @Update("update szjqueuelevel " +
             "set CreateOn = #{CreateOn}, CreateUserId = #{CreateUserId}, CreateBy = #{CreateBy} " +
             "where Id = {Id}")
     void updateCreateInfo(@Param("Id") long Id,
-                          @Param("CreateOn") Timestamp CreateOn,
+                          @Param("CreateOn") String CreateOn,
                           @Param("CreateUserId") String CreateUserId,
                           @Param("CreateBy") String CreateBy);
 
@@ -44,7 +51,7 @@ public interface SzjqueuelevelDao {
             "set ModifiedOn = #{ModifiedOn}, ModifiedUserId = #{ModifiedUserId}, ModifiedBy = #{ModifiedBy} " +
             "where Id = #{Id}")
     void updateModifyInfo(@Param("Id") long Id,
-                          @Param("ModifiedOn") Timestamp ModifiedOn,
+                          @Param("ModifiedOn") String ModifiedOn,
                           @Param("ModifiedUserId") String ModifiedUserId,
                           @Param("ModifiedBy") String ModifiedBy);
 
@@ -65,11 +72,11 @@ public interface SzjqueuelevelDao {
             "where Id = #{Id}")
     void deleteById(@Param("Id") long Id);
 
-    @Select("select max(Id) from szjqueuelevel")
-    long getMaxId();
-
-    @Select("select last_insert_id() from szjqueuelevel")
-    long getLastInsert();
+    @Select("select max(Id) " +
+            "from szjqueuelevel " +
+            "where DeletionStateCode = 0 " +
+            "and QueueInfoId = #{queueInfoId}")
+    long getLastInsert(@Param("queueInfoId") long queueInfoId);
 
     @Update("update szjqueuelevel " +
             "set QueueInfoId = #{QueueInfoId} " +

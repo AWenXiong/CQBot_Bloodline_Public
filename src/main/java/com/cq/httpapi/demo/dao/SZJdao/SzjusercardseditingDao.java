@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public interface SzjusercardseditingDao {
@@ -30,15 +29,26 @@ public interface SzjusercardseditingDao {
             "Id = #{Id}")
     Szjusercardsediting getById(@Param("Id") long Id);
 
-    @Insert("insert into szjusercardsediting " +
-            "value ()")
-    void insertSzjitemscolor();
+    @Select("select * " +
+            "from szjusercardsediting " +
+            "where DeletionStateCode = 0 and " +
+            "UserId = #{userId} and GroupId = #{groupId}")
+    ArrayList<Szjusercardsediting> getUserCardsEditing(@Param("userId") long userId,
+                                                       @Param("groupId") long groupId);
+
+    @Insert("insert into szjusercardsediting(UserId, GroupId, CardInfoId, OriginLevel, OriginPosition) " +
+            "value (#{userId}, #{groupId}, #{cardId}, #{originLevel}, #{originPosition}")
+    void insertSzjitemscolor(@Param("userId") long userId,
+                             @Param("groupId") long groupId,
+                             @Param("cardId") long cardId,
+                             @Param("originLevel") double originLevel,
+                             @Param("originPosition") double originPosition);
 
     @Update("update szjusercardsediting " +
             "set CreateOn = #{CreateOn}, CreateUserId = #{CreateUserId}, CreateBy = #{CreateBy} " +
             "where Id = {Id}")
     void updateCreateInfo(@Param("Id") long Id,
-                          @Param("CreateOn") Timestamp CreateOn,
+                          @Param("CreateOn") String CreateOn,
                           @Param("CreateUserId") String CreateUserId,
                           @Param("CreateBy") String CreateBy);
 
@@ -46,7 +56,7 @@ public interface SzjusercardseditingDao {
             "set ModifiedOn = #{ModifiedOn}, ModifiedUserId = #{ModifiedUserId}, ModifiedBy = #{ModifiedBy} " +
             "where Id = #{Id}")
     void updateModifyInfo(@Param("Id") long Id,
-                          @Param("ModifiedOn") Timestamp ModifiedOn,
+                          @Param("ModifiedOn") String ModifiedOn,
                           @Param("ModifiedUserId") String ModifiedUserId,
                           @Param("ModifiedBy") String ModifiedBy);
 
@@ -67,11 +77,11 @@ public interface SzjusercardseditingDao {
             "where Id = #{Id}")
     void deleteById(@Param("Id") long Id);
 
-    @Select("select max(Id) from szjusercardsediting")
-    long getMaxId();
-
-    @Select("select last_insert_id() from szjusercardsediting")
-    long getLastInsert();
+    @Select("select max(Id) " +
+            "from szjusercardsediting " +
+            "where DeletionStateCdoe = 0 and " +
+            "GroupId = #{groupId}")
+    long getLastInsert(@Param("groupId") long groupId);
 
     @Update("update szjusercardsediting " +
             "set UserId = #{UserId} " +
@@ -95,11 +105,11 @@ public interface SzjusercardseditingDao {
             "set OriginLevel = #{OriginLevel} " +
             "where Id = #{Id}")
     void updateOriginLevel(@Param("Id") long Id,
-                           @Param("OriginLevel") int OriginLevel);
+                           @Param("OriginLevel") double OriginLevel);
 
     @Update("update szjusercardsediting " +
             "set OriginPosition = #{OriginPosition} " +
             "where Id = #{Id}")
     void updateOriginPosition(@Param("Id") long Id,
-                              @Param("OriginPosition") int OriginPosition);
+                              @Param("OriginPosition") double OriginPosition);
 }

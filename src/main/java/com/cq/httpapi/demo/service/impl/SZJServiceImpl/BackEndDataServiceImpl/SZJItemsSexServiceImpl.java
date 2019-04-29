@@ -2,7 +2,7 @@ package com.cq.httpapi.demo.service.impl.SZJServiceImpl.BackEndDataServiceImpl;
 
 import com.cq.httpapi.demo.dao.SZJdao.SzjitemssexDao;
 import com.cq.httpapi.demo.entity.SZJ.Szjitemssex;
-import com.cq.httpapi.demo.service.SZJItemsSexService;
+import com.cq.httpapi.demo.service.SZJService.SZJItemsSexService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

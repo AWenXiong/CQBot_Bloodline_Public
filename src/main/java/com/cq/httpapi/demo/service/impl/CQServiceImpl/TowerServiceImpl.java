@@ -6,10 +6,11 @@ import com.cq.httpapi.demo.exception.DeleteTowerException;
 import com.cq.httpapi.demo.exception.QANotUsablelException;
 import com.cq.httpapi.demo.exception.UpdateTowerException;
 import com.cq.httpapi.demo.kit.TimeKit;
-import com.cq.httpapi.demo.service.TowerService;
+import com.cq.httpapi.demo.service.CQService.TowerService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 
 @Service
 public class TowerServiceImpl implements TowerService {
@@ -131,6 +132,16 @@ public class TowerServiceImpl implements TowerService {
             } else {
                 return false;
             }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    @Override
+    public ArrayList<Tower> getQuestionList(String guild) {
+        try {
+            ArrayList<Tower> questionList = towerDao.getQuestionList(guild);
+            return questionList;
         } catch (Exception e) {
             throw e;
         }

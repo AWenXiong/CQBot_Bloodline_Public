@@ -4,28 +4,24 @@ import com.cq.httpapi.demo.dto.User;
 import com.cq.httpapi.demo.dto.response.message.GroupMessageResponse;
 import com.cq.httpapi.demo.dto.response.message.MessageResponse;
 import com.cq.httpapi.demo.dto.response.message.PrivateMessageResponse;
+import com.cq.httpapi.demo.entity.Tower;
 import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.MsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.PriMsgHttpReqHandler;
 import com.cq.httpapi.demo.kit.SenderKit;
 import com.cq.httpapi.demo.kit.TimeKit;
-import com.cq.httpapi.demo.service.TowerService;
+import com.cq.httpapi.demo.service.CQService.TowerService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 
 @Component
 public class TowerHandler {
 
-    //    private static TowerService towerService = null;
     @Resource
     private TowerService towerService;
 
-//    public static void setTowerService(TowerService towerService1) {
-//        towerService = towerService1;
-//    }
-
-    //    public static MessageResponse towerHandler(MsgHttpReqHandler msgHttpReqHandler) {
     public MessageResponse towerHandler(MsgHttpReqHandler msgHttpReqHandler) {
         String message = msgHttpReqHandler.getMessage();
         MessageResponse response = null;
@@ -111,7 +107,6 @@ public class TowerHandler {
                         }
 
                     } catch (Exception e) {
-//                        e.printStackTrace();
                         response.setFlag(false);
                     }
                 }
@@ -175,8 +170,27 @@ public class TowerHandler {
                         response.setFlag(false);
                     }
                 }
+
+                if (message.equals("查看所有问答")) {
+                    try {
+                        String guild = ((GrpMsgHttpReqHandler) msgHttpReqHandler).getGroupId();
+                        ArrayList<Tower> questionList = towerService.getQuestionList(guild);
+                        StringBuilder questions = new StringBuilder();
+                        for (Tower tower : questionList) {
+                            questions.append(tower.getQuestion());
+                            questions.append("\n");
+                        }
+                        response.setReply(questions.toString().trim());
+                        response.setFlag(true);
+                        return response;
+                    } catch (Exception e) {
+                        response.setFlag(false);
+                    }
+                }
             }
+
             return response;
+
         } else if (PriMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
 
             PriMsgHttpReqHandler priMsgHttpReqHandler = (PriMsgHttpReqHandler) msgHttpReqHandler;
@@ -247,8 +261,27 @@ public class TowerHandler {
                     response.setFlag(false);
                 }
             }
+
+            if (message.equals("查看所有问答")) {
+                try {
+                    userId = "p" + userId;
+                    ArrayList<Tower> questionList = towerService.getQuestionList(userId);
+                    StringBuilder questions = new StringBuilder();
+                    for (Tower tower : questionList) {
+                        questions.append(tower.getQuestion());
+                        questions.append("\n");
+                    }
+                    response.setReply(questions.toString().trim());
+                    response.setFlag(true);
+                    return response;
+                } catch (Exception e) {
+                    response.setFlag(false);
+                }
+            }
+
             return response;
         }
+
 
         return null;
     }

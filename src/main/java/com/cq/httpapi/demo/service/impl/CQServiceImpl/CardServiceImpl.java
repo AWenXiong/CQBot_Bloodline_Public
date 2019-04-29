@@ -6,7 +6,7 @@ import com.cq.httpapi.demo.exception.AppendCardInfoException;
 import com.cq.httpapi.demo.exception.CreateNewCardException;
 import com.cq.httpapi.demo.exception.DeleteCardException;
 import com.cq.httpapi.demo.kit.TimeKit;
-import com.cq.httpapi.demo.service.CardService;
+import com.cq.httpapi.demo.service.CQService.CardService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

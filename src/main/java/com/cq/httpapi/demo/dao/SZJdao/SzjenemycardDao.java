@@ -28,6 +28,19 @@ public interface SzjenemycardDao {
             "Id = #{Id}")
     Szjenemycard getById(@Param("Id") long Id);
 
+    @Select("select * " +
+            "from szjenemycard " +
+            "where DeletionStateCode = 0 and " +
+            "EnemyInfoId = #{enemyInfoId} and Level = #{enemyLevel}")
+    ArrayList<Szjenemycard> getByGroupAndLevel(@Param("enemyInfoId") long enemyInfoId,
+                                               @Param("enemyLevel") long level);
+
+    @Select("select * " +
+            "from szjenemycard " +
+            "where DeletionStateCode = 0 and " +
+            "EnemyInfoId = #{enemyInfoId}")
+    ArrayList<Szjenemycard> getByGroup(@Param("enemyInfoId") long enemyInfoId);
+
     @Insert("insert into szjenemycard " +
             "value ()")
     void insertSzjitemscolor();

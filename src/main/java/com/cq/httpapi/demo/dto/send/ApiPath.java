@@ -39,7 +39,6 @@ public enum ApiPath {
     _GET_GROUP_INFO("http://localhost:5700/_get_group_info"),
     _GET_VIP_INFO("http://localhost:5700/_get_vip_info");
 
-
     private String urlPath;
 
     private ApiPath(String urlPath) {

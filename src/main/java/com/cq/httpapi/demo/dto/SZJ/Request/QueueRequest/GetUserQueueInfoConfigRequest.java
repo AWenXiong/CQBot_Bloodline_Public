@@ -4,15 +4,7 @@ public class GetUserQueueInfoConfigRequest {
 
     public String Openid;
 
-    public int GroupId;
-
-    @Override
-    public String toString() {
-        return "GetUserQueueInfoConfigRequest{" +
-                "Openid='" + Openid + '\'' +
-                ", GroupId=" + GroupId +
-                '}';
-    }
+    public Long GroupId;
 
     public String getOpenid() {
         return Openid;
@@ -22,11 +14,11 @@ public class GetUserQueueInfoConfigRequest {
         Openid = openid;
     }
 
-    public int getGroupId() {
+    public Long getGroupId() {
         return GroupId;
     }
 
-    public void setGroupId(int groupId) {
+    public void setGroupId(Long groupId) {
         GroupId = groupId;
     }
 }

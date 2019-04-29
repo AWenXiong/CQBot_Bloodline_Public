@@ -7,9 +7,9 @@ import com.cq.httpapi.demo.entity.SZJ.Szjusercardgroupinfo;
 import com.cq.httpapi.demo.entity.SZJ.Szjuserinfo;
 import com.cq.httpapi.demo.exception.SZJException.UserGroupInfoException.*;
 import com.cq.httpapi.demo.kit.TimeKit;
-import com.cq.httpapi.demo.service.SZJInvitationCodeService;
-import com.cq.httpapi.demo.service.SZJUserCardGroupInfoService;
-import com.cq.httpapi.demo.service.SZJUserInfoService;
+import com.cq.httpapi.demo.service.SZJService.SZJInvitationCodeService;
+import com.cq.httpapi.demo.service.SZJService.SZJUserCardGroupInfoService;
+import com.cq.httpapi.demo.service.SZJService.SZJUserInfoService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -130,8 +130,10 @@ public class SZJUserCardGroupInfoServiceImpl implements SZJUserCardGroupInfoServ
         try {
             Szjuserinfo user = szjuserinfoDao.getByOpenId(openId);
             szjusercardgroupinfoDao.updateName(id, name);
+            szjusercardgroupinfoDao.updateInvitationCode(id, invitationCode);
             szjusercardgroupinfoDao.updateModifyInfo(id, TimeKit.getFormalTime(),
                     String.valueOf(user.getId()), String.valueOf(user.getId()));
+            szjusercardgroupinfoDao.updateDescription(id, "编辑卡组信息");
             return true;
         } catch (Exception e) {
             throw new UpdateUserCardGroupException(9, e.getMessage());

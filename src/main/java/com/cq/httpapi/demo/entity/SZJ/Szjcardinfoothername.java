@@ -9,6 +9,7 @@ public class Szjcardinfoothername implements Serializable {
     private long cardInfoId;
     private String name;
     private String description;
+    private long deletionStateCode;
     private long sortCode;
     private java.sql.Timestamp createOn;
     private String createUserId;
@@ -17,6 +18,13 @@ public class Szjcardinfoothername implements Serializable {
     private String modifiedUserId;
     private String modifiedBy;
 
+    public long getDeletionStateCode() {
+        return deletionStateCode;
+    }
+
+    public void setDeletionStateCode(long deletionStateCode) {
+        this.deletionStateCode = deletionStateCode;
+    }
 
     public long getId() {
         return id;

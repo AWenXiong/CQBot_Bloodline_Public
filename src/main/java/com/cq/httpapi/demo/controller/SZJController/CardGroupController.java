@@ -6,8 +6,8 @@ import com.cq.httpapi.demo.entity.SZJ.Szjinvitationcode;
 import com.cq.httpapi.demo.entity.SZJ.Szjusercardgroupinfo;
 import com.cq.httpapi.demo.exception.SZJException.UserGroupInfoException.*;
 import com.cq.httpapi.demo.kit.ObjectKit;
-import com.cq.httpapi.demo.service.SZJInvitationCodeService;
-import com.cq.httpapi.demo.service.SZJUserCardGroupInfoService;
+import com.cq.httpapi.demo.service.SZJService.SZJInvitationCodeService;
+import com.cq.httpapi.demo.service.SZJService.SZJUserCardGroupInfoService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,6 +48,8 @@ public class CardGroupController {
             response.setData(datas);
         } catch (GetAllGroupsException e) {
             response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (Exception e) {
+            response.setError(false, 9, e.getMessage());
         }
         return response;
     }
@@ -69,6 +71,8 @@ public class CardGroupController {
             response.setId(id);
         } catch (CreateUserCardGroupException e) {
             response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (Exception e) {
+            response.setError(false, 9, e.getMessage());
         }
         return response;
     }
@@ -115,6 +119,8 @@ public class CardGroupController {
 
         } catch (GetGroupInfoException e) {
             response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (Exception e) {
+            response.setError(false, 9, e.getMessage());
         }
         return response;
     }
@@ -133,6 +139,8 @@ public class CardGroupController {
             response.setSuccess(true);
         } catch (DeleteUserCardGroupException e) {
             response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (Exception e) {
+            response.setError(false, 9, e.getMessage());
         }
         return response;
     }

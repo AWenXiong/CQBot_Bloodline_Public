@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public interface SzjqueueinfoconfigDao {
@@ -28,15 +27,25 @@ public interface SzjqueueinfoconfigDao {
             "Id = #{Id}")
     Szjqueueinfoconfig getById(@Param("Id") long Id);
 
-    @Insert("insert into szjqueueinfoconfig " +
+    @Select("select * " +
+            "from szjqueueinfoconfig " +
+            "where DeletionStateCode = 0 " +
+            "and UserId = #{userId} and GroupId = #{groupId}")
+    ArrayList<Szjqueueinfoconfig> getUserQueueInfoConfig(@Param("userId") long userId,
+                                                         @Param("groupId") long groupId);
+
+    @Insert("insert into szjqueueinfoconfig(UserId, GroupId, ParameterCode, ParameterValue) " +
             "value ()")
-    void insertSzjitemscolor();
+    void insertUserQueueInfoConfig(@Param("userId") long userId,
+                                   @Param("groupId") long groupId,
+                                   @Param("parameterCode") String parameterCode,
+                                   @Param("parameterValue") String parameterValue);
 
     @Update("update szjqueueinfoconfig " +
             "set CreateOn = #{CreateOn}, CreateUserId = #{CreateUserId}, CreateBy = #{CreateBy} " +
             "where Id = {Id}")
     void updateCreateInfo(@Param("Id") long Id,
-                          @Param("CreateOn") Timestamp CreateOn,
+                          @Param("CreateOn") String CreateOn,
                           @Param("CreateUserId") String CreateUserId,
                           @Param("CreateBy") String CreateBy);
 
@@ -44,7 +53,7 @@ public interface SzjqueueinfoconfigDao {
             "set ModifiedOn = #{ModifiedOn}, ModifiedUserId = #{ModifiedUserId}, ModifiedBy = #{ModifiedBy} " +
             "where Id = #{Id}")
     void updateModifyInfo(@Param("Id") long Id,
-                          @Param("ModifiedOn") Timestamp ModifiedOn,
+                          @Param("ModifiedOn") String ModifiedOn,
                           @Param("ModifiedUserId") String ModifiedUserId,
                           @Param("ModifiedBy") String ModifiedBy);
 
@@ -65,11 +74,11 @@ public interface SzjqueueinfoconfigDao {
             "where Id = #{Id}")
     void deleteById(@Param("Id") long Id);
 
-    @Select("select max(Id) from szjqueueinfoconfig")
-    long getMaxId();
-
-    @Select("select last_insert_id() from szjqueueinfoconfig")
-    long getLastInsert();
+    @Select("select max(Id) " +
+            "from szjqueueinfoconfig " +
+            "where DeletionStateCode = 0 " +
+            "and GroupId = #{groupId}")
+    long getLastInsert(@Param("groupId") long groupId);
 
     @Update("update szjqueueinfoconfig " +
             "set GroupId = #{UserId} " +

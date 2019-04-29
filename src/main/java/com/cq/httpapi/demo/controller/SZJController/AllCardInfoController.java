@@ -2,13 +2,8 @@ package com.cq.httpapi.demo.controller.SZJController;
 
 import com.cq.httpapi.demo.dto.SZJ.Request.AllCardInfoRequest.*;
 import com.cq.httpapi.demo.dto.SZJ.Response.AllCardInfoResponse.*;
-import com.cq.httpapi.demo.entity.SZJ.Szjcardinfo;
-import com.cq.httpapi.demo.entity.SZJ.Szjcardinfoext;
-import com.cq.httpapi.demo.entity.SZJ.Szjcardinfoothername;
-import com.cq.httpapi.demo.service.SZJCardInfoExtService;
-import com.cq.httpapi.demo.service.SZJCardInfoOtherNameService;
-import com.cq.httpapi.demo.service.SZJCardInfoService;
-import com.cq.httpapi.demo.service.SZJUserInfoService;
+import com.cq.httpapi.demo.exception.SZJException.AllCardsInfoException.*;
+import com.cq.httpapi.demo.service.SZJService.*;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,13 +17,19 @@ import java.util.ArrayList;
 public class AllCardInfoController {
 
     @Resource
-    private SZJUserInfoService szjUserInfoService;
-    @Resource
     private SZJCardInfoService szjCardInfoService;
     @Resource
     private SZJCardInfoOtherNameService szjCardInfoOtherNameService;
     @Resource
     private SZJCardInfoExtService szjCardInfoExtService;
+    @Resource
+    private SZJSpellInfoService szjSpellInfoService;
+    @Resource
+    private SZJEnemyInfoService szjEnemyInfoService;
+    @Resource
+    private SZJEnemyLevelService szjEnemyLevelService;
+    @Resource
+    private SZJEnemyCardService szjEnemyCardService;
 
     /**
      * 获取全部卡牌信息
@@ -36,22 +37,19 @@ public class AllCardInfoController {
      * @param request
      * @return errorCode = 0  正常
      * errorCode = 1  登录码不存在
-     * errorCode = 2  获取全部卡牌信息失败(data is a null pointer)
+     *
      */
     @RequestMapping(value = "/GetAllCardsInfo", method = RequestMethod.POST)
     public GetAllCardsInfoResponse getAllCardsInfo(@RequestBody GetAllCardsInfoRequest request) {
         GetAllCardsInfoResponse response = new GetAllCardsInfoResponse();
-        String openId = request.getOpenid();
-        if (openId != null && !szjUserInfoService.existOpenId(openId)) {
-            response.setError(false, 1, "登录码不存在");
-        } else {
-            ArrayList<Szjcardinfo> cards = szjCardInfoService.getAllCards();
-            if (cards == null) {
-                response.setError(false, 2, "获取全部卡牌信息失败");
-            } else {
-                response.setSuccess(true);
-                response.setData(cards);
-            }
+        try {
+            ArrayList<GetAllCardsInfoResponseData> datas = szjCardInfoService.getAllCards(request);
+            response.setSuccess(true);
+            response.setData(datas);
+        } catch (GetAllCardsInfoException e) {
+            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (Exception e) {
+            response.setError(false, 9, e.getMessage());
         }
         return response;
     }
@@ -67,17 +65,14 @@ public class AllCardInfoController {
     @RequestMapping(value = "/GetAllCardsOtherName", method = RequestMethod.POST)
     public GetAllCardsOtherNameResponse getAllCardsOtherName(@RequestBody GetAllCardsOtherNameRequest request) {
         GetAllCardsOtherNameResponse response = new GetAllCardsOtherNameResponse();
-        String openId = request.getOpenid();
-        if (openId != null && !szjUserInfoService.existOpenId(openId)) {
-            response.setError(false, 1, "登录码不存在");
-        } else {
-            ArrayList<Szjcardinfoothername> cards = szjCardInfoOtherNameService.getAllCardNickname();
-            if (cards == null) {
-                response.setError(false, 2, "获取全部卡牌别名失败");
-            } else {
-                response.setSuccess(true);
-                response.setData(cards);
-            }
+        try {
+            ArrayList<GetAllCardsOtherNameResponseData> datas = szjCardInfoOtherNameService.getAllCardNickname(request);
+            response.setData(datas);
+            response.setSuccess(true);
+        } catch (GetAllCardsOtherNameException e) {
+            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (Exception e) {
+            response.setError(false, 9, e.getMessage());
         }
         return response;
     }
@@ -93,17 +88,14 @@ public class AllCardInfoController {
     @RequestMapping(value = "/GetAllCardsInfoExt", method = RequestMethod.POST)
     public GetAllCardsInfoExtResponse getAllCardsInfoExt(@RequestBody GetAllCardsInfoExtRequest request) {
         GetAllCardsInfoExtResponse response = new GetAllCardsInfoExtResponse();
-        String openId = request.getOpenid();
-        if (openId != null && !szjUserInfoService.existOpenId(openId)) {
-            response.setError(false, 1, "登录码不存在");
-        } else {
-            ArrayList<Szjcardinfoext> exts = szjCardInfoExtService.getAllCardInfoExt();
-            if (exts == null) {
-                response.setError(false, 2, "获取全部卡牌扩展信息失败");
-            } else {
-                response.setSuccess(true);
-                response.setData(exts);
-            }
+        try {
+            ArrayList<GetAllCardsInfoExtResponseData> datas = szjCardInfoExtService.getAllCardInfoExt(request);
+            response.setData(datas);
+            response.setSuccess(true);
+        } catch (GetAllCardsInfoExtException e) {
+            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (Exception e) {
+            response.setError(false, 9, e.getMessage());
         }
         return response;
     }
@@ -116,7 +108,17 @@ public class AllCardInfoController {
      */
     @RequestMapping(value = "/GetAllSpellsInfo", method = RequestMethod.POST)
     public GetAllSpellsInfoResponse getAllSpellsInfo(@RequestBody GetAllSpellsInfoRequest request) {
-        return null;
+        GetAllSpellsInfoResponse response = new GetAllSpellsInfoResponse();
+        try {
+            ArrayList<GetAllSpellsInfoResponseData> data = szjSpellInfoService.getAllSpells(request);
+            response.setData(data);
+            response.setSuccess(true);
+        } catch (GetAllSpellsInfoException e) {
+            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (Exception e) {
+            response.setError(false, 9, e.getMessage());
+        }
+        return response;
     }
 
     /**
@@ -127,7 +129,17 @@ public class AllCardInfoController {
      */
     @RequestMapping(value = "/GetEnemyInfo", method = RequestMethod.POST)
     public GetEnemyInfoResponse getEnemyInfo(@RequestBody GetEnemyInfoRequest request) {
-        return null;
+        GetEnemyInfoResponse response = new GetEnemyInfoResponse();
+        try {
+            ArrayList<GetEnemyInfoResponseData> data = szjEnemyInfoService.getEnemyInfo(request);
+            response.setData(data);
+            response.setSuccess(true);
+        } catch (GetEnemyInfoException e) {
+            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (Exception e) {
+            response.setError(false, 9, e.getMessage());
+        }
+        return response;
     }
 
     /**
@@ -138,7 +150,17 @@ public class AllCardInfoController {
      */
     @RequestMapping(value = "/GetEnemyLevel", method = RequestMethod.POST)
     public GetEnemyLevelResponse getEnemyLevel(@RequestBody GetEnemyLevelRequest request) {
-        return null;
+        GetEnemyLevelResponse response = new GetEnemyLevelResponse();
+        try {
+            ArrayList<GetEnemyLevelResponseData> data = szjEnemyLevelService.getEnemyInfo(request);
+            response.setData(data);
+            response.setSuccess(true);
+        } catch (GetEnemyLevelException e) {
+            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (Exception e) {
+            response.setError(false, 9, e.getMessage());
+        }
+        return response;
     }
 
     /**
@@ -149,6 +171,16 @@ public class AllCardInfoController {
      */
     @RequestMapping(value = "/GetEnemyCard", method = RequestMethod.POST)
     public GetEnemyCardResponse getEnemyCard(@RequestBody GetEnemyCardRequest request) {
-        return null;
+        GetEnemyCardResponse response = new GetEnemyCardResponse();
+        try {
+            ArrayList<GetEnemyCardResponseData> data = szjEnemyCardService.getEnemyInfo(request);
+            response.setData(data);
+            response.setSuccess(true);
+        } catch (GetEnemyCardException e) {
+            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (Exception e) {
+            response.setError(false, 9, e.getMessage());
+        }
+        return response;
     }
 }

@@ -10,7 +10,7 @@ import com.cq.httpapi.demo.exception.SZJException.UserLoginException.*;
 import com.cq.httpapi.demo.kit.PasswordKit;
 import com.cq.httpapi.demo.kit.TimeKit;
 import com.cq.httpapi.demo.kit.UUIDKit;
-import com.cq.httpapi.demo.service.SZJUserInfoService;
+import com.cq.httpapi.demo.service.SZJService.SZJUserInfoService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -118,7 +118,7 @@ public class SZJUserInfoServiceImpl implements SZJUserInfoService {
         try {
             UserLoginResponseData userLoginResponseData = new UserLoginResponseData(szjuserinfo);
             if (changeOpenId) {
-                Long id = userLoginResponseData.getId();
+                Long id = userLoginResponseData.Id;
                 String newOpenId = UUIDKit.formUUID();
                 szjuserinfoDao.updateOpenid(id, newOpenId);
                 szjuserinfoDao.updateModifyInfo(id, TimeKit.getFormalTime(), "login", "login");

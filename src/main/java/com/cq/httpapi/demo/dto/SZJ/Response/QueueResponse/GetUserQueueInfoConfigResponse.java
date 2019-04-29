@@ -2,25 +2,17 @@ package com.cq.httpapi.demo.dto.SZJ.Response.QueueResponse;
 
 import com.cq.httpapi.demo.dto.SZJ.SZJResponse;
 
+import java.util.ArrayList;
+
 public class GetUserQueueInfoConfigResponse extends SZJResponse {
 
-    public Object data;
+    public ArrayList<GetUserQueueInfoConfigResponseData> data;
 
-    @Override
-    public String toString() {
-        return "GetUserQueueInfoConfigResponse{" +
-                "data=" + data +
-                ", message='" + message + '\'' +
-                ", errorCode=" + errorCode +
-                ", success=" + success +
-                '}';
-    }
-
-    public Object getDatat() {
+    public ArrayList<GetUserQueueInfoConfigResponseData> getData() {
         return data;
     }
 
-    public void setDatat(Object datat) {
-        this.data = datat;
+    public void setData(ArrayList<GetUserQueueInfoConfigResponseData> data) {
+        this.data = data;
     }
 }

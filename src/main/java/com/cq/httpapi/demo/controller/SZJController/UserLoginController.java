@@ -8,7 +8,7 @@ import com.cq.httpapi.demo.entity.SZJ.Szjuserinfo;
 import com.cq.httpapi.demo.exception.SZJException.UserLoginException.GetUserInfoException;
 import com.cq.httpapi.demo.exception.SZJException.UserLoginException.UserNotExistException;
 import com.cq.httpapi.demo.exception.SZJException.UserLoginException.UserRegisterException;
-import com.cq.httpapi.demo.service.SZJUserInfoService;
+import com.cq.httpapi.demo.service.SZJService.SZJUserInfoService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,6 +44,8 @@ public class UserLoginController {
             response.setUserInfo(userInfo);
         } catch (UserRegisterException e) { // 注册错误（某些字段为空）或用户已存在
             response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (Exception e) {
+            response.setError(false, 9, e.getMessage());
         }
         return response;
     }
@@ -65,6 +67,8 @@ public class UserLoginController {
             response.setData(data);
         } catch (UserNotExistException e) { // 用户不存在
             response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (Exception e) {
+            response.setError(false, 9, e.getMessage());
         }
         return response;
     }
@@ -86,6 +90,8 @@ public class UserLoginController {
             response.setData(data);
         } catch (GetUserInfoException e) {
             response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (Exception e) {
+            response.setError(false, 9, e.getMessage());
         }
         return response;
     }

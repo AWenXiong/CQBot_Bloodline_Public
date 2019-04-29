@@ -6,7 +6,7 @@ import com.cq.httpapi.demo.dto.response.message.GroupMessageResponse;
 import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
 import com.cq.httpapi.demo.kit.SQLKit;
 import com.cq.httpapi.demo.kit.SenderKit;
-import com.cq.httpapi.demo.service.CardService;
+import com.cq.httpapi.demo.service.CQService.CardService;
 
 public class ImportHandler {
 

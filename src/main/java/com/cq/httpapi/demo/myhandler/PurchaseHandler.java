@@ -15,7 +15,7 @@ import com.cq.httpapi.demo.kit.OptionKit;
 import com.cq.httpapi.demo.kit.SenderKit;
 import com.cq.httpapi.demo.kit.TimeKit;
 import com.cq.httpapi.demo.kit.TranslateKit;
-import com.cq.httpapi.demo.service.PurchaseService;
+import com.cq.httpapi.demo.service.CQService.PurchaseService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

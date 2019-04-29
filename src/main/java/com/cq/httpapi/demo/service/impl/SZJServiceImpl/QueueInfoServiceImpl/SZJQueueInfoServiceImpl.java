@@ -1,0 +1,96 @@
+package com.cq.httpapi.demo.service.impl.SZJServiceImpl.QueueInfoServiceImpl;
+
+import com.cq.httpapi.demo.dao.SZJdao.SzjqueueinfoDao;
+import com.cq.httpapi.demo.dto.SZJ.Request.QueueRequest.CreateQueueInfoRequest;
+import com.cq.httpapi.demo.dto.SZJ.Request.QueueRequest.CreateQueueInfoRequestData;
+import com.cq.httpapi.demo.dto.SZJ.Request.QueueRequest.CreateQueueInfoRequestDataCard;
+import com.cq.httpapi.demo.entity.SZJ.Szjqueueinfo;
+import com.cq.httpapi.demo.entity.SZJ.Szjuserinfo;
+import com.cq.httpapi.demo.exception.SZJException.QueueException.CreateQueueInfoException;
+import com.cq.httpapi.demo.kit.TimeKit;
+import com.cq.httpapi.demo.service.SZJService.SZJQueueCardService;
+import com.cq.httpapi.demo.service.SZJService.SZJQueueInfoService;
+import com.cq.httpapi.demo.service.SZJService.SZJQueueLevelService;
+import com.cq.httpapi.demo.service.SZJService.SZJUserInfoService;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+
+@Service
+public class SZJQueueInfoServiceImpl implements SZJQueueInfoService {
+
+    @Resource
+    private SZJUserInfoService szjUserInfoService;
+    @Resource
+    private SzjqueueinfoDao szjqueueinfoDao;
+    @Resource
+    private SZJQueueLevelService szjQueueLevelService;
+    @Resource
+    private SZJQueueCardService szjQueueCardService;
+
+    @Override
+    public boolean createQueueInfo(CreateQueueInfoRequest request) throws CreateQueueInfoException {
+        String openId = request.getOpenid();
+        if (openId == null || !szjUserInfoService.existOpenId(openId)) {
+            throw new CreateQueueInfoException(1, "登录码不存在！");
+        }
+
+        try {
+            Szjuserinfo userInfo = szjUserInfoService.getUserInfoByOpenId(openId);
+            Long userId = userInfo.getId();
+            Long groupId = request.getGroupId();
+            // 插入新的数据到 SZJQueueInfo
+            Long newQueueInfoId = this.insertQueueInfo(userId, groupId);
+
+            ArrayList<CreateQueueInfoRequestData> levels = request.getLevel();
+            for (CreateQueueInfoRequestData level : levels) {
+                Double realLevel = level.getLevel();
+                Long spellId = level.getUserSpellInfo();
+                // 插入新的数据到 SZJQueueLevel
+                Long newLevelId = szjQueueLevelService.insertSzjqueuelevel(userId, newQueueInfoId, realLevel, spellId);
+
+                ArrayList<CreateQueueInfoRequestDataCard> cards = level.getCards();
+                for (CreateQueueInfoRequestDataCard card : cards) {
+                    Long cardId = card.getCardInfoId();
+                    Double position = card.getPosition();
+                    // 插入新的数据到 SZJQueueCard
+                    Long newQueueCardId = szjQueueCardService.insertSzjqueuecard(userId, newQueueInfoId, realLevel, cardId, position);
+                }
+            }
+            return true;
+        } catch (Exception e) {
+            throw new CreateQueueInfoException(9, e.getMessage());
+        }
+    }
+
+    @Override
+    public Long insertQueueInfo(Long userId, Long groupId) {
+        try {
+            // 设置当前用户之前该卡组的配队 Enabled = 0
+            szjqueueinfoDao.updateEnabledByGroupId(groupId);
+            // 插入新的数据到 SZJQueueInfo
+            szjqueueinfoDao.insertSzjqueueinfo(userId, groupId);
+            // 更新相关信息
+            Long newQueueInfoId = szjqueueinfoDao.getLastInsert(groupId);
+            szjqueueinfoDao.updateCreateInfo(newQueueInfoId, TimeKit.getFormalTime(), String.valueOf(userId), String.valueOf(userId));
+            szjqueueinfoDao.updateDescription(newQueueInfoId, "新增新的自动配队");
+            return newQueueInfoId;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    @Override
+    public Szjqueueinfo getQueueInfo(Long userId, Long groupId) {
+        if (userId == null || groupId == null) {
+            return null;
+        }
+        try {
+            Szjqueueinfo res = szjqueueinfoDao.getQueueInfo(userId, groupId);
+            return res;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+}

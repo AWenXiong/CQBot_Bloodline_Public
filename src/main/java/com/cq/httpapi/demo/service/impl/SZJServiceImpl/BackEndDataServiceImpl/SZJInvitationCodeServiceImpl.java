@@ -3,7 +3,7 @@ package com.cq.httpapi.demo.service.impl.SZJServiceImpl.BackEndDataServiceImpl;
 import com.cq.httpapi.demo.dao.SZJdao.SzjinvitationcodeDao;
 import com.cq.httpapi.demo.dto.SZJ.Request.BackEndDataRequest.CreateInvitationCodeRequest;
 import com.cq.httpapi.demo.entity.SZJ.Szjinvitationcode;
-import com.cq.httpapi.demo.service.SZJInvitationCodeService;
+import com.cq.httpapi.demo.service.SZJService.SZJInvitationCodeService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

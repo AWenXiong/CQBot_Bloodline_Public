@@ -10,10 +10,10 @@ import com.cq.httpapi.demo.kit.CQGroupKit;
 import com.cq.httpapi.demo.kit.ObjectKit;
 import com.cq.httpapi.demo.kit.TimeKit;
 import com.cq.httpapi.demo.kit.UrlKit;
-import com.cq.httpapi.demo.service.CardService;
-import com.cq.httpapi.demo.service.PurchaseService;
-import com.cq.httpapi.demo.service.RemindService;
-import com.cq.httpapi.demo.service.TowerService;
+import com.cq.httpapi.demo.service.CQService.CardService;
+import com.cq.httpapi.demo.service.CQService.PurchaseService;
+import com.cq.httpapi.demo.service.CQService.RemindService;
+import com.cq.httpapi.demo.service.CQService.TowerService;
 import com.cq.httpapi.demo.testCS.testClass;
 import org.springframework.web.bind.annotation.*;
 
@@ -136,5 +136,4 @@ public class testController {
         JSONObject res = ObjectKit.parseObjectToJSONObject(testDTO);
         return res;
     }
-
 }

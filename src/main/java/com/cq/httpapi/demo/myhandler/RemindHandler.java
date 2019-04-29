@@ -11,7 +11,7 @@ import com.cq.httpapi.demo.exception.TooManyOptionsException;
 import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.MsgHttpReqHandler;
 import com.cq.httpapi.demo.kit.*;
-import com.cq.httpapi.demo.service.RemindService;
+import com.cq.httpapi.demo.service.CQService.RemindService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

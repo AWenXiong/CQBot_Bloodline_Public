@@ -6,10 +6,6 @@ public class UserRegisterResponse extends SZJResponse {
 
     public UserRegisterResponseUserInfo UserInfo;
 
-    public UserRegisterResponseUserInfo getUserInfo() {
-        return UserInfo;
-    }
-
     public void setUserInfo(UserRegisterResponseUserInfo userInfo) {
         UserInfo = userInfo;
     }

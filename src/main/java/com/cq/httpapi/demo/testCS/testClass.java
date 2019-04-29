@@ -1,6 +1,6 @@
 package com.cq.httpapi.demo.testCS;
 
-import com.cq.httpapi.demo.service.CardService;
+import com.cq.httpapi.demo.service.CQService.CardService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
