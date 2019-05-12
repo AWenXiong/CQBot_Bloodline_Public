@@ -4,7 +4,7 @@ import com.cq.httpapi.demo.dto.User;
 import com.cq.httpapi.demo.dto.response.message.GroupMessageResponse;
 import com.cq.httpapi.demo.dto.response.message.MessageResponse;
 import com.cq.httpapi.demo.dto.response.message.PrivateMessageResponse;
-import com.cq.httpapi.demo.entity.Tower;
+import com.cq.httpapi.demo.entity.CQ.Tower;
 import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.MsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.PriMsgHttpReqHandler;
@@ -39,20 +39,20 @@ public class TowerHandler {
             //查看是否存在问答
             try {
                 String answer = towerService.getAnswer(message, userId);
-                String answer2 = towerService.getAnswer(message, "0");
                 // 优先查询局部问答，然后才查询全局问答
                 // 优先查询问答，然后才查询好感度信息
                 if (answer != null && !answer.isEmpty()) {
                     response.setReply(answer);
                     response.setFlag(true);
                     return response;
-                } else if (answer2 != null && !answer2.isEmpty()) {
+                }
+                String answer2 = towerService.getAnswer(message, "0");
+                if (answer2 != null && !answer2.isEmpty()) {
                     response.setReply(answer2);
                     response.setFlag(true);
                     return response;
-                } else {
-                    response.setFlag(false);
                 }
+                response.setFlag(false);
             } catch (Exception e) {
                 response.setFlag(false);
             }
@@ -111,34 +111,6 @@ public class TowerHandler {
                     }
                 }
 
-                //-------------------------------------------------------------------------------------
-                //分段添加答案
-//            if (message.startsWith("!查问 ")){
-//                try{
-//                    String questionFlag = "!查问 ";
-//                    String answerEndFlag = "!";
-//
-//                    String question = message.substring(message.indexOf(questionFlag) + questionFlag.length());
-//
-//
-//
-//                    answer += "\n" + TimeKit.getFormalTime();
-//
-//                    if (!towerService.exist(question, guild)){
-//                        towerService.insertQuestion(question, answer, guild, SenderKit.GetGrpMsgSenderId(grpMsgHttpReqHandler));
-//                        response.setReply("添加问答成功！\n你可以这样问我：" + question + "\n我会这么回答：" + answer);
-//                        response.setFlag(true);
-//                    }
-//                    else {
-//                        towerService.updateQuestion(question, answer, guild, SenderKit.GetGrpMsgSenderId(grpMsgHttpReqHandler));
-//                        response.setReply("修改问答成功！\n你可以这样问我：" + question + "\n我会这么回答：" + answer);
-//                        response.setFlag(true);
-//                    }
-//
-//                } catch (Exception e){
-//                    response.setFlag(false);
-//                }
-//            }
 
                 if (message.startsWith("删除问答 ")) {
                     try {
@@ -188,7 +160,6 @@ public class TowerHandler {
                     }
                 }
             }
-
             return response;
 
         } else if (PriMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
@@ -208,6 +179,13 @@ public class TowerHandler {
                     response.setFlag(true);
                     return response;
                 }
+                String answer2 = towerService.getAnswer(message, "0");
+                if (answer2 != null && !answer2.isEmpty()) {
+                    response.setReply(answer2);
+                    response.setFlag(true);
+                    return response;
+                }
+                response.setFlag(false);
             } catch (Exception e) {
                 response.setFlag(false);
             }
@@ -278,11 +256,8 @@ public class TowerHandler {
                     response.setFlag(false);
                 }
             }
-
             return response;
         }
-
-
         return null;
     }
 }

@@ -1,6 +1,6 @@
 package com.cq.httpapi.demo.service.CQService;
 
-import com.cq.httpapi.demo.entity.Remind;
+import com.cq.httpapi.demo.entity.CQ.Remind;
 
 import java.util.ArrayList;
 

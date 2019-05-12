@@ -1,36 +1,20 @@
-package com.cq.httpapi.demo.entity;
+package com.cq.httpapi.demo.entity.CQ;
 
 
-public class Remind {
+public class Tower {
 
     private long id;
+    private String question;
+    private String answer;
     private String guild;
-    private String message;
-    private String remindTime;
     private long usable;
     private String description;
+    private long deletionStateCode;
     private java.sql.Timestamp createTime;
     private String createUserId;
     private java.sql.Timestamp modifiedTime;
     private String modifiedUserId;
-    private String mode;
-    private String timezone;
 
-    public String getTimezone() {
-        return timezone;
-    }
-
-    public void setTimezone(String timezone) {
-        this.timezone = timezone;
-    }
-
-    public String getMode() {
-        return mode;
-    }
-
-    public void setMode(String mode) {
-        this.mode = mode;
-    }
 
     public long getId() {
         return id;
@@ -41,30 +25,30 @@ public class Remind {
     }
 
 
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+
     public String getGuild() {
         return guild;
     }
 
     public void setGuild(String guild) {
         this.guild = guild;
-    }
-
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-
-    public String getRemindTime() {
-        return remindTime;
-    }
-
-    public void setRemindTime(String remindTime) {
-        this.remindTime = remindTime;
     }
 
 
@@ -83,6 +67,15 @@ public class Remind {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+
+    public long getDeletionStateCode() {
+        return deletionStateCode;
+    }
+
+    public void setDeletionStateCode(long deletionStateCode) {
+        this.deletionStateCode = deletionStateCode;
     }
 
 
@@ -121,20 +114,4 @@ public class Remind {
         this.modifiedUserId = modifiedUserId;
     }
 
-    @Override
-    public String toString() {
-        return "Remind{" +
-                "id=" + id +
-                ", guild='" + guild + '\'' +
-                ", message='" + message + '\'' +
-                ", remindTime='" + remindTime + '\'' +
-                ", usable=" + usable +
-                ", description='" + description + '\'' +
-                ", createTime=" + createTime +
-                ", createUserId='" + createUserId + '\'' +
-                ", modifiedTime=" + modifiedTime +
-                ", modifiedUserId='" + modifiedUserId + '\'' +
-                ", mode='" + mode + '\'' +
-                '}';
-    }
 }

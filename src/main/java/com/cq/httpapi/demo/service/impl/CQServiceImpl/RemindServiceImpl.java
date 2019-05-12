@@ -1,7 +1,7 @@
 package com.cq.httpapi.demo.service.impl.CQServiceImpl;
 
 import com.cq.httpapi.demo.dao.CQdao.RemindDao;
-import com.cq.httpapi.demo.entity.Remind;
+import com.cq.httpapi.demo.entity.CQ.Remind;
 import com.cq.httpapi.demo.service.CQService.RemindService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

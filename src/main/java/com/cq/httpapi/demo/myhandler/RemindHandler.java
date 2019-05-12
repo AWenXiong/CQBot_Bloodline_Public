@@ -5,7 +5,7 @@ import com.cq.httpapi.demo.dto.User;
 import com.cq.httpapi.demo.dto.response.message.GroupMessageResponse;
 import com.cq.httpapi.demo.dto.response.message.PrivateMessageResponse;
 import com.cq.httpapi.demo.dto.send.SendGroupMessage;
-import com.cq.httpapi.demo.entity.Remind;
+import com.cq.httpapi.demo.entity.CQ.Remind;
 import com.cq.httpapi.demo.exception.InvalidRemindOptionException;
 import com.cq.httpapi.demo.exception.TooManyOptionsException;
 import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;

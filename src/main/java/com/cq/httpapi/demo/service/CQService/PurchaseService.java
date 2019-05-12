@@ -1,6 +1,6 @@
 package com.cq.httpapi.demo.service.CQService;
 
-import com.cq.httpapi.demo.entity.Purchase;
+import com.cq.httpapi.demo.entity.CQ.Purchase;
 
 import java.util.ArrayList;
 

@@ -7,6 +7,8 @@ import java.io.*;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 public class ObjectKit {
 
@@ -188,5 +190,16 @@ public class ObjectKit {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static Object generateObject(Object o, Map<Class, Class> map) throws InstantiationException, IllegalAccessException {
+        Set<Class> classes = map.keySet();
+        for (Class c : classes) {
+            if (c.isInstance(o)) {
+                Class goalClass = map.get(c);
+                return goalClass.newInstance();
+            }
+        }
+        return null;
     }
 }

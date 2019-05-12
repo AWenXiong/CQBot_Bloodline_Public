@@ -1,9 +1,9 @@
 package com.cq.httpapi.demo.dto.event.message;
 
 import com.cq.httpapi.demo.dto.event.Event;
-import com.cq.httpapi.demo.entity.Anonymous;
-import com.cq.httpapi.demo.entity.GroupMessageSender;
-import com.cq.httpapi.demo.entity.Message;
+import com.cq.httpapi.demo.entity.CQ.Anonymous;
+import com.cq.httpapi.demo.entity.CQ.GroupMessageSender;
+import com.cq.httpapi.demo.entity.CQ.Message;
 
 public class GroupMessage extends Event {
 

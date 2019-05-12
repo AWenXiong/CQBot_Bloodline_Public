@@ -1,6 +1,6 @@
 package com.cq.httpapi.demo.dao.CQdao;
 
-import com.cq.httpapi.demo.entity.Remind;
+import com.cq.httpapi.demo.entity.CQ.Remind;
 import org.apache.ibatis.annotations.*;
 
 import java.sql.Timestamp;

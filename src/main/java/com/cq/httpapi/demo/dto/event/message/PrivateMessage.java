@@ -1,8 +1,8 @@
 package com.cq.httpapi.demo.dto.event.message;
 
 import com.cq.httpapi.demo.dto.event.Event;
-import com.cq.httpapi.demo.entity.Message;
-import com.cq.httpapi.demo.entity.PrivateMessageSender;
+import com.cq.httpapi.demo.entity.CQ.Message;
+import com.cq.httpapi.demo.entity.CQ.PrivateMessageSender;
 
 public class PrivateMessage extends Event {
 

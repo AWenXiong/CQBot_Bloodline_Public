@@ -1,11 +1,21 @@
-package com.cq.httpapi.demo.entity;
+package com.cq.httpapi.demo.entity.CQ;
 
-public class DiscussionSender {
+public class PrivateMessageSender {
 
     private Long user_id;
     private String nickname;
     private String sex;
     private Long age;
+
+    @Override
+    public String toString() {
+        return "PrivateMessageSender{" +
+                "user_id=" + user_id +
+                ", nickname='" + nickname + '\'' +
+                ", sex='" + sex + '\'' +
+                ", age=" + age +
+                '}';
+    }
 
     public Long getUser_id() {
         return user_id;
@@ -37,15 +47,5 @@ public class DiscussionSender {
 
     public void setAge(Long age) {
         this.age = age;
-    }
-
-    @Override
-    public String toString() {
-        return "DiscussionSender{" +
-                "user_id=" + user_id +
-                ", nickname='" + nickname + '\'' +
-                ", sex='" + sex + '\'' +
-                ", age=" + age +
-                '}';
     }
 }

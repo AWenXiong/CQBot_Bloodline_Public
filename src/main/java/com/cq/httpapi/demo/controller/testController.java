@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.cq.httpapi.demo.dto.TestDTO;
 import com.cq.httpapi.demo.dto.send.ApiPath;
 import com.cq.httpapi.demo.dto.send.SetGroupBan;
-import com.cq.httpapi.demo.entity.Tower;
+import com.cq.httpapi.demo.entity.CQ.Tower;
 import com.cq.httpapi.demo.kit.CQGroupKit;
 import com.cq.httpapi.demo.kit.ObjectKit;
 import com.cq.httpapi.demo.kit.TimeKit;

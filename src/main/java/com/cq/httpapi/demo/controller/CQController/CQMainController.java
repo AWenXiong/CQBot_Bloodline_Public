@@ -30,6 +30,10 @@ public class CQMainController {
     private PurchaseHandler purchaseHandler;
     @Resource
     private RemindHandler remindHandler;
+    @Resource
+    private ItemHandler itemHandler;
+    @Resource
+    private ImportHandler importHandler;
 
     @RequestMapping(value = "/deliver")
     @ResponseBody
@@ -56,12 +60,23 @@ public class CQMainController {
                         String guild = grpMsgHttpReqHandler.getGroupId();
                         String user = grpMsgHttpReqHandler.getUserId();
 
-                        // 问答
-                        allResponse.add(towerHandler.towerHandler(grpMsgHttpReqHandler));
+                        if (!guild.equals("192870189") && !guild.equals("471572605")) {
+                            // 问答
+                            allResponse.add(towerHandler.towerHandler(grpMsgHttpReqHandler));
+                            // 物品
+                            allResponse.add(itemHandler.itemChecker(grpMsgHttpReqHandler));
 
-                        // 好感度
-                        allResponse.add(cardHandler.cardChecker(grpMsgHttpReqHandler));
-                        allResponse.add(cardHandler.cardHandler(grpMsgHttpReqHandler));
+                            // 好感度
+
+                            allResponse.add(cardHandler.cardHandler(grpMsgHttpReqHandler));
+                            allResponse.add(cardHandler.cardChecker2(grpMsgHttpReqHandler));
+
+                            allResponse.add(cardHandler.cardChecker(grpMsgHttpReqHandler));
+                        }
+
+                        if (user.equals(User.DOLLYBELU.getUserId())) {
+                            allResponse.add(itemHandler.itemManager(grpMsgHttpReqHandler));
+                        }
 
                         if (purchaseHandler.checkService(guild, "ban")) {
                             // 禁言
@@ -76,10 +91,9 @@ public class CQMainController {
                         }
 
                         if (user.equals(User.DOLLYBELU.getUserId())) {
-                            // 服务
+                            // 添加服务
                             allResponse.add(purchaseHandler.getOwnPurchase(grpMsgHttpReqHandler));
                         }
-
 
                         break;
                     }
@@ -111,11 +125,20 @@ public class CQMainController {
                             allResponse.add(SendMessageHandler.sendTestMessage(priMsgHttpReqHandler));
                             allResponse.add(SendMessageHandler.sendGroupMessage(priMsgHttpReqHandler));
                             allResponse.add(SendMessageHandler.sendPrivateMessage(priMsgHttpReqHandler));
+
+                            allResponse.add(importHandler.importMaxData(priMsgHttpReqHandler));
                         }
 
                         // 好感度
                         allResponse.add(cardHandler.cardChecker(priMsgHttpReqHandler));
                         allResponse.add(cardHandler.cardHandler(priMsgHttpReqHandler));
+                        allResponse.add(cardHandler.cardChecker2(priMsgHttpReqHandler));
+
+                        // 物品
+                        allResponse.add(itemHandler.itemChecker(priMsgHttpReqHandler));
+                        if (userId.equals(User.DOLLYBELU.getUserId())) {
+                            allResponse.add(itemHandler.itemManager(priMsgHttpReqHandler));
+                        }
                         break;
                     }
                 }

@@ -1,6 +1,6 @@
 package com.cq.httpapi.demo.dao.CQdao;
 
-import com.cq.httpapi.demo.entity.Card;
+import com.cq.httpapi.demo.entity.CQ.Card;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

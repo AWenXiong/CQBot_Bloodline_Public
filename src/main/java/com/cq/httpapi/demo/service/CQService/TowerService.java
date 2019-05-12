@@ -1,6 +1,6 @@
 package com.cq.httpapi.demo.service.CQService;
 
-import com.cq.httpapi.demo.entity.Tower;
+import com.cq.httpapi.demo.entity.CQ.Tower;
 
 import java.util.ArrayList;
 

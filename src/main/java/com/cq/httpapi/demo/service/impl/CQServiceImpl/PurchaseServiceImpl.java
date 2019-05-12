@@ -1,7 +1,7 @@
 package com.cq.httpapi.demo.service.impl.CQServiceImpl;
 
 import com.cq.httpapi.demo.dao.CQdao.PurchaseDao;
-import com.cq.httpapi.demo.entity.Purchase;
+import com.cq.httpapi.demo.entity.CQ.Purchase;
 import com.cq.httpapi.demo.kit.TimeKit;
 import com.cq.httpapi.demo.service.CQService.PurchaseService;
 import org.springframework.stereotype.Service;

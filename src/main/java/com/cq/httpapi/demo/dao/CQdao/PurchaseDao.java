@@ -1,6 +1,6 @@
 package com.cq.httpapi.demo.dao.CQdao;
 
-import com.cq.httpapi.demo.entity.Purchase;
+import com.cq.httpapi.demo.entity.CQ.Purchase;
 import org.apache.ibatis.annotations.*;
 
 import java.util.ArrayList;

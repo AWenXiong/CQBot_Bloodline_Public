@@ -4,7 +4,7 @@ import com.cq.httpapi.demo.annotation.cqannotation.CQResponse;
 import com.cq.httpapi.demo.dto.response.message.GroupMessageResponse;
 import com.cq.httpapi.demo.dto.response.message.MessageResponse;
 import com.cq.httpapi.demo.dto.response.message.PrivateMessageResponse;
-import com.cq.httpapi.demo.entity.Card;
+import com.cq.httpapi.demo.entity.CQ.Card;
 import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.MsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.PriMsgHttpReqHandler;
@@ -94,6 +94,22 @@ public class CardHandler {
                 response.setFlag(true);
                 return response;
             }
+        }
+
+        return response;
+    }
+
+
+    public MessageResponse cardChecker2(MsgHttpReqHandler msgHttpReqHandler) {
+        String message = msgHttpReqHandler.getMessage();
+        MessageResponse response = null;
+
+        if (GrpMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
+            response = new GroupMessageResponse();
+            response.setFlag(false);
+        } else if (PriMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
+            response = new PrivateMessageResponse();
+            response.setFlag(false);
         }
 
         // 查询卡的技能信息

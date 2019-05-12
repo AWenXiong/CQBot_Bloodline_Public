@@ -6,7 +6,7 @@ import com.cq.httpapi.demo.dto.User;
 import com.cq.httpapi.demo.dto.response.message.GroupMessageResponse;
 import com.cq.httpapi.demo.dto.response.message.MessageResponse;
 import com.cq.httpapi.demo.dto.response.message.PrivateMessageResponse;
-import com.cq.httpapi.demo.entity.Purchase;
+import com.cq.httpapi.demo.entity.CQ.Purchase;
 import com.cq.httpapi.demo.exception.TooManyOptionsException;
 import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.MsgHttpReqHandler;

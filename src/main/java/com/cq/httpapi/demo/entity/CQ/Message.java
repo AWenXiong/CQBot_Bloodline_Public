@@ -1,4 +1,4 @@
-package com.cq.httpapi.demo.entity;
+package com.cq.httpapi.demo.entity.CQ;
 
 public class Message {
 

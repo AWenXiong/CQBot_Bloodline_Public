@@ -1,7 +1,7 @@
 package com.cq.httpapi.demo.service.impl.CQServiceImpl;
 
 import com.cq.httpapi.demo.dao.CQdao.TowerDao;
-import com.cq.httpapi.demo.entity.Tower;
+import com.cq.httpapi.demo.entity.CQ.Tower;
 import com.cq.httpapi.demo.exception.DeleteTowerException;
 import com.cq.httpapi.demo.exception.QANotUsablelException;
 import com.cq.httpapi.demo.exception.UpdateTowerException;
