@@ -246,7 +246,7 @@ public class CardHandler {
     // 修改全名
     @CQResponse
 //    public static MessageResponse cardHandler(MsgHttpReqHandler msgHttpReqHandler) {
-    public MessageResponse cardHandler(MsgHttpReqHandler msgHttpReqHandler) {
+    public MessageResponse cardManager(MsgHttpReqHandler msgHttpReqHandler) {
         String message = msgHttpReqHandler.getMessage();
         MessageResponse response = null;
 

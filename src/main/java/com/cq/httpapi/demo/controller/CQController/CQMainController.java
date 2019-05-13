@@ -62,13 +62,14 @@ public class CQMainController {
 
                         if (!guild.equals("192870189") && !guild.equals("471572605")) {
                             // 问答
-                            allResponse.add(towerHandler.towerHandler(grpMsgHttpReqHandler));
+                            allResponse.add(towerHandler.answerQuestion(grpMsgHttpReqHandler));
+                            allResponse.add(towerHandler.towerManager(grpMsgHttpReqHandler));
                             // 物品
                             allResponse.add(itemHandler.itemChecker(grpMsgHttpReqHandler));
 
                             // 好感度
-
-                            allResponse.add(cardHandler.cardHandler(grpMsgHttpReqHandler));
+                            allResponse.add(cardHandler.cardManager(grpMsgHttpReqHandler));
+                            // 技能
                             allResponse.add(cardHandler.cardChecker2(grpMsgHttpReqHandler));
 
                             allResponse.add(cardHandler.cardChecker(grpMsgHttpReqHandler));
@@ -104,9 +105,11 @@ public class CQMainController {
                         PriMsgHttpReqHandler priMsgHttpReqHandler = new PriMsgHttpReqHandler(header, body);
                         String userId = SenderKit.GetMsgSenderId(priMsgHttpReqHandler);
 
+                        allResponse.add(towerHandler.answerQuestion(priMsgHttpReqHandler));
+
                         if (purchaseHandler.checkService("p" + userId, "tower")) {
                             // 问答
-                            allResponse.add(towerHandler.towerHandler(priMsgHttpReqHandler));
+                            allResponse.add(towerHandler.towerManager(priMsgHttpReqHandler));
                         }
 
                         if (userId.equals(User.DOLLYBELU.getUserId())) {
@@ -131,7 +134,7 @@ public class CQMainController {
 
                         // 好感度
                         allResponse.add(cardHandler.cardChecker(priMsgHttpReqHandler));
-                        allResponse.add(cardHandler.cardHandler(priMsgHttpReqHandler));
+                        allResponse.add(cardHandler.cardManager(priMsgHttpReqHandler));
                         allResponse.add(cardHandler.cardChecker2(priMsgHttpReqHandler));
 
                         // 物品

@@ -22,7 +22,7 @@ public class TowerHandler {
     @Resource
     private TowerService towerService;
 
-    public MessageResponse towerHandler(MsgHttpReqHandler msgHttpReqHandler) {
+    public MessageResponse answerQuestion(MsgHttpReqHandler msgHttpReqHandler) {
         String message = msgHttpReqHandler.getMessage();
         MessageResponse response = null;
         String userId = null;
@@ -30,10 +30,8 @@ public class TowerHandler {
         if (GrpMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
 
             GrpMsgHttpReqHandler grpMsgHttpReqHandler = (GrpMsgHttpReqHandler) msgHttpReqHandler;
-
             response = new GroupMessageResponse();
             response.setFlag(false);
-
             userId = grpMsgHttpReqHandler.getGroupId();
 
             //查看是否存在问答
@@ -56,6 +54,46 @@ public class TowerHandler {
             } catch (Exception e) {
                 response.setFlag(false);
             }
+        } else if (PriMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
+
+            PriMsgHttpReqHandler priMsgHttpReqHandler = (PriMsgHttpReqHandler) msgHttpReqHandler;
+            response = new PrivateMessageResponse();
+            response.setFlag(false);
+            userId = SenderKit.GetMsgSenderId(priMsgHttpReqHandler);
+
+            // 查看是否是已存在的问答
+            try {
+                String answer = towerService.getAnswer(message, "p" + userId);
+                if (answer != null && !answer.isEmpty()) {
+                    response.setReply(answer);
+                    response.setFlag(true);
+                    return response;
+                }
+                String answer2 = towerService.getAnswer(message, "0");
+                if (answer2 != null && !answer2.isEmpty()) {
+                    response.setReply(answer2);
+                    response.setFlag(true);
+                    return response;
+                }
+                response.setFlag(false);
+            } catch (Exception e) {
+                response.setFlag(false);
+            }
+        }
+        return response;
+    }
+
+    public MessageResponse towerManager(MsgHttpReqHandler msgHttpReqHandler) {
+
+        String message = msgHttpReqHandler.getMessage();
+        MessageResponse response = null;
+
+        if (GrpMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
+
+            GrpMsgHttpReqHandler grpMsgHttpReqHandler = (GrpMsgHttpReqHandler) msgHttpReqHandler;
+            response = new GroupMessageResponse();
+            response.setFlag(false);
+            String userId = grpMsgHttpReqHandler.getGroupId();
 
             //查看是否是增加、删除、修改问答
             if (SenderKit.isAdminOrOwner(grpMsgHttpReqHandler)) {
@@ -105,12 +143,10 @@ public class TowerHandler {
                             response.setReply("修改问答成功！\n你可以这样问我：" + question + "\n我会这么回答：" + answer);
                             response.setFlag(true);
                         }
-
                     } catch (Exception e) {
                         response.setFlag(false);
                     }
                 }
-
 
                 if (message.startsWith("删除问答 ")) {
                     try {
@@ -161,37 +197,17 @@ public class TowerHandler {
                 }
             }
             return response;
+        }
 
-        } else if (PriMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
-
-            PriMsgHttpReqHandler priMsgHttpReqHandler = (PriMsgHttpReqHandler) msgHttpReqHandler;
-
-            response = new PrivateMessageResponse();
-            response.setFlag(false);
-
-            userId = SenderKit.GetMsgSenderId(priMsgHttpReqHandler);
-
-            // 查看是否是已存在的问答
-            try {
-                String answer = towerService.getAnswer(message, "p" + userId);
-                if (answer != null && !answer.isEmpty()) {
-                    response.setReply(answer);
-                    response.setFlag(true);
-                    return response;
-                }
-                String answer2 = towerService.getAnswer(message, "0");
-                if (answer2 != null && !answer2.isEmpty()) {
-                    response.setReply(answer2);
-                    response.setFlag(true);
-                    return response;
-                }
-                response.setFlag(false);
-            } catch (Exception e) {
-                response.setFlag(false);
-            }
+        // 这里是私聊问答部分
+        else if (PriMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
 
             String addTowerFlag = "查问 ";
             String answerFlag = "回答 ";
+            PriMsgHttpReqHandler priMsgHttpReqHandler = (PriMsgHttpReqHandler) msgHttpReqHandler;
+            response = new GroupMessageResponse();
+            response.setFlag(false);
+            String userId = priMsgHttpReqHandler.getUserId();
 
             // 新增问答
             if (message.startsWith(addTowerFlag)) {
