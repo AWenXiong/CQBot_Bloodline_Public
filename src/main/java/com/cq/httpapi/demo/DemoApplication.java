@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 @MapperScan("com.cq.httpapi.demo.dao")
 @ComponentScan(basePackages = "com.cq.httpapi.demo.service")
 @ComponentScan(basePackages = "com.cq.httpapi.demo.testCS")
+//@ComponentScan(basePackages = "com.cq.httpapi.demo.exception")
 public class DemoApplication {
 
     public static void main(String[] args) {

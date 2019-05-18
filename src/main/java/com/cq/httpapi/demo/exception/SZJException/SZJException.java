@@ -9,10 +9,16 @@ public class SZJException extends RuntimeException {
 
     }
 
-    public SZJException(int errorCode, String message) {
-        this.errorCode = errorCode;
+    public SZJException(SZJErrorCode errorCode, String message) {
+        this.errorCode = errorCode.getErrorCode();
         this.message = message;
     }
+
+    public SZJException(int errorCode, String message) {
+        this.errorCode = SZJErrorCode.valueOf(errorCode).getErrorCode();
+        this.message = this.getMessage();
+    }
+
 
     public int getErrorCode() {
         return errorCode;

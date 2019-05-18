@@ -1,6 +1,6 @@
 package com.cq.httpapi.demo.kit;
 
-import com.cq.httpapi.demo.exception.TooManyOptionsException;
+import com.cq.httpapi.demo.exception.CQException.TooManyOptionsException;
 
 import java.util.ArrayList;
 

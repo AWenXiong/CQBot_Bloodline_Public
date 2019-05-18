@@ -91,11 +91,6 @@ public class CQMainController {
                             allResponse.add(remindHandler.deleteRemind(grpMsgHttpReqHandler));
                         }
 
-                        if (user.equals(User.DOLLYBELU.getUserId())) {
-                            // 添加服务
-                            allResponse.add(purchaseHandler.getOwnPurchase(grpMsgHttpReqHandler));
-                        }
-
                         break;
                     }
 
@@ -130,6 +125,9 @@ public class CQMainController {
                             allResponse.add(SendMessageHandler.sendPrivateMessage(priMsgHttpReqHandler));
 
                             allResponse.add(importHandler.importMaxData(priMsgHttpReqHandler));
+
+                            // 添加服务
+                            allResponse.add(purchaseHandler.getOwnPurchase(priMsgHttpReqHandler));
                         }
 
                         // 好感度
@@ -175,7 +173,7 @@ public class CQMainController {
 
                     // 群文件上传
                     case "group_upload": {
-                        break;
+                        System.err.println(body);
                     }
 
                     // 群管理员变动

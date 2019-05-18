@@ -2,9 +2,9 @@ package com.cq.httpapi.demo.service.impl.CQServiceImpl;
 
 import com.cq.httpapi.demo.dao.CQdao.TowerDao;
 import com.cq.httpapi.demo.entity.CQ.Tower;
-import com.cq.httpapi.demo.exception.DeleteTowerException;
-import com.cq.httpapi.demo.exception.QANotUsablelException;
-import com.cq.httpapi.demo.exception.UpdateTowerException;
+import com.cq.httpapi.demo.exception.CQException.DeleteTowerException;
+import com.cq.httpapi.demo.exception.CQException.QANotUsablelException;
+import com.cq.httpapi.demo.exception.CQException.UpdateTowerException;
 import com.cq.httpapi.demo.kit.TimeKit;
 import com.cq.httpapi.demo.service.CQService.TowerService;
 import org.springframework.stereotype.Service;

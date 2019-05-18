@@ -2,9 +2,9 @@ package com.cq.httpapi.demo.service.impl.CQServiceImpl;
 
 import com.cq.httpapi.demo.dao.CQdao.CardDao;
 import com.cq.httpapi.demo.entity.CQ.Card;
-import com.cq.httpapi.demo.exception.AppendCardInfoException;
-import com.cq.httpapi.demo.exception.CreateNewCardException;
-import com.cq.httpapi.demo.exception.DeleteCardException;
+import com.cq.httpapi.demo.exception.CQException.AppendCardInfoException;
+import com.cq.httpapi.demo.exception.CQException.CreateNewCardException;
+import com.cq.httpapi.demo.exception.CQException.DeleteCardException;
 import com.cq.httpapi.demo.kit.TimeKit;
 import com.cq.httpapi.demo.service.CQService.CardService;
 import org.springframework.stereotype.Service;

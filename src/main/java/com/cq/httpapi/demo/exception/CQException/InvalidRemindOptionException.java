@@ -1,4 +1,4 @@
-package com.cq.httpapi.demo.exception;
+package com.cq.httpapi.demo.exception.CQException;
 
 public class InvalidRemindOptionException extends RuntimeException {
 

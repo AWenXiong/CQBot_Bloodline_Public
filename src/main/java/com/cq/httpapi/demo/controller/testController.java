@@ -130,10 +130,11 @@ public class testController {
         return jsonObject;
     }
 
-    @RequestMapping(value = "/1")
+    @RequestMapping(value = "/exceptionhandler")
     @ResponseBody
-    public JSONObject testMethod(@RequestBody TestDTO testDTO) {
-        JSONObject res = ObjectKit.parseObjectToJSONObject(testDTO);
-        return res;
+    public JSONObject testMethod(@RequestBody TestDTO testDTO) throws Exception {
+        if (testDTO.getMsg().equals("123")) {
+            throw new Exception();
+        } else return new JSONObject();
     }
 }

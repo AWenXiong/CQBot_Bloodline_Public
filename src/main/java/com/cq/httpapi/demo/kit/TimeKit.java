@@ -1,7 +1,7 @@
 package com.cq.httpapi.demo.kit;
 
-import com.cq.httpapi.demo.exception.GetNextDayException;
-import com.cq.httpapi.demo.exception.GetNextWeekdayException;
+import com.cq.httpapi.demo.exception.CQException.GetNextDayException;
+import com.cq.httpapi.demo.exception.CQException.GetNextWeekdayException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
