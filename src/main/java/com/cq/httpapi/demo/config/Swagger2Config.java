@@ -12,7 +12,56 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
+//@ComponentScan(basePackages = "com.cq.httpapi.demo.controller.SZJController")
 public class Swagger2Config {
+
+//    @Bean
+//    public Docket pcoPortal() {
+//        List<Parameter> params = new ArrayList<>();
+//        Parameter parameter = new ParameterBuilder()
+//                .name("para1")
+//                .description("config-para1-desc")
+//                .modelRef(new ModelRef("string"))
+//                .parameterType("body")
+//                .required(true)
+//                .build();
+////        Parameter parameter2 = new ParameterBuilder()
+////                .name("user-id")
+////                .description("验证userId")
+////                .modelRef(new ModelRef("string"))
+////                .parameterType("header")
+////                .required(false)
+////                .build();
+//        Parameter parameter3 = new ParameterBuilder()
+//                .name("Authorization")
+//                .description("验证adminToken")
+//                .modelRef(new ModelRef("string"))
+//                .parameterType("header")
+//                .required(false)
+//                .build();
+//
+//        //params.add(parameter);
+////        params.add(parameter2);
+//        //params.add(parameter3);
+//        return new Docket(DocumentationType.SWAGGER_2)
+//                //.enable(Boolean.valueOf(config.getSwaggerEnable()))
+//                .enable(true)
+//                .apiInfo(apiInfo())
+//                .globalOperationParameters(params)
+//                .select()
+//                .apis(RequestHandlerSelectors.basePackage("com.test.whatever.controller"))
+//                //.apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
+//                .paths(PathSelectors.any())
+//                .build();
+//    }
+//
+//    private ApiInfo apiInfo() {
+//        return new ApiInfoBuilder()
+//                .title("接口文档")
+//                .description("多莉的接口文档")
+//                .version("1.0")
+//                .build();
+//    }
 
     @Bean
     public Docket commonDocket() {

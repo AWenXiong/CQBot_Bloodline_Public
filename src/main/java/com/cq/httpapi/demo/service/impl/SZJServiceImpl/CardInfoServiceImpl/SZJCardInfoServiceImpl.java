@@ -4,7 +4,8 @@ import com.cq.httpapi.demo.dao.SZJdao.SzjcardinfoDao;
 import com.cq.httpapi.demo.dto.SZJ.Request.AllCardInfoRequest.GetAllCardsInfoRequest;
 import com.cq.httpapi.demo.dto.SZJ.Response.AllCardInfoResponse.GetAllCardsInfoResponseData;
 import com.cq.httpapi.demo.entity.SZJ.Szjcardinfo;
-import com.cq.httpapi.demo.exception.SZJException.AllCardsInfoException.GetAllCardsInfoException;
+import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
+import com.cq.httpapi.demo.exception.SZJException.SZJException;
 import com.cq.httpapi.demo.kit.ObjectKit;
 import com.cq.httpapi.demo.service.SZJService.SZJCardInfoService;
 import com.cq.httpapi.demo.service.SZJService.SZJUserInfoService;
@@ -27,18 +28,16 @@ public class SZJCardInfoServiceImpl implements SZJCardInfoService {
      * @return
      */
     @Override
-    public ArrayList<GetAllCardsInfoResponseData> getAllCards(GetAllCardsInfoRequest request) throws GetAllCardsInfoException {
+    public ArrayList<GetAllCardsInfoResponseData> getAllCards(GetAllCardsInfoRequest request) throws SZJException {
 
         String openId = request.getOpenid();
-        if (openId != null && !openId.isEmpty()) {
-            if (!szjUserInfoService.existOpenId(openId)) {
-                throw new GetAllCardsInfoException(1, "登录码不存在");
-            }
+        if (openId != null && !openId.isEmpty() && !szjUserInfoService.existOpenId(openId)) {
+            throw new SZJException(SZJErrorCode.OPENID_ERROR);
         }
 
         ArrayList<Szjcardinfo> datas = szjcardinfoDao.getAllCards();
         if (datas == null) {
-            throw new GetAllCardsInfoException(2, "获取卡牌信息失败");
+            throw new SZJException(SZJErrorCode.GET_ALL_CARD_INFO_FAILURE);
         }
 
         // 处理双属性的情况
@@ -59,7 +58,7 @@ public class SZJCardInfoServiceImpl implements SZJCardInfoService {
             }
             return res;
         } catch (Exception e) {
-            throw new GetAllCardsInfoException(9, e.getMessage());
+            throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
     }
 }

@@ -4,7 +4,8 @@ import com.cq.httpapi.demo.dao.SZJdao.SzjcardinfoothernameDao;
 import com.cq.httpapi.demo.dto.SZJ.Request.AllCardInfoRequest.GetAllCardsOtherNameRequest;
 import com.cq.httpapi.demo.dto.SZJ.Response.AllCardInfoResponse.GetAllCardsOtherNameResponseData;
 import com.cq.httpapi.demo.entity.SZJ.Szjcardinfoothername;
-import com.cq.httpapi.demo.exception.SZJException.AllCardsInfoException.GetAllCardsOtherNameException;
+import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
+import com.cq.httpapi.demo.exception.SZJException.SZJException;
 import com.cq.httpapi.demo.service.SZJService.SZJCardInfoOtherNameService;
 import com.cq.httpapi.demo.service.SZJService.SZJUserInfoService;
 import org.springframework.stereotype.Service;
@@ -45,16 +46,16 @@ public class SZJCardInfoOtherNameServiceImpl implements SZJCardInfoOtherNameServ
      */
     @Override
     public ArrayList<GetAllCardsOtherNameResponseData> getAllCardNickname(GetAllCardsOtherNameRequest request)
-            throws GetAllCardsOtherNameException {
+            throws SZJException {
         String openId = request.getOpenid();
         if (openId != null && !openId.isEmpty()) {
             if (!szjUserInfoService.existOpenId(openId)) {
-                throw new GetAllCardsOtherNameException(1, "登录码不存在！");
+                throw new SZJException(SZJErrorCode.OPENID_ERROR);
             }
         }
         ArrayList<Szjcardinfoothername> datas = szjcardinfoothernameDao.getAllNickname();
         if (datas == null) {
-            throw new GetAllCardsOtherNameException(2, "获取全部卡牌别名失败！");
+            throw new SZJException(SZJErrorCode.GET_ALL_CARD_NICKNAME_FAILURE);
         }
         try {
             ArrayList<GetAllCardsOtherNameResponseData> res = new ArrayList<>();
@@ -71,7 +72,7 @@ public class SZJCardInfoOtherNameServiceImpl implements SZJCardInfoOtherNameServ
             }
             return res;
         } catch (Exception e) {
-            throw new GetAllCardsOtherNameException(9, e.getMessage());
+            throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
     }
 }

@@ -4,8 +4,8 @@ import com.cq.httpapi.demo.dao.SZJdao.SzjenemycardDao;
 import com.cq.httpapi.demo.dto.SZJ.Request.AllCardInfoRequest.GetEnemyCardRequest;
 import com.cq.httpapi.demo.dto.SZJ.Response.AllCardInfoResponse.GetEnemyCardResponseData;
 import com.cq.httpapi.demo.entity.SZJ.Szjenemycard;
-import com.cq.httpapi.demo.exception.SZJException.AllCardsInfoException.GetEnemyCardException;
-import com.cq.httpapi.demo.exception.SZJException.AllCardsInfoException.GetEnemyInfoException;
+import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
+import com.cq.httpapi.demo.exception.SZJException.SZJException;
 import com.cq.httpapi.demo.service.SZJService.SZJEnemyCardService;
 import com.cq.httpapi.demo.service.SZJService.SZJUserInfoService;
 import org.springframework.stereotype.Service;
@@ -23,15 +23,15 @@ public class SZJEnemyCardServiceImpl implements SZJEnemyCardService {
 
     @Override
     public ArrayList<GetEnemyCardResponseData> getEnemyInfo(GetEnemyCardRequest request)
-            throws GetEnemyInfoException {
+            throws SZJException {
         String openId = request.getOpenid();
-        if (openId != null && !szjUserInfoService.existOpenId(openId)) {
-            throw new GetEnemyCardException(1, "登录码不存在！");
+        if (openId != null && !openId.isEmpty() && !szjUserInfoService.existOpenId(openId)) {
+            throw new SZJException(SZJErrorCode.OPENID_ERROR);
         }
 
         Long id = request.getId();
         if (id == null) {
-            throw new GetEnemyCardException(2, "敌阵容主键缺失！");
+            throw new SZJException(SZJErrorCode.ENEMY_INFO_ID_LOST);
         }
 
         Double level = request.getLevel();
@@ -43,17 +43,17 @@ public class SZJEnemyCardServiceImpl implements SZJEnemyCardService {
         }
 
         if (datas == null) {
-            throw new GetEnemyCardException(3, "获取敌阵容卡信息失败！");
+            throw new SZJException(SZJErrorCode.GET_ENEMY_CARD_FAILURE);
         }
 
+        ArrayList<GetEnemyCardResponseData> res = new ArrayList<>();
         try {
-            ArrayList<GetEnemyCardResponseData> res = new ArrayList<>();
             for (Szjenemycard data : datas) {
                 res.add(new GetEnemyCardResponseData(data));
             }
-            return res;
         } catch (Exception e) {
-            throw new GetEnemyCardException(9, e.getMessage());
+            throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
+        return res;
     }
 }

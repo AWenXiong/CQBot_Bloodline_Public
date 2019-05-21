@@ -2,8 +2,11 @@ package com.cq.httpapi.demo.controller.SZJController;
 
 import com.cq.httpapi.demo.dto.SZJ.Request.AllCardInfoRequest.*;
 import com.cq.httpapi.demo.dto.SZJ.Response.AllCardInfoResponse.*;
-import com.cq.httpapi.demo.exception.SZJException.AllCardsInfoException.*;
+import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
+import com.cq.httpapi.demo.exception.SZJException.SZJException;
 import com.cq.httpapi.demo.service.SZJService.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 
+@Api(tags = "卡牌信息控制器")
 @RestController
 @RequestMapping(value = "/szj")
 public class AllCardInfoController {
@@ -39,6 +43,7 @@ public class AllCardInfoController {
      * errorCode = 1  登录码不存在
      *
      */
+    @ApiOperation(value = "获取全部卡牌信息")
     @RequestMapping(value = "/GetAllCardsInfo", method = RequestMethod.POST)
     public GetAllCardsInfoResponse getAllCardsInfo(@RequestBody GetAllCardsInfoRequest request) {
         GetAllCardsInfoResponse response = new GetAllCardsInfoResponse();
@@ -46,10 +51,10 @@ public class AllCardInfoController {
             ArrayList<GetAllCardsInfoResponseData> datas = szjCardInfoService.getAllCards(request);
             response.setSuccess(true);
             response.setData(datas);
-        } catch (GetAllCardsInfoException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -69,10 +74,10 @@ public class AllCardInfoController {
             ArrayList<GetAllCardsOtherNameResponseData> datas = szjCardInfoOtherNameService.getAllCardNickname(request);
             response.setData(datas);
             response.setSuccess(true);
-        } catch (GetAllCardsOtherNameException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -92,10 +97,10 @@ public class AllCardInfoController {
             ArrayList<GetAllCardsInfoExtResponseData> datas = szjCardInfoExtService.getAllCardInfoExt(request);
             response.setData(datas);
             response.setSuccess(true);
-        } catch (GetAllCardsInfoExtException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -113,10 +118,10 @@ public class AllCardInfoController {
             ArrayList<GetAllSpellsInfoResponseData> data = szjSpellInfoService.getAllSpells(request);
             response.setData(data);
             response.setSuccess(true);
-        } catch (GetAllSpellsInfoException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -134,10 +139,10 @@ public class AllCardInfoController {
             ArrayList<GetEnemyInfoResponseData> data = szjEnemyInfoService.getEnemyInfo(request);
             response.setData(data);
             response.setSuccess(true);
-        } catch (GetEnemyInfoException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -155,10 +160,10 @@ public class AllCardInfoController {
             ArrayList<GetEnemyLevelResponseData> data = szjEnemyLevelService.getEnemyInfo(request);
             response.setData(data);
             response.setSuccess(true);
-        } catch (GetEnemyLevelException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -176,10 +181,10 @@ public class AllCardInfoController {
             ArrayList<GetEnemyCardResponseData> data = szjEnemyCardService.getEnemyInfo(request);
             response.setData(data);
             response.setSuccess(true);
-        } catch (GetEnemyCardException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }

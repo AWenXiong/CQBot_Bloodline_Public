@@ -1,5 +1,8 @@
 package com.cq.httpapi.demo.dto.SZJ;
 
+import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
+import com.cq.httpapi.demo.exception.SZJException.SZJException;
+
 public class SZJResponse {
 
     public String message;
@@ -28,6 +31,18 @@ public class SZJResponse {
 
     public void setSuccess(boolean success) {
         this.success = success;
+    }
+
+    public void setError(SZJException e) {
+        setSuccess(false);
+        setErrorCode(e.getErrorCode());
+        setMessage(e.getMessage());
+    }
+
+    public void setError(SZJErrorCode szjErrorCode) {
+        setSuccess(false);
+        setErrorCode(szjErrorCode.getErrorCode());
+        setMessage(szjErrorCode.getMessage());
     }
 
     public void setError(boolean success, int errorCode, String message) {
