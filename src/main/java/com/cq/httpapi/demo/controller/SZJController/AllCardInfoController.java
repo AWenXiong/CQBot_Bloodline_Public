@@ -67,6 +67,7 @@ public class AllCardInfoController {
      * errorCode = 1  登录码不存在
      * errorCode = 2  获取全部卡牌别名失败(data is a null pointer)
      */
+    @ApiOperation(value = "获取全部卡牌别名")
     @RequestMapping(value = "/GetAllCardsOtherName", method = RequestMethod.POST)
     public GetAllCardsOtherNameResponse getAllCardsOtherName(@RequestBody GetAllCardsOtherNameRequest request) {
         GetAllCardsOtherNameResponse response = new GetAllCardsOtherNameResponse();
@@ -90,6 +91,7 @@ public class AllCardInfoController {
      * errorCode = 1  登录码不存在
      * errorCode = 2  获取全部卡牌扩展信息失败(data is a null pointer)
      */
+    @ApiOperation(value = "获取全部卡牌扩展信息")
     @RequestMapping(value = "/GetAllCardsInfoExt", method = RequestMethod.POST)
     public GetAllCardsInfoExtResponse getAllCardsInfoExt(@RequestBody GetAllCardsInfoExtRequest request) {
         GetAllCardsInfoExtResponse response = new GetAllCardsInfoExtResponse();
@@ -111,6 +113,7 @@ public class AllCardInfoController {
      * @param request
      * @return
      */
+    @ApiOperation(value = "获取全部法阵信息")
     @RequestMapping(value = "/GetAllSpellsInfo", method = RequestMethod.POST)
     public GetAllSpellsInfoResponse getAllSpellsInfo(@RequestBody GetAllSpellsInfoRequest request) {
         GetAllSpellsInfoResponse response = new GetAllSpellsInfoResponse();
@@ -132,6 +135,7 @@ public class AllCardInfoController {
      * @param request
      * @return
      */
+    @ApiOperation(value = "获取敌阵容信息")
     @RequestMapping(value = "/GetEnemyInfo", method = RequestMethod.POST)
     public GetEnemyInfoResponse getEnemyInfo(@RequestBody GetEnemyInfoRequest request) {
         GetEnemyInfoResponse response = new GetEnemyInfoResponse();
@@ -153,6 +157,7 @@ public class AllCardInfoController {
      * @param request
      * @return
      */
+    @ApiOperation(value = "获取敌阵容关信息")
     @RequestMapping(value = "/GetEnemyLevel", method = RequestMethod.POST)
     public GetEnemyLevelResponse getEnemyLevel(@RequestBody GetEnemyLevelRequest request) {
         GetEnemyLevelResponse response = new GetEnemyLevelResponse();
@@ -174,6 +179,7 @@ public class AllCardInfoController {
      * @param request
      * @return
      */
+    @ApiOperation(value = "获取敌阵容卡信息")
     @RequestMapping(value = "/GetEnemyCard", method = RequestMethod.POST)
     public GetEnemyCardResponse getEnemyCard(@RequestBody GetEnemyCardRequest request) {
         GetEnemyCardResponse response = new GetEnemyCardResponse();
