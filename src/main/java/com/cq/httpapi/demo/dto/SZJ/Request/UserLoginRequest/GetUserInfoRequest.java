@@ -11,11 +11,4 @@ public class GetUserInfoRequest {
     public void setOpenid(String openid) {
         Openid = openid;
     }
-
-    @Override
-    public String toString() {
-        return "GetUserInfoRequest{" +
-                "Openid='" + Openid + '\'' +
-                '}';
-    }
 }

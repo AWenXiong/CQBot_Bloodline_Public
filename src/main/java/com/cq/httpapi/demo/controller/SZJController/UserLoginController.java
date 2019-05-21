@@ -9,6 +9,8 @@ import com.cq.httpapi.demo.exception.SZJException.UserLoginException.GetUserInfo
 import com.cq.httpapi.demo.exception.SZJException.UserLoginException.UserNotExistException;
 import com.cq.httpapi.demo.exception.SZJException.UserLoginException.UserRegisterException;
 import com.cq.httpapi.demo.service.SZJService.SZJUserInfoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
+@Api(tags = "用户控制器")
 @RestController
 @RequestMapping(value = "/szj")
 public class UserLoginController {
@@ -29,6 +32,7 @@ public class UserLoginController {
      * @param request
      * @return
      */
+    @ApiOperation(value = "注册")
     @RequestMapping(value = "/UserRegister", method = RequestMethod.POST)
     public UserRegisterResponse register(@RequestBody UserRegisterRequest request) {
         UserRegisterResponse response = new UserRegisterResponse();
@@ -56,6 +60,7 @@ public class UserLoginController {
      * @param request
      * @return
      */
+    @ApiOperation(value = "登录")
     @RequestMapping(value = "/UserLogOn", method = RequestMethod.POST)
     public UserLoginResponse login(@RequestBody UserLoginRequest request) {
         UserLoginResponse response = new UserLoginResponse();
@@ -79,6 +84,7 @@ public class UserLoginController {
      * @param request
      * @return
      */
+    @ApiOperation(value = "获取用户信息")
     @RequestMapping(value = "/GetUserInfo", method = RequestMethod.POST)
     public GetUserInfoResponse getUserInfo(@RequestBody GetUserInfoRequest request) {
         GetUserInfoResponse response = new GetUserInfoResponse();

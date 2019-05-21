@@ -2,7 +2,7 @@ package com.cq.httpapi.demo.exception.SZJException;
 
 public enum SZJErrorCode {
 
-    OPENID_ERROR(1, "Openid不存在"),
+    OPENID_ERROR(1, "登录码不存在"),
     ARGUMENT_NULL(2, "参数为空"),
     ARGUMENT_INVALID(3, "参数不合法"),
     UNKNOWN_EXCEPTION(9, "未知异常"),

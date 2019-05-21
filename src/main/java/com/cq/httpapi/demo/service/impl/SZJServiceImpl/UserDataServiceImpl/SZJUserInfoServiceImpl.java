@@ -6,6 +6,8 @@ import com.cq.httpapi.demo.dto.SZJ.Request.UserLoginRequest.UserLoginRequest;
 import com.cq.httpapi.demo.dto.SZJ.Request.UserLoginRequest.UserRegisterRequest;
 import com.cq.httpapi.demo.dto.SZJ.Response.UserLoginResponse.UserLoginResponseData;
 import com.cq.httpapi.demo.entity.SZJ.Szjuserinfo;
+import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
+import com.cq.httpapi.demo.exception.SZJException.SZJException;
 import com.cq.httpapi.demo.exception.SZJException.UserLoginException.*;
 import com.cq.httpapi.demo.kit.PasswordKit;
 import com.cq.httpapi.demo.kit.TimeKit;
@@ -135,7 +137,7 @@ public class SZJUserInfoServiceImpl implements SZJUserInfoService {
      *
      * @param request 获取用户信息请求
      * @return 封装好的用户信息
-     * @throws GetUserInfoException errorCode    message
+     * @throws SZJException errorCode    message
      *                              1            登录码不存在！
      *                              9            未知错误！
      */
@@ -144,14 +146,14 @@ public class SZJUserInfoServiceImpl implements SZJUserInfoService {
         // 检查登录码是否合法
         String openId = request.getOpenid();
         if (openId == null || openId.isEmpty() || !existOpenId(openId)) {
-            throw new GetUserInfoException(1, "登录码不存在！");
+            throw new SZJException(SZJErrorCode.OPENID_ERROR);
         }
 
         try {
             Szjuserinfo res = szjuserinfoDao.getByOpenId(openId);
             return res;
         } catch (Exception e) {
-            throw new GetUserInfoException(9, e.getMessage());
+            throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
     }
 

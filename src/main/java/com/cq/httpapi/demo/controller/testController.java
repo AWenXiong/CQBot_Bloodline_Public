@@ -16,12 +16,14 @@ import com.cq.httpapi.demo.service.CQService.RemindService;
 import com.cq.httpapi.demo.service.CQService.TowerService;
 import com.cq.httpapi.demo.testCS.testClass;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+@ApiIgnore
 @RestController
 public class testController {
 
