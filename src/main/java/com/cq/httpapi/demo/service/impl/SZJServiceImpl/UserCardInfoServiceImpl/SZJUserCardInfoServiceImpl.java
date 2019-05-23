@@ -8,6 +8,8 @@ import com.cq.httpapi.demo.dto.SZJ.Request.UserCardInfoRequest.GetUserCardsInfoR
 import com.cq.httpapi.demo.dto.SZJ.Response.UserCardInfoResponse.GetUserCardsInfoResponseData;
 import com.cq.httpapi.demo.entity.SZJ.Szjusercardinfo;
 import com.cq.httpapi.demo.entity.SZJ.Szjuserinfo;
+import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
+import com.cq.httpapi.demo.exception.SZJException.SZJException;
 import com.cq.httpapi.demo.exception.SZJException.UserCardInfoException.DeleteUserCardException;
 import com.cq.httpapi.demo.exception.SZJException.UserCardInfoException.GetUserCardsInfoException;
 import com.cq.httpapi.demo.exception.SZJException.UserCardInfoException.UpdateUserCardsInfoExcpetion;
@@ -29,20 +31,20 @@ public class SZJUserCardInfoServiceImpl implements SZJUserCardInfoService {
 
     @Override
     public ArrayList<GetUserCardsInfoResponseData> getCardInfo(GetUserCardsInfoRequest request)
-            throws GetUserCardsInfoException {
+            throws SZJException {
         String openId = request.getOpenid();
         if (openId == null || !szjUserInfoService.existOpenId(openId)) {
-            throw new GetUserCardsInfoException(1, "登录码不存在！");
+            throw new SZJException(SZJErrorCode.OPENID_ERROR);
         }
 
         Long groupId = request.getId();
         if (groupId == null) {
-            throw new GetUserCardsInfoException(2, "卡组主键缺失！");
+            throw new SZJException(SZJErrorCode.ARGUMENT_NULL);
         }
 
         Szjuserinfo szjuserinfo = szjUserInfoService.getUserInfoByOpenId(openId);
         if (szjuserinfo == null) {
-            throw new GetUserCardsInfoException(3, "获取用户失败！");
+            throw new SZJException(SZJErrorCode.GET_USER_INFO_FAILURE);
         }
 
         try {
@@ -54,22 +56,22 @@ public class SZJUserCardInfoServiceImpl implements SZJUserCardInfoService {
             }
             return res;
         } catch (Exception e) {
-            throw new GetUserCardsInfoException(9, e.getMessage());
+            throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
     }
 
     /*TODO 需要详尽的测试！！！！*/
     @Override
     public boolean updateCardInfo(EditUserCardsInfoRequest request)
-            throws UpdateUserCardsInfoExcpetion {
+            throws SZJException {
         String openId = request.getOpenid();
         if (openId == null || !szjUserInfoService.existOpenId(openId)) {
-            throw new UpdateUserCardsInfoExcpetion(1, "登录码不存在！");
+            throw new SZJException(SZJErrorCode.OPENID_ERROR);
         }
 
         Long groupId = request.getId();
         if (groupId == null) {
-            throw new UpdateUserCardsInfoExcpetion(2, "卡组主键缺失！");
+            throw new SZJException(SZJErrorCode.USER_CARD_GROUP_ID_LOST);
         }
 
         try {
@@ -117,20 +119,20 @@ public class SZJUserCardInfoServiceImpl implements SZJUserCardInfoService {
 
             return true;
         } catch (Exception e) {
-            throw new UpdateUserCardsInfoExcpetion(9, e.getMessage());
+            throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
     }
 
     @Override
-    public boolean deleteCardInfo(DeleteUserCardRequest request) throws DeleteUserCardException {
+    public boolean deleteCardInfo(DeleteUserCardRequest request) throws SZJException {
         String openId = request.getOpenid();
         if (openId == null || !szjUserInfoService.existOpenId(openId)) {
-            throw new DeleteUserCardException(1, "登录码不存在！");
+            throw new SZJException(SZJErrorCode.OPENID_ERROR);
         }
 
         Long id = request.getId();
         if (id == null) {
-            throw new DeleteUserCardException(2, "卡牌主键缺失！");
+            throw new SZJException(SZJErrorCode.USER_CARD_ID_LOST);
         }
 
         try {
@@ -141,7 +143,7 @@ public class SZJUserCardInfoServiceImpl implements SZJUserCardInfoService {
             szjusercardinfoDao.updateDescription(id, "删除卡牌信息");
             return true;
         } catch (Exception e) {
-            throw new DeleteUserCardException(9, e.getMessage());
+            throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
     }
 }
