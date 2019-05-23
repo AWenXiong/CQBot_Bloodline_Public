@@ -7,6 +7,8 @@ import com.cq.httpapi.demo.dto.SZJ.Response.UserCardInfoResponse.DeleteUserCardR
 import com.cq.httpapi.demo.dto.SZJ.Response.UserCardInfoResponse.EditUserCardsInfoResponse;
 import com.cq.httpapi.demo.dto.SZJ.Response.UserCardInfoResponse.GetUserCardsInfoResponse;
 import com.cq.httpapi.demo.dto.SZJ.Response.UserCardInfoResponse.GetUserCardsInfoResponseData;
+import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
+import com.cq.httpapi.demo.exception.SZJException.SZJException;
 import com.cq.httpapi.demo.exception.SZJException.UserCardInfoException.DeleteUserCardException;
 import com.cq.httpapi.demo.exception.SZJException.UserCardInfoException.GetUserCardsInfoException;
 import com.cq.httpapi.demo.exception.SZJException.UserCardInfoException.UpdateUserCardsInfoExcpetion;
@@ -43,10 +45,10 @@ public class UserCardInfoController {
             ArrayList<GetUserCardsInfoResponseData> data = szjUserCardInfoService.getCardInfo(request);
             response.setSuccess(true);
             response.setData(data);
-        } catch (GetUserCardsInfoException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -64,10 +66,10 @@ public class UserCardInfoController {
         try {
             szjUserCardInfoService.updateCardInfo(request);
             response.setSuccess(true);
-        } catch (UpdateUserCardsInfoExcpetion e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -85,10 +87,10 @@ public class UserCardInfoController {
         try {
             szjUserCardInfoService.deleteCardInfo(request);
             response.setSuccess(true);
-        } catch (DeleteUserCardException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
