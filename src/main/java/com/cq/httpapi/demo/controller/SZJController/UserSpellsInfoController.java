@@ -7,6 +7,8 @@ import com.cq.httpapi.demo.dto.SZJ.Response.UserSpellsInfoResponse.DeleteUserSpe
 import com.cq.httpapi.demo.dto.SZJ.Response.UserSpellsInfoResponse.EditUserSpellsInfoResponse;
 import com.cq.httpapi.demo.dto.SZJ.Response.UserSpellsInfoResponse.GetUserSpellsInfoResponse;
 import com.cq.httpapi.demo.dto.SZJ.Response.UserSpellsInfoResponse.GetUserSpellsInfoResponseData;
+import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
+import com.cq.httpapi.demo.exception.SZJException.SZJException;
 import com.cq.httpapi.demo.exception.SZJException.UserSpellInfoException.DeleteUserSpellException;
 import com.cq.httpapi.demo.exception.SZJException.UserSpellInfoException.EditUserSpellsInfoException;
 import com.cq.httpapi.demo.exception.SZJException.UserSpellInfoException.GetUserSpellsInfoException;
@@ -39,10 +41,10 @@ public class UserSpellsInfoController {
             ArrayList<GetUserSpellsInfoResponseData> data = szjUserSpellInfoService.getSpellsInfo(request);
             response.setSuccess(true);
             response.setData(data);
-        } catch (GetUserSpellsInfoException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -59,10 +61,10 @@ public class UserSpellsInfoController {
         try {
             szjUserSpellInfoService.updateSpellsInfo(request);
             response.setSuccess(true);
-        } catch (EditUserSpellsInfoException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -79,10 +81,10 @@ public class UserSpellsInfoController {
         try {
             szjUserSpellInfoService.deleteUserSpell(request);
             response.setSuccess(true);
-        } catch (DeleteUserSpellException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
