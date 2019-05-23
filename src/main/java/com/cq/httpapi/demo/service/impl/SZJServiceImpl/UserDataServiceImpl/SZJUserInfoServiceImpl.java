@@ -34,7 +34,7 @@ public class SZJUserInfoServiceImpl implements SZJUserInfoService {
      */
     @Override
     @Transactional
-    public long regist(UserRegisterRequest userRegisterRequest) throws UserRegisterException {
+    public long regist(UserRegisterRequest userRegisterRequest) throws SZJException {
         String code = userRegisterRequest.getCode();
         String password = PasswordKit.encode(userRegisterRequest.getPassword());
         String userName = userRegisterRequest.getName();
@@ -50,9 +50,9 @@ public class SZJUserInfoServiceImpl implements SZJUserInfoService {
             errorMessage += 4;
         }
         if (errorMessage != 0) {
-            throw new UserRegisterException(1, String.valueOf(errorMessage));
+            throw new SZJException(SZJErrorCode.ARGUMENT_NULL);
         } else if (existCode(code)) {
-            throw new UserRegisterException(2, "用户名已存在！");
+            throw new SZJException(SZJErrorCode.ACCOUNT_ALREADY_EXIST);
         } else {
             try {
                 String openId = UUIDKit.formUUID();
@@ -71,7 +71,7 @@ public class SZJUserInfoServiceImpl implements SZJUserInfoService {
                 szjuserinfoDao.updateCreateInfo(id, TimeKit.getFormalTime(), "register", "register");
                 return id;
             } catch (Exception e) {
-                throw new UserRegisterException(9, e.getMessage());
+                throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
             }
         }
     }
@@ -91,30 +91,30 @@ public class SZJUserInfoServiceImpl implements SZJUserInfoService {
      */
     @Override
     @Transactional
-    public UserLoginResponseData login(UserLoginRequest userLoginRequest) throws UserNotExistException {
+    public UserLoginResponseData login(UserLoginRequest userLoginRequest) throws SZJException {
         String code = userLoginRequest.getCode();
         if (code == null || code.isEmpty()) {
-            throw new UserLoginException(1, "用户名为空！");
+            throw new SZJException(SZJErrorCode.ACCOUNT_EMPTY);
         }
 
         String password = userLoginRequest.getPassword();
         if (password == null || password.isEmpty()) {
-            throw new UserLoginException(2, "密码为空！");
+            throw new SZJException(SZJErrorCode.PASSWORD_EMPTY);
         }
         password = PasswordKit.encode(password);
 
         Boolean changeOpenId = userLoginRequest.isChangeOpenid();
         if (changeOpenId == null) {
-            throw new UserLoginException(3, "ChangeOpenid为空！");
+            throw new SZJException(SZJErrorCode.ARGUMENT_NULL);
         }
 
         if (!existCode(code)) {
-            throw new UserLoginException(4, "用户不存在！");
+            throw new SZJException(SZJErrorCode.ACCOUNT_NOT_EXIST);
         }
 
         Szjuserinfo szjuserinfo = szjuserinfoDao.login(code, password);
         if (szjuserinfo == null) {
-            throw new UserLoginException(5, "用户名或密码错误！");
+            throw new SZJException(SZJErrorCode.LOG_IN_FAILURE);
         }
 
         try {
@@ -128,7 +128,7 @@ public class SZJUserInfoServiceImpl implements SZJUserInfoService {
             }
             return userLoginResponseData;
         } catch (Exception e) {
-            throw new UserLoginException(9, e.getMessage());
+            throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
     }
 
@@ -142,7 +142,7 @@ public class SZJUserInfoServiceImpl implements SZJUserInfoService {
      *                              9            未知错误！
      */
     @Override
-    public Szjuserinfo getUserInfo(GetUserInfoRequest request) throws GetUserInfoException {
+    public Szjuserinfo getUserInfo(GetUserInfoRequest request) throws SZJException {
         // 检查登录码是否合法
         String openId = request.getOpenid();
         if (openId == null || openId.isEmpty() || !existOpenId(openId)) {
@@ -177,11 +177,11 @@ public class SZJUserInfoServiceImpl implements SZJUserInfoService {
      * @throws UserNotExistException 用户不存在
      */
     @Override
-    public Szjuserinfo getUserInfoByOpenId(String openId) throws UserNotExistException {
+    public Szjuserinfo getUserInfoByOpenId(String openId) throws SZJException {
         if (existOpenId(openId)) {
             return szjuserinfoDao.getByOpenId(openId);
         } else {
-            throw new UserOpenIdNotExistException(1, "登录码错误！");
+            throw new SZJException(SZJErrorCode.OPENID_ERROR);
         }
     }
 

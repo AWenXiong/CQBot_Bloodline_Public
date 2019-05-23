@@ -5,6 +5,8 @@ import com.cq.httpapi.demo.dto.SZJ.Request.UserLoginRequest.UserLoginRequest;
 import com.cq.httpapi.demo.dto.SZJ.Request.UserLoginRequest.UserRegisterRequest;
 import com.cq.httpapi.demo.dto.SZJ.Response.UserLoginResponse.*;
 import com.cq.httpapi.demo.entity.SZJ.Szjuserinfo;
+import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
+import com.cq.httpapi.demo.exception.SZJException.SZJException;
 import com.cq.httpapi.demo.exception.SZJException.UserLoginException.GetUserInfoException;
 import com.cq.httpapi.demo.exception.SZJException.UserLoginException.UserNotExistException;
 import com.cq.httpapi.demo.exception.SZJException.UserLoginException.UserRegisterException;
@@ -46,10 +48,10 @@ public class UserLoginController {
             // 设置回复
             response.setSuccess(true);
             response.setUserInfo(userInfo);
-        } catch (UserRegisterException e) { // 注册错误（某些字段为空）或用户已存在
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) { // 注册错误（某些字段为空）或用户已存在
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -70,10 +72,10 @@ public class UserLoginController {
             // 设置回复
             response.setSuccess(true);
             response.setData(data);
-        } catch (UserNotExistException e) { // 用户不存在
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) { // 用户不存在
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -94,10 +96,10 @@ public class UserLoginController {
             // 设置回复
             response.setSuccess(true);
             response.setData(data);
-        } catch (GetUserInfoException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }

@@ -4,6 +4,8 @@ import com.cq.httpapi.demo.dto.SZJ.Request.CardGroupRequest.*;
 import com.cq.httpapi.demo.dto.SZJ.Response.CardGroupResponse.*;
 import com.cq.httpapi.demo.entity.SZJ.Szjinvitationcode;
 import com.cq.httpapi.demo.entity.SZJ.Szjusercardgroupinfo;
+import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
+import com.cq.httpapi.demo.exception.SZJException.SZJException;
 import com.cq.httpapi.demo.exception.SZJException.UserGroupInfoException.*;
 import com.cq.httpapi.demo.kit.ObjectKit;
 import com.cq.httpapi.demo.service.SZJService.SZJInvitationCodeService;
@@ -46,10 +48,10 @@ public class CardGroupController {
             }
             response.setSuccess(true);
             response.setData(datas);
-        } catch (GetAllGroupsException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -69,10 +71,10 @@ public class CardGroupController {
             long id = cardGroupInfoService.createGroupInfo(request);
             response.setSuccess(true);
             response.setId(id);
-        } catch (CreateUserCardGroupException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -90,8 +92,10 @@ public class CardGroupController {
             cardGroupInfoService.updateGroupInfo(request);
             response.setSuccess(true);
             response.setId(request.getId());
-        } catch (UpdateUserCardGroupException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
+        } catch (Exception e) {
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -117,10 +121,10 @@ public class CardGroupController {
                 e.printStackTrace();
             }
 
-        } catch (GetGroupInfoException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -137,10 +141,10 @@ public class CardGroupController {
         try {
             cardGroupInfoService.delete(request);
             response.setSuccess(true);
-        } catch (DeleteUserCardGroupException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }

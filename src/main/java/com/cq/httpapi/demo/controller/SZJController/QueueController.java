@@ -3,6 +3,8 @@ package com.cq.httpapi.demo.controller.SZJController;
 import com.cq.httpapi.demo.dto.SZJ.Request.QueueRequest.*;
 import com.cq.httpapi.demo.dto.SZJ.Response.QueueResponse.*;
 import com.cq.httpapi.demo.exception.SZJException.QueueException.*;
+import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
+import com.cq.httpapi.demo.exception.SZJException.SZJException;
 import com.cq.httpapi.demo.service.SZJService.*;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,10 +43,10 @@ public class QueueController {
             ArrayList<GetUserQueueInfoConfigResponseData> data = szjQueueInfoConfigSerivce.getUserQueueInfoConfig(request);
             response.setSuccess(true);
             response.setData(data);
-        } catch (GetUserQueueInfoConfigException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -61,10 +63,10 @@ public class QueueController {
         try {
             szjQueueInfoConfigSerivce.editUserQueueInfoConfig(request);
             response.setSuccess(true);
-        } catch (EditUserQueueInfoConfigException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -81,10 +83,10 @@ public class QueueController {
         try {
             szjQueueInfoService.createQueueInfo(request);
             response.setSuccess(true);
-        } catch (CreateQueueInfoException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -102,10 +104,10 @@ public class QueueController {
             ArrayList<GetQueueInfoCardResponseData> data = szjQueueCardService.getQueueInfoCard(request);
             response.setSuccess(true);
             response.setData(data);
-        } catch (GetQueueInfoCardException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -122,10 +124,10 @@ public class QueueController {
         try {
             szjQueueCardService.editUserQueueCard(request);
             response.setSuccess(true);
-        } catch (EditUserQueueCardException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -143,10 +145,10 @@ public class QueueController {
             ArrayList<GetUserCardsEditingResponseData> data = szjUserCardsEditingService.getUserCardsEditing(request);
             response.setSuccess(true);
             response.setData(data);
-        } catch (GetUserCardsEditingException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -163,10 +165,10 @@ public class QueueController {
         try {
             szjUserCardsEditingService.addUserCardsEditing(request);
             response.setSuccess(true);
-        } catch (AddUserCardsEditingException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }
@@ -183,10 +185,10 @@ public class QueueController {
         try {
             szjUserCardsEditingService.deletionUserCardsEditing(request);
             response.setSuccess(true);
-        } catch (DeletionUserCardsEditingException e) {
-            response.setError(false, e.getErrorCode(), e.getMessage());
+        } catch (SZJException e) {
+            response.setError(e);
         } catch (Exception e) {
-            response.setError(false, 9, e.getMessage());
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
         return response;
     }

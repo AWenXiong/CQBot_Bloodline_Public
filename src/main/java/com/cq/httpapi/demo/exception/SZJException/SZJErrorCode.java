@@ -6,7 +6,7 @@ public enum SZJErrorCode {
     ARGUMENT_NULL(2, "参数为空"),
     ARGUMENT_INVALID(3, "参数不合法"),
 
-    USER_NOT_EXIST(4, "用户不存在"),
+    ACCOUNT_ALREADY_EXIST(4, "用户名已存在"),
 
     GET_ALL_CARD_INFO_FAILURE(5, "获取全部卡牌信息失败"),
     GET_ALL_CARD_NICKNAME_FAILURE(6, "获取全部卡牌别名失败"),
@@ -17,9 +17,16 @@ public enum SZJErrorCode {
     GET_ENEMY_LEVEL_FAILURE(11, "获取敌阵容关失败"),
     GET_ENEMY_CARD_FAILURE(12, "获取敌阵容卡信息失败"),
 
+    ACCOUNT_EMPTY(13, "账号为空"),
+    PASSWORD_EMPTY(14, "密码为空"),
+    ACCOUNT_NOT_EXIST(15, "用户不存在"),
+    LOG_IN_FAILURE(16, "用户名或密码错误"),
+    GET_USER_INFO_FAILURE(17, "获取用户信息失败"),
+
+    USER_CARD_GROUP_ID_LOST(18, "用户卡组主键缺失"),
+    USER_CARD_ID_LOST(19, "用户卡牌主键缺失"),
+
     UNKNOWN_EXCEPTION(99, "未知异常");
-
-
 
     private int errorCode;
     private String message;
