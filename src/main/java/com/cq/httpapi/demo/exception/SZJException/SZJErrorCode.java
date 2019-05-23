@@ -21,10 +21,12 @@ public enum SZJErrorCode {
     PASSWORD_EMPTY(14, "密码为空"),
     ACCOUNT_NOT_EXIST(15, "用户不存在"),
     LOG_IN_FAILURE(16, "用户名或密码错误"),
+    GET_USER_INFO_FAILURE(17, "获取用户信息失败"),
+
+    USER_CARD_GROUP_ID_LOST(18, "用户卡组主键缺失"),
+    USER_CARD_ID_LOST(19, "用户卡牌主键缺失"),
 
     UNKNOWN_EXCEPTION(99, "未知异常");
-
-
 
     private int errorCode;
     private String message;
