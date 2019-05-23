@@ -91,6 +91,7 @@ public class CQMainController {
                             allResponse.add(remindHandler.deleteRemind(grpMsgHttpReqHandler));
                         }
 
+                        allResponse.add(purchaseHandler.getOwnPurchase(grpMsgHttpReqHandler));
                         break;
                     }
 
