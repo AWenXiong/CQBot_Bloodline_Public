@@ -132,11 +132,11 @@ public class testController {
         return jsonObject;
     }
 
-    @RequestMapping(value = "/exceptionhandler")
+    @RequestMapping(value = "/testU")
     @ResponseBody
-    public JSONObject testMethod(@RequestBody TestDTO testDTO) throws Exception {
-        if (testDTO.getMsg().equals("123")) {
-            throw new Exception();
-        } else return new JSONObject();
+    public JSONObject testMethod(@RequestBody TestDTO testDTO) {
+        return new JSONObject();
     }
+
+
 }
