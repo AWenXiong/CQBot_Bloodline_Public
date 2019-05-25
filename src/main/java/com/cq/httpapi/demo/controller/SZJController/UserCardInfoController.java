@@ -27,13 +27,7 @@ public class UserCardInfoController {
 
     @Resource
     private SZJUserCardInfoService szjUserCardInfoService;
-
-    /**
-     * 获取用户卡组的卡牌信息
-     *
-     * @param request
-     * @return
-     */
+    
     @ApiOperation(value = "获取用户卡组的卡牌信息")
     @RequestMapping(value = "/GetUserCardsInfo", method = RequestMethod.POST)
     public GetUserCardsInfoResponse getUserCardsInfo(@RequestBody GetUserCardsInfoRequest request) {
@@ -50,12 +44,6 @@ public class UserCardInfoController {
         return response;
     }
 
-    /**
-     * 新增/编辑用户卡组的卡牌
-     *
-     * @param request
-     * @return
-     */
     @ApiOperation(value = "新增/编辑用户卡组的卡牌")
     @RequestMapping(value = "/EditUserCardsInfo", method = RequestMethod.POST)
     public EditUserCardsInfoResponse editUserCardsInfo(@RequestBody EditUserCardsInfoRequest request) {
@@ -71,12 +59,6 @@ public class UserCardInfoController {
         return response;
     }
 
-    /**
-     * 用户卡牌删除(逻辑删除)
-     *
-     * @param request
-     * @return
-     */
     @ApiOperation(value = "用户卡牌删除(逻辑删除)")
     @RequestMapping(value = "/DeleteUserCard", method = RequestMethod.POST)
     public DeleteUserCardResponse editUserCardsInfo(@RequestBody DeleteUserCardRequest request) {
