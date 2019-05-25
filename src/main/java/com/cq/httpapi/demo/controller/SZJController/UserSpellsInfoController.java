@@ -9,10 +9,9 @@ import com.cq.httpapi.demo.dto.SZJ.Response.UserSpellsInfoResponse.GetUserSpells
 import com.cq.httpapi.demo.dto.SZJ.Response.UserSpellsInfoResponse.GetUserSpellsInfoResponseData;
 import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
 import com.cq.httpapi.demo.exception.SZJException.SZJException;
-import com.cq.httpapi.demo.exception.SZJException.UserSpellInfoException.DeleteUserSpellException;
-import com.cq.httpapi.demo.exception.SZJException.UserSpellInfoException.EditUserSpellsInfoException;
-import com.cq.httpapi.demo.exception.SZJException.UserSpellInfoException.GetUserSpellsInfoException;
 import com.cq.httpapi.demo.service.SZJService.SZJUserSpellInfoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 
+@Api(tags = "用户法阵信息控制器")
 @RestController
 @RequestMapping(value = "/szj")
 public class UserSpellsInfoController {
@@ -28,12 +28,7 @@ public class UserSpellsInfoController {
     @Resource
     private SZJUserSpellInfoService szjUserSpellInfoService;
 
-    /**
-     * 获取用户法阵信息
-     *
-     * @param request
-     * @return
-     */
+    @ApiOperation(value = "获取用户法阵信息")
     @RequestMapping(value = "/GetUserSpellsInfo", method = RequestMethod.POST)
     public GetUserSpellsInfoResponse getUserSpellsInfo(@RequestBody GetUserSpellsInfoRequest request) {
         GetUserSpellsInfoResponse response = new GetUserSpellsInfoResponse();
@@ -49,12 +44,7 @@ public class UserSpellsInfoController {
         return response;
     }
 
-    /**
-     * 新增/编辑用户法阵
-     *
-     * @param request
-     * @return
-     */
+    @ApiOperation(value = "新增/编辑用户法阵")
     @RequestMapping(value = "/EditUserSpellsInfo", method = RequestMethod.POST)
     public EditUserSpellsInfoResponse editUserSpellsInfo(@RequestBody EditUserSpellsInfoRequest request) {
         EditUserSpellsInfoResponse response = new EditUserSpellsInfoResponse();
@@ -69,12 +59,7 @@ public class UserSpellsInfoController {
         return response;
     }
 
-    /**
-     * 用户法阵删除(逻辑删除)
-     *
-     * @param request
-     * @return
-     */
+    @ApiOperation(value = "用户法阵删除")
     @RequestMapping(value = "/DeleteUserSpell", method = RequestMethod.POST)
     public DeleteUserSpellResponse deleteUserSpellInfo(@RequestBody DeleteUserSpellRequest request) {
         DeleteUserSpellResponse response = new DeleteUserSpellResponse();
