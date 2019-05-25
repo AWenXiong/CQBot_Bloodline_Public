@@ -9,9 +9,6 @@ import com.cq.httpapi.demo.dto.SZJ.Response.UserCardInfoResponse.GetUserCardsInf
 import com.cq.httpapi.demo.dto.SZJ.Response.UserCardInfoResponse.GetUserCardsInfoResponseData;
 import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
 import com.cq.httpapi.demo.exception.SZJException.SZJException;
-import com.cq.httpapi.demo.exception.SZJException.UserCardInfoException.DeleteUserCardException;
-import com.cq.httpapi.demo.exception.SZJException.UserCardInfoException.GetUserCardsInfoException;
-import com.cq.httpapi.demo.exception.SZJException.UserCardInfoException.UpdateUserCardsInfoExcpetion;
 import com.cq.httpapi.demo.service.SZJService.SZJUserCardInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -10,13 +10,11 @@ import com.cq.httpapi.demo.entity.SZJ.Szjusercardinfo;
 import com.cq.httpapi.demo.entity.SZJ.Szjuserinfo;
 import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
 import com.cq.httpapi.demo.exception.SZJException.SZJException;
-import com.cq.httpapi.demo.exception.SZJException.UserCardInfoException.DeleteUserCardException;
-import com.cq.httpapi.demo.exception.SZJException.UserCardInfoException.GetUserCardsInfoException;
-import com.cq.httpapi.demo.exception.SZJException.UserCardInfoException.UpdateUserCardsInfoExcpetion;
 import com.cq.httpapi.demo.kit.TimeKit;
 import com.cq.httpapi.demo.service.SZJService.SZJUserCardInfoService;
 import com.cq.httpapi.demo.service.SZJService.SZJUserInfoService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -60,8 +58,8 @@ public class SZJUserCardInfoServiceImpl implements SZJUserCardInfoService {
         }
     }
 
-    /*TODO 需要详尽的测试！！！！*/
     @Override
+    @Transactional
     public boolean updateCardInfo(EditUserCardsInfoRequest request)
             throws SZJException {
         String openId = request.getOpenid();
@@ -74,39 +72,50 @@ public class SZJUserCardInfoServiceImpl implements SZJUserCardInfoService {
             throw new SZJException(SZJErrorCode.USER_CARD_GROUP_ID_LOST);
         }
 
+        ArrayList<EditUserCardsInfoData> cardInfo = request.getUserCardInfo();
+        if (cardInfo == null) {
+            throw new SZJException(SZJErrorCode.ARGUMENT_NULL);
+        }
+
         try {
-            ArrayList<EditUserCardsInfoData> datas = request.getUserCardInfo();
             Szjuserinfo userInfo = szjUserInfoService.getUserInfoByOpenId(openId);
             long userId = userInfo.getId();
-            for (EditUserCardsInfoData data : datas) {
-                Long cardId = data.getCardInfoId();
+            for (EditUserCardsInfoData data : cardInfo) {
+                Long cardId = data.getId();
                 /*TODO 如果cardId为""会怎么样*/
-                if (cardId == null || cardId.intValue() == 0) { // 新增卡片
+                if (cardId == null || cardId.intValue() == 0) { // 若cardId为 null/0 表示新增卡片
+                    Long cardInfoId = data.getCardInfoId();
                     Long fightingCapacity = data.getFightingCapacity();
                     Long fate = data.getFate();
                     Long isGodofWar = data.getIsGodofWar();
                     if (fightingCapacity != null && fate != null && isGodofWar != null) {
-                        szjusercardinfoDao.insertSzjusercardinfo(cardId, userId, groupId, fightingCapacity, fate, isGodofWar);
+                        szjusercardinfoDao.insertSzjusercardinfo(cardInfoId, userId, groupId, fightingCapacity, fate, isGodofWar);
                         long id = szjusercardinfoDao.getLastInsert(groupId);
                         szjusercardinfoDao.updateCreateInfo(id, TimeKit.getFormalTime(), String.valueOf(userId), String.valueOf(userId));
                         szjusercardinfoDao.updateDescription(id, "增加卡牌信息");
                     } else {
-                        throw new UpdateUserCardsInfoExcpetion(3, "卡牌数据缺失！");
+                        throw new SZJException(SZJErrorCode.USER_CARD_INFO_LOST);
                     }
-                } else if (cardId.intValue() > 0) { // 编辑卡片
+                } else if (cardId.intValue() > 0) { // 否则 表示编辑卡片
+                    Long cardInfoId = data.getCardInfoId();
                     Long fightingCapacity = data.getFightingCapacity();
                     Long fate = data.getFate();
                     Long isGodofWar = data.getIsGodofWar();
                     boolean flag = false;
-                    if (fightingCapacity != null && fightingCapacity.intValue() > 0) {
+                    /*TODO 需要修改SQL，然后修改DAO层的接口*/
+                    if (cardInfo != null) {
+                        szjusercardinfoDao.updateCardInfoId(cardId, cardInfoId);
+                        flag = true;
+                    }
+                    if (fightingCapacity != null) {
                         szjusercardinfoDao.updateFightingCapacity(cardId, fightingCapacity);
                         flag = true;
                     }
-                    if (fate != null && fate.intValue() > -1) {
+                    if (fate != null) {
                         szjusercardinfoDao.updateFate(cardId, fate);
                         flag = true;
                     }
-                    if (isGodofWar != null && isGodofWar.intValue() > -1) {
+                    if (isGodofWar != null) {
                         szjusercardinfoDao.updateIsGodOfWar(cardId, isGodofWar);
                         flag = true;
                     }
@@ -116,14 +125,16 @@ public class SZJUserCardInfoServiceImpl implements SZJUserCardInfoService {
                     }
                 }
             }
-
             return true;
+        } catch (SZJException e) {
+            throw e;
         } catch (Exception e) {
             throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
     }
 
     @Override
+    @Transactional
     public boolean deleteCardInfo(DeleteUserCardRequest request) throws SZJException {
         String openId = request.getOpenid();
         if (openId == null || !szjUserInfoService.existOpenId(openId)) {

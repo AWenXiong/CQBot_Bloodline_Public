@@ -47,7 +47,7 @@ public interface SzjusercardinfoDao {
 
     @Update("update szjusercardinfo " +
             "set CreateOn = #{CreateOn}, CreateUserId = #{CreateUserId}, CreateBy = #{CreateBy} " +
-            "where Id = {Id}")
+            "where Id = #{Id}")
     void updateCreateInfo(@Param("Id") long Id,
                           @Param("CreateOn") String CreateOn,
                           @Param("CreateUserId") String CreateUserId,
@@ -114,7 +114,7 @@ public interface SzjusercardinfoDao {
                     @Param("Fate") long Fate);
 
     @Update("update szjusercardinfo " +
-            "set GodofWar = #{GodOfWar} " +
+            "set IsGodofWar = #{GodOfWar} " +
             "where Id = #{Id}")
     void updateIsGodOfWar(@Param("Id") long Id,
                           @Param("GodOfWar") long GodOfWar);
