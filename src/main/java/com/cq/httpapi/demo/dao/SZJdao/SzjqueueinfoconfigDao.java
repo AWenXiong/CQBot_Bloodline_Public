@@ -35,7 +35,7 @@ public interface SzjqueueinfoconfigDao {
                                                          @Param("groupId") long groupId);
 
     @Insert("insert into szjqueueinfoconfig(UserId, GroupId, ParameterCode, ParameterValue) " +
-            "value ()")
+            "value (#{userId}, #{groupId}, #{parameterCode}, #{parameterValue})")
     void insertUserQueueInfoConfig(@Param("userId") long userId,
                                    @Param("groupId") long groupId,
                                    @Param("parameterCode") String parameterCode,
@@ -43,7 +43,7 @@ public interface SzjqueueinfoconfigDao {
 
     @Update("update szjqueueinfoconfig " +
             "set CreateOn = #{CreateOn}, CreateUserId = #{CreateUserId}, CreateBy = #{CreateBy} " +
-            "where Id = {Id}")
+            "where Id = #{Id}")
     void updateCreateInfo(@Param("Id") long Id,
                           @Param("CreateOn") String CreateOn,
                           @Param("CreateUserId") String CreateUserId,

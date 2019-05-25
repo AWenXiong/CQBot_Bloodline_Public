@@ -7,12 +7,13 @@ import com.cq.httpapi.demo.dto.SZJ.Request.QueueRequest.GetUserQueueInfoConfigRe
 import com.cq.httpapi.demo.dto.SZJ.Response.QueueResponse.GetUserQueueInfoConfigResponseData;
 import com.cq.httpapi.demo.entity.SZJ.Szjqueueinfoconfig;
 import com.cq.httpapi.demo.entity.SZJ.Szjuserinfo;
-import com.cq.httpapi.demo.exception.SZJException.QueueException.EditUserQueueInfoConfigException;
-import com.cq.httpapi.demo.exception.SZJException.QueueException.GetUserQueueInfoConfigException;
+import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
+import com.cq.httpapi.demo.exception.SZJException.SZJException;
 import com.cq.httpapi.demo.kit.TimeKit;
 import com.cq.httpapi.demo.service.SZJService.SZJQueueInfoConfigSerivce;
 import com.cq.httpapi.demo.service.SZJService.SZJUserInfoService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -27,15 +28,15 @@ public class SZJQueueInfoConfigImpl implements SZJQueueInfoConfigSerivce {
 
     @Override
     public ArrayList<GetUserQueueInfoConfigResponseData> getUserQueueInfoConfig(GetUserQueueInfoConfigRequest request)
-            throws GetUserQueueInfoConfigException {
+            throws SZJException {
         String openId = request.getOpenid();
         if (openId == null || !szjUserInfoService.existOpenId(openId)) {
-            throw new GetUserQueueInfoConfigException(1, "登录码不存在！");
+            throw new SZJException(SZJErrorCode.OPENID_ERROR);
         }
 
         Long groupId = request.getGroupId();
         if (groupId == null) {
-            throw new GetUserQueueInfoConfigException(2, "卡组主键缺失！");
+            throw new SZJException(SZJErrorCode.USER_CARD_GROUP_ID_LOST);
         }
 
         try {
@@ -48,27 +49,32 @@ public class SZJQueueInfoConfigImpl implements SZJQueueInfoConfigSerivce {
             }
             return res;
         } catch (Exception e) {
-            throw new GetUserQueueInfoConfigException(9, e.getMessage());
+            throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
     }
 
     @Override
+    @Transactional
     public boolean editUserQueueInfoConfig(EditUserQueueInfoConfigRequest request)
-            throws EditUserQueueInfoConfigException {
+            throws SZJException {
         String openId = request.getOpenid();
         if (openId == null || !szjUserInfoService.existOpenId(openId)) {
-            throw new EditUserQueueInfoConfigException(1, "登录码不存在！");
+            throw new SZJException(SZJErrorCode.OPENID_ERROR);
         }
 
         Long groupId = request.getId();
         if (groupId == null) {
-            throw new EditUserQueueInfoConfigException(2, "卡组主键缺失！");
+            throw new SZJException(SZJErrorCode.USER_CARD_GROUP_ID_LOST);
+        }
+
+        ArrayList<EditUserQueueInfoConfigRequestData> datas = request.getUserQueueInfoConfig();
+        if (datas == null) {
+            throw new SZJException(SZJErrorCode.ARGUMENT_NULL);
         }
 
         try {
             Szjuserinfo userInfo = szjUserInfoService.getUserInfoByOpenId(openId);
             Long userId = userInfo.getId();
-            ArrayList<EditUserQueueInfoConfigRequestData> datas = request.getUserQueueInfoConfig();
             for (EditUserQueueInfoConfigRequestData data : datas) {
                 Long configId = data.getId();
                 if (configId == null || configId.intValue() == 0) { // 新增用户配队规则
@@ -79,7 +85,7 @@ public class SZJQueueInfoConfigImpl implements SZJQueueInfoConfigSerivce {
                         Long newConfigId = szjqueueinfoconfigDao.getLastInsert(groupId);
                         szjqueueinfoconfigDao.updateCreateInfo(newConfigId, TimeKit.getFormalTime(), String.valueOf(userId), String.valueOf(userId));
                     } else {
-                        throw new EditUserQueueInfoConfigException(3, "配队规则参数缺失！");
+                        throw new SZJException(SZJErrorCode.ARGUMENT_NULL);
                     }
                 } else if (groupId.intValue() > 0) { // 编辑用户配队规则
                     String parameterCode = data.getParameterCode();
@@ -102,8 +108,11 @@ public class SZJQueueInfoConfigImpl implements SZJQueueInfoConfigSerivce {
                 }
             }
             return true;
+        } catch (SZJException e) {
+            throw e;
         } catch (Exception e) {
-            throw new EditUserQueueInfoConfigException(9, e.getMessage());
+            System.err.println(e);
+            throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
     }
 
