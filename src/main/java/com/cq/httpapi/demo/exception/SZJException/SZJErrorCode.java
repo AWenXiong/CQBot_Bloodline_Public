@@ -26,6 +26,7 @@ public enum SZJErrorCode {
     USER_CARD_GROUP_ID_LOST(18, "用户卡组主键缺失"),
     USER_CARD_ID_LOST(19, "用户卡牌主键缺失"),
     USER_CARD_INFO_LOST(20, "卡牌数据缺失"),
+    USER_SPELL_INFO_LOST(21, "法阵数据缺失"),
 
     UNKNOWN_EXCEPTION(99, "未知异常");
 
