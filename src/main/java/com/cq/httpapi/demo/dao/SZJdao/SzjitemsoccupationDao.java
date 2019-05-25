@@ -36,7 +36,7 @@ public interface SzjitemsoccupationDao {
 
     @Update("update szjitemsoccupation " +
             "set CreateOn = #{CreateOn}, CreateUserId = #{CretateuserId}, CreateBy = #{CreateBy} " +
-            "where Id = {Id}")
+            "where Id = #{Id}")
     void updateCreateInfo(@Param("Id") long Id,
                           @Param("CreateOn") Timestamp CreateOn,
                           @Param("CreateUserId") String CreateUserId,

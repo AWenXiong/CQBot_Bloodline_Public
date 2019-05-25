@@ -36,7 +36,7 @@ public interface SzjitemscampDao {
 
     @Update("update szjitemscamp " +
             "set CreateOn = #{CreateOn}, CreateUserId = #{CretateuserId}, CreateBy = #{CreateBy} " +
-            "where Id = {Id}")
+            "where Id = #{Id}")
     void updateCreateInfo(@Param("Id") long Id,
                           @Param("CreateOn") Timestamp CreateOn,
                           @Param("CreateUserId") String CreateUserId,

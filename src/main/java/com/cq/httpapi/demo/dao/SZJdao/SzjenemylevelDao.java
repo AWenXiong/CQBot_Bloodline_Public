@@ -36,7 +36,7 @@ public interface SzjenemylevelDao {
 
     @Update("update szjenemylevel " +
             "set CreateOn = #{CreateOn}, CreateUserId = #{CreateUserId}, CreateBy = #{CreateBy} " +
-            "where Id = {Id}")
+            "where Id = #{Id}")
     void updateCreateInfo(@Param("Id") long Id,
                           @Param("CreateOn") Timestamp CreateOn,
                           @Param("CreateUserId") String CreateUserId,

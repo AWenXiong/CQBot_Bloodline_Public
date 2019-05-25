@@ -41,7 +41,7 @@ public interface SzjqueueinfoDao {
 
     @Update("update szjqueueinfo " +
             "set CreateOn = #{CreateOn}, CreateUserId = #{CreateUserId}, CreateBy = #{CreateBy} " +
-            "where Id = {Id}")
+            "where Id = #{Id}")
     void updateCreateInfo(@Param("Id") long Id,
                           @Param("CreateOn") String CreateOn,
                           @Param("CreateUserId") String CreateUserId,
