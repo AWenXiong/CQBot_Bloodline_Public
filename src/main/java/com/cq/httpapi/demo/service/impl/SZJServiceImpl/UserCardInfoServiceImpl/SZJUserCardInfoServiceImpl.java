@@ -82,7 +82,6 @@ public class SZJUserCardInfoServiceImpl implements SZJUserCardInfoService {
             long userId = userInfo.getId();
             for (EditUserCardsInfoData data : cardInfo) {
                 Long cardId = data.getId();
-                /*TODO 如果cardId为""会怎么样*/
                 if (cardId == null || cardId.intValue() == 0) { // 若cardId为 null/0 表示新增卡片
                     Long cardInfoId = data.getCardInfoId();
                     Long fightingCapacity = data.getFightingCapacity();
