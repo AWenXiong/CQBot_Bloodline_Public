@@ -14,11 +14,13 @@ import com.cq.httpapi.demo.myhandler.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
+@ApiIgnore
 @RestController
 public class CQMainController {
 
@@ -174,7 +176,7 @@ public class CQMainController {
 
                     // 群文件上传
                     case "group_upload": {
-                        System.err.println(body);
+//                        System.err.println(body);
                     }
 
                     // 群管理员变动
