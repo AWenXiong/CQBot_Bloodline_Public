@@ -111,7 +111,6 @@ public class SZJQueueInfoConfigImpl implements SZJQueueInfoConfigSerivce {
         } catch (SZJException e) {
             throw e;
         } catch (Exception e) {
-            System.err.println(e);
             throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
     }
