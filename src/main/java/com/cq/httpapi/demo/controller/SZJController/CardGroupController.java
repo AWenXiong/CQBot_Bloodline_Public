@@ -6,10 +6,11 @@ import com.cq.httpapi.demo.entity.SZJ.Szjinvitationcode;
 import com.cq.httpapi.demo.entity.SZJ.Szjusercardgroupinfo;
 import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
 import com.cq.httpapi.demo.exception.SZJException.SZJException;
-import com.cq.httpapi.demo.exception.SZJException.UserGroupInfoException.*;
 import com.cq.httpapi.demo.kit.ObjectKit;
 import com.cq.httpapi.demo.service.SZJService.SZJInvitationCodeService;
 import com.cq.httpapi.demo.service.SZJService.SZJUserCardGroupInfoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 
+@Api(tags = "用户卡组控制器")
 @RestController
 @RequestMapping(value = "/szj")
 public class CardGroupController {
@@ -36,6 +38,7 @@ public class CardGroupController {
      * 1            登录码不存在！
      * 9            未知错误！
      */
+    @ApiOperation(value = "卡组查询")
     @RequestMapping(value = "/GetAllGroups", method = RequestMethod.POST)
     public GetAllGroupsResponse getAllGroups(@RequestBody GetAllGroupsRequest request) {
         GetAllGroupsResponse response = new GetAllGroupsResponse();
@@ -64,6 +67,7 @@ public class CardGroupController {
      * 0            正常
      * 1            登录码不存在
      */
+    @ApiOperation(value = "卡组创建")
     @RequestMapping(value = "/CreateGroup", method = RequestMethod.POST)
     public CreateGroupResponse createGroup(@RequestBody CreateGroupRequest request) {
         CreateGroupResponse response = new CreateGroupResponse();
@@ -85,6 +89,7 @@ public class CardGroupController {
      * @param request
      * @return
      */
+    @ApiOperation(value = "卡组编辑")
     @RequestMapping(value = "/UpdateGroup", method = RequestMethod.POST)
     public UpdateGroupResponse updateGroup(@RequestBody UpdateGroupRequest request) {
         UpdateGroupResponse response = new UpdateGroupResponse();
@@ -106,6 +111,7 @@ public class CardGroupController {
      * @param request
      * @return
      */
+    @ApiOperation(value = "卡组信息获取")
     @RequestMapping(value = "/GetGroupInfo", method = RequestMethod.POST)
     public GetGroupInfoResponse getGroupInfo(@RequestBody GetGroupInfoRequest request) {
         GetGroupInfoResponse response = new GetGroupInfoResponse();
@@ -135,6 +141,7 @@ public class CardGroupController {
      * @param request
      * @return
      */
+    @ApiOperation(value = "卡组删除")
     @RequestMapping(value = "/DeleteGroup", method = RequestMethod.POST)
     public DeleteGroupResponse deleteGroup(@RequestBody DeleteGroupRequest request) {
         DeleteGroupResponse response = new DeleteGroupResponse();
