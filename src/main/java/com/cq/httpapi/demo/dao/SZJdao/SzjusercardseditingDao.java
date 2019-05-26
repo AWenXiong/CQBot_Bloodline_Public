@@ -37,7 +37,7 @@ public interface SzjusercardseditingDao {
                                                        @Param("groupId") long groupId);
 
     @Insert("insert into szjusercardsediting(UserId, GroupId, CardInfoId, OriginLevel, OriginPosition) " +
-            "value (#{userId}, #{groupId}, #{cardId}, #{originLevel}, #{originPosition}")
+            "value (#{userId}, #{groupId}, #{cardId}, #{originLevel}, #{originPosition})")
     void insertSzjitemscolor(@Param("userId") long userId,
                              @Param("groupId") long groupId,
                              @Param("cardId") long cardId,
