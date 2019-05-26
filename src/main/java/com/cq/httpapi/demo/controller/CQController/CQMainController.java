@@ -63,18 +63,25 @@ public class CQMainController {
                         String user = grpMsgHttpReqHandler.getUserId();
 
                         if (!guild.equals("192870189") && !guild.equals("471572605")) {
-                            // 问答
-                            allResponse.add(towerHandler.answerQuestion(grpMsgHttpReqHandler));
-                            allResponse.add(towerHandler.towerManager(grpMsgHttpReqHandler));
-                            // 物品
-                            allResponse.add(itemHandler.itemChecker(grpMsgHttpReqHandler));
 
-                            // 好感度
+                            if (purchaseHandler.checkService(guild, "tower")) {
+                                // 问答
+                                allResponse.add(towerHandler.answerQuestion(grpMsgHttpReqHandler));
+                                allResponse.add(towerHandler.towerManager(grpMsgHttpReqHandler));
+                            }
+
+                            if (purchaseHandler.checkService(guild, "card")) {
+                                // 物品
+                                allResponse.add(itemHandler.itemChecker(grpMsgHttpReqHandler));
+                                // 技能
+                                allResponse.add(cardHandler.cardChecker2(grpMsgHttpReqHandler));
+                                // 好感度
+                                allResponse.add(cardHandler.cardChecker(grpMsgHttpReqHandler));
+                            }
+
+                            // 卡牌信息管理
                             allResponse.add(cardHandler.cardManager(grpMsgHttpReqHandler));
-                            // 技能
-                            allResponse.add(cardHandler.cardChecker2(grpMsgHttpReqHandler));
 
-                            allResponse.add(cardHandler.cardChecker(grpMsgHttpReqHandler));
                         }
 
                         if (user.equals(User.DOLLYBELU.getUserId())) {
