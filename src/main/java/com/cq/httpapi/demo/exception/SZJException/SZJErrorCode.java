@@ -30,6 +30,10 @@ public enum SZJErrorCode {
 
     QUEUE_INFO_ID_LOST(22, "配队阵容主键缺失"),
 
+    INITIAL_LEVEL_LOST(23, "原始关数缺失"),
+    INITIAL_POSITION_LOST(24, "原始位置缺失"),
+    EDITING_CARD_ID_LOST(25, "主键缺失"),
+
     UNKNOWN_EXCEPTION(99, "未知异常");
 
     private int errorCode;
