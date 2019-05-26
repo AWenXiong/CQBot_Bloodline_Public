@@ -97,6 +97,7 @@ public class QueueController {
         GetQueueInfoCardResponse response = new GetQueueInfoCardResponse();
         try {
             ArrayList<GetQueueInfoCardResponseData> data = szjQueueCardService.getQueueInfoCard(request);
+            System.err.println();
             response.setSuccess(true);
             response.setData(data);
         } catch (SZJException e) {

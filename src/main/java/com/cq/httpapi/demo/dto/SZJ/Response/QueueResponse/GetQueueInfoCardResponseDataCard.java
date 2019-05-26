@@ -24,4 +24,6 @@ public class GetQueueInfoCardResponseDataCard {
     public void setPosition(Double position) {
         Position = position;
     }
+
+
 }

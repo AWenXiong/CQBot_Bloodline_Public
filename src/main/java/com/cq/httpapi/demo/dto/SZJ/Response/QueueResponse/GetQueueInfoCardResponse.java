@@ -11,4 +11,9 @@ public class GetQueueInfoCardResponse extends SZJResponse {
     public void setData(ArrayList<GetQueueInfoCardResponseData> data) {
         this.data = data;
     }
+
+    /// 不能删，删了JSONObject就获取不了data了
+    public ArrayList<GetQueueInfoCardResponseData> getData() {
+        return data;
+    }
 }
