@@ -12,13 +12,17 @@ import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.MsgHttpReqHandler;
 import com.cq.httpapi.demo.kit.*;
 import com.cq.httpapi.demo.service.CQService.RemindService;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.*;
 
 @Component
-public class RemindHandler {
+@Order(value = 1)
+public class RemindHandler implements ApplicationRunner {
 
     // All options
     final static String remindModeDefaultFlag = "-o";
@@ -45,10 +49,11 @@ public class RemindHandler {
     @Resource
     private RemindService remindService;
 
-//    private static final RemindHandler instance = new RemindHandler();
-//    private RemindHandler() {
-//        System.err.println("Initialize RemindHandler successfully!");
-//    }
+    // 开机启动 remind
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        startCheckSchedule(remindService);
+    }
 
     /**
      * 手动启动任务
@@ -150,9 +155,7 @@ public class RemindHandler {
             };
         }
 
-        if (checkScheduleTimer != null && checkScheduleTimerTask != null) {
-            checkScheduleTimer.scheduleAtFixedRate(checkScheduleTimerTask, 0, 5 * 60 * 1000);
-        }
+        checkScheduleTimer.scheduleAtFixedRate(checkScheduleTimerTask, 0, 5 * 60 * 1000);
     }
 
     /**
