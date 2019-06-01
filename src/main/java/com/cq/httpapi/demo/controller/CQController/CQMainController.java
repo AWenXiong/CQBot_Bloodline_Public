@@ -101,6 +101,7 @@ public class CQMainController {
                         }
 
                         allResponse.add(purchaseHandler.getOwnPurchase(grpMsgHttpReqHandler));
+
                         break;
                     }
 
@@ -150,6 +151,7 @@ public class CQMainController {
                         if (userId.equals(User.DOLLYBELU.getUserId())) {
                             allResponse.add(itemHandler.itemManager(priMsgHttpReqHandler));
                         }
+
                         break;
                     }
                 }
