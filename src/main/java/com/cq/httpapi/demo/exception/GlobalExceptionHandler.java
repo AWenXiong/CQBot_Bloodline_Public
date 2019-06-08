@@ -19,6 +19,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public RestfulEntityKit handle(Exception e) {
-        return RestfulEntityKit.getFailure("hello");
+        return RestfulEntityKit.getFailure("未知错误！");
     }
 }
