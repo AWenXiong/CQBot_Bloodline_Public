@@ -34,6 +34,13 @@ public enum SZJErrorCode {
     INITIAL_POSITION_LOST(24, "原始位置缺失"),
     EDITING_CARD_ID_LOST(25, "主键缺失"),
 
+    GET_ALL_GROUPS_FAILURE(26, "获取全部卡组失败"),
+    CREATE_GROUP_FAILURE(27, "创建卡组失败"),
+    EDIT_GROUP_FAILURE(28, "编辑卡组失败"),
+    GET_GROUP_INFO_FAILURE(29, "获取卡组信息失败"),
+    DELETE_GROUP_FAILURE(30, "删除卡组失败"),
+    INVITATION_CODE_ERROR(31, "邀请码不存在"),
+
     UNKNOWN_EXCEPTION(99, "未知异常");
 
     private int errorCode;
