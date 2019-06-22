@@ -4,7 +4,6 @@ import com.cq.httpapi.demo.dao.SZJdao.SzjenemyinfoDao;
 import com.cq.httpapi.demo.dto.SZJ.Request.AllCardInfoRequest.GetEnemyInfoRequest;
 import com.cq.httpapi.demo.dto.SZJ.Response.AllCardInfoResponse.GetEnemyInfoResponseData;
 import com.cq.httpapi.demo.entity.SZJ.Szjenemyinfo;
-import com.cq.httpapi.demo.exception.SZJException.AllCardsInfoException.GetEnemyInfoException;
 import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
 import com.cq.httpapi.demo.exception.SZJException.SZJException;
 import com.cq.httpapi.demo.service.SZJService.SZJEnemyInfoService;
@@ -24,7 +23,7 @@ public class SZJEnemyInfoServiceImpl implements SZJEnemyInfoService {
 
     @Override
     public ArrayList<GetEnemyInfoResponseData> getEnemyInfo(GetEnemyInfoRequest request)
-            throws GetEnemyInfoException {
+            throws SZJException {
         String openId = request.getOpenid();
         if (openId != null && !openId.isEmpty() && !szjUserInfoService.existOpenId(openId)) {
             throw new SZJException(SZJErrorCode.OPENID_ERROR);

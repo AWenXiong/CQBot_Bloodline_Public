@@ -8,7 +8,6 @@ import com.cq.httpapi.demo.dto.SZJ.Response.UserLoginResponse.UserLoginResponseD
 import com.cq.httpapi.demo.entity.SZJ.Szjuserinfo;
 import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
 import com.cq.httpapi.demo.exception.SZJException.SZJException;
-import com.cq.httpapi.demo.exception.SZJException.UserLoginException.*;
 import com.cq.httpapi.demo.kit.PasswordKit;
 import com.cq.httpapi.demo.kit.TimeKit;
 import com.cq.httpapi.demo.kit.UUIDKit;
@@ -24,14 +23,7 @@ public class SZJUserInfoServiceImpl implements SZJUserInfoService {
     @Resource
     SzjuserinfoDao szjuserinfoDao;
 
-    /**
-     * @param userRegisterRequest 注册请求
-     * @return 新增的用户记录主键
-     * @throws UserRegisterException errorCode    message
-     *                               1            1/2/3/4/5/6/7
-     *                               2            用户名已存在！
-     *                               9            未知错误！
-     */
+
     @Override
     @Transactional
     public long regist(UserRegisterRequest userRegisterRequest) throws SZJException {
@@ -76,19 +68,7 @@ public class SZJUserInfoServiceImpl implements SZJUserInfoService {
         }
     }
 
-    /**
-     * 登录
-     *
-     * @param userLoginRequest 登录请求
-     * @return 封装好的用户数据
-     * @throws UserNotExistException errorCode    message
-     *                               1            用户名为空！
-     *                               2            密码为空！
-     *                               3            ChangeOpenid为空！
-     *                               4            用户不存在！
-     *                               5            用户名或密码错误！
-     *                               9            未知错误！
-     */
+
     @Override
     @Transactional
     public UserLoginResponseData login(UserLoginRequest userLoginRequest) throws SZJException {
@@ -132,15 +112,7 @@ public class SZJUserInfoServiceImpl implements SZJUserInfoService {
         }
     }
 
-    /**
-     * 获取用户信息
-     *
-     * @param request 获取用户信息请求
-     * @return 封装好的用户信息
-     * @throws SZJException errorCode    message
-     *                              1            登录码不存在！
-     *                              9            未知错误！
-     */
+
     @Override
     public Szjuserinfo getUserInfo(GetUserInfoRequest request) throws SZJException {
         // 检查登录码是否合法
@@ -174,7 +146,7 @@ public class SZJUserInfoServiceImpl implements SZJUserInfoService {
      *
      * @param openId 登录码
      * @return 用户信息
-     * @throws UserNotExistException 用户不存在
+     * @throws SZJException 用户不存在
      */
     @Override
     public Szjuserinfo getUserInfoByOpenId(String openId) throws SZJException {

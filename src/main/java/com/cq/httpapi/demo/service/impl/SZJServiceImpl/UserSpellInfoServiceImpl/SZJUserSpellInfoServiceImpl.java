@@ -10,7 +10,6 @@ import com.cq.httpapi.demo.entity.SZJ.Szjuserinfo;
 import com.cq.httpapi.demo.entity.SZJ.Szjuserspellinfo;
 import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
 import com.cq.httpapi.demo.exception.SZJException.SZJException;
-import com.cq.httpapi.demo.exception.SZJException.UserSpellInfoException.EditUserSpellsInfoException;
 import com.cq.httpapi.demo.kit.TimeKit;
 import com.cq.httpapi.demo.service.SZJService.SZJUserInfoService;
 import com.cq.httpapi.demo.service.SZJService.SZJUserSpellInfoService;
@@ -57,7 +56,7 @@ public class SZJUserSpellInfoServiceImpl implements SZJUserSpellInfoService {
 
     @Override
     @Transactional
-    public boolean updateSpellsInfo(EditUserSpellsInfoRequest request) throws EditUserSpellsInfoException {
+    public boolean updateSpellsInfo(EditUserSpellsInfoRequest request) throws SZJException {
         String openId = request.getOpenid();
         if (openId == null || !szjUserInfoService.existOpenId(openId)) {
             throw new SZJException(SZJErrorCode.OPENID_ERROR);

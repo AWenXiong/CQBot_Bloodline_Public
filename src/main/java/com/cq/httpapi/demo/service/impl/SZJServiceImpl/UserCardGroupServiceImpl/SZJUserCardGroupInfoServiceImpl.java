@@ -5,7 +5,8 @@ import com.cq.httpapi.demo.dao.SZJdao.SzjuserinfoDao;
 import com.cq.httpapi.demo.dto.SZJ.Request.CardGroupRequest.*;
 import com.cq.httpapi.demo.entity.SZJ.Szjusercardgroupinfo;
 import com.cq.httpapi.demo.entity.SZJ.Szjuserinfo;
-import com.cq.httpapi.demo.exception.SZJException.UserGroupInfoException.*;
+import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
+import com.cq.httpapi.demo.exception.SZJException.SZJException;
 import com.cq.httpapi.demo.kit.TimeKit;
 import com.cq.httpapi.demo.service.SZJService.SZJInvitationCodeService;
 import com.cq.httpapi.demo.service.SZJService.SZJUserCardGroupInfoService;
@@ -28,50 +29,43 @@ public class SZJUserCardGroupInfoServiceImpl implements SZJUserCardGroupInfoServ
     private SZJInvitationCodeService szjInvitationCodeService;
 
     @Override
-    public ArrayList<Szjusercardgroupinfo> getAllGroups(GetAllGroupsRequest request) throws GetAllGroupsException {
+    public ArrayList<Szjusercardgroupinfo> getAllGroups(GetAllGroupsRequest request) throws SZJException {
         // 检查登录码是否合法
         String openId = request.getOpenid();
         if (openId == null || openId.isEmpty() || !szjUserInfoService.existOpenId(openId)) {
-            throw new GetAllGroupsException(1, "登录码不存在！");
+            throw new SZJException(SZJErrorCode.OPENID_ERROR);
         }
-
         try {
             ArrayList<Szjusercardgroupinfo> groupInfos = this.getByOpenId(openId);
             return groupInfos;
+        } catch (SZJException e) {
+            throw new SZJException(e.getErrorCode(), e.getMessage());
         } catch (Exception e) {
-            throw new GetAllGroupsException(9, e.getMessage());
+            throw new SZJException(9, e.getMessage());
         }
     }
 
-    /**
-     * 卡组创建
-     *
-     * @param request
-     * @return
-     * @throws CreateUserCardGroupException errorCode     message
-     *                                      1            登录码不存在！
-     *                                      2            邀请码不存在！
-     *                                      3            卡组名称为空！
-     *                                      9            未知错误！
-     */
+
     @Override
-    public Long createGroupInfo(CreateGroupRequest request) throws CreateUserCardGroupException {
+    public Long createGroupInfo(CreateGroupRequest request) throws SZJException {
         // 检查登录码是否合法
         String openId = request.getOpenid();
         if (openId == null || openId.isEmpty() || !szjUserInfoService.existOpenId(openId)) {
-            throw new CreateUserCardGroupException(1, "登录码不存在！");
+            throw new SZJException(SZJErrorCode.OPENID_ERROR);
         }
         // 检查邀请码是否为空，若非空，检查邀请码是否合法
         String invitationCode = request.getInvitationCode();
         if (invitationCode != null && !invitationCode.isEmpty()) {
             if (!szjInvitationCodeService.existInvitationCode(invitationCode)) {
-                throw new CreateUserCardGroupException(2, "邀请码不存在！");
+                throw new SZJException(SZJErrorCode.INVITATION_CODE_ERROR);
             }
+        } else {
+            throw new SZJException(SZJErrorCode.ARGUMENT_NULL);
         }
         // 检查卡组名称是否为空
         String name = request.getName();
         if (name == null || name.isEmpty()) {
-            throw new CreateUserCardGroupException(3, "卡组名称为空！");
+            throw new SZJException(SZJErrorCode.ARGUMENT_NULL);
         }
         // 创建卡组
         try {
@@ -84,47 +78,34 @@ public class SZJUserCardGroupInfoServiceImpl implements SZJUserCardGroupInfoServ
 
             return id;
         } catch (Exception e) {
-            throw new CreateUserCardGroupException(9, e.getMessage());
+            throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
 
     }
 
-
-    /**
-     * 卡组编辑
-     *
-     * @param request
-     * @return
-     * @throws UpdateUserCardGroupException errorCode    message
-     *                                      1            登录码不存在！
-     *                                      2            邀请码不存在！
-     *                                      3            卡组名称为空！
-     *                                      4            卡组主键缺失！
-     *                                      9            未知错误！
-     */
     @Override
-    public boolean updateGroupInfo(UpdateGroupRequest request) throws UpdateUserCardGroupException {
+    public boolean updateGroupInfo(UpdateGroupRequest request) throws SZJException {
         // 检查登录码是否合法
         String openId = request.getOpenid();
         if (openId == null || openId.isEmpty() || !szjUserInfoService.existOpenId(openId)) {
-            throw new UpdateUserCardGroupException(1, "登录码不存在！");
+            throw new SZJException(SZJErrorCode.OPENID_ERROR);
         }
         // 检查邀请码是否为空，若非空，检查邀请码是否合法
         String invitationCode = request.getInvitationCode();
         if (invitationCode != null && !invitationCode.isEmpty()) {
             if (!szjInvitationCodeService.existInvitationCode(invitationCode)) {
-                throw new UpdateUserCardGroupException(2, "邀请码不存在！");
+                throw new SZJException(SZJErrorCode.INVITATION_CODE_ERROR);
             }
         }
         // 检查卡组名称是否为空
         String name = request.getName();
         if (name == null || name.isEmpty()) {
-            throw new UpdateUserCardGroupException(3, "卡组名称为空！");
+            throw new SZJException(SZJErrorCode.ARGUMENT_NULL);
         }
         // 检查卡组主键是否存在
         Long id = request.getId();
         if (id == null) {
-            throw new UpdateUserCardGroupException(4, "卡组主键缺失！");
+            throw new SZJException(SZJErrorCode.ARGUMENT_NULL);
         }
         // 卡组编辑
         try {
@@ -136,60 +117,51 @@ public class SZJUserCardGroupInfoServiceImpl implements SZJUserCardGroupInfoServ
             szjusercardgroupinfoDao.updateDescription(id, "编辑卡组信息");
             return true;
         } catch (Exception e) {
-            throw new UpdateUserCardGroupException(9, e.getMessage());
+            throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
     }
 
     @Override
-    public Szjusercardgroupinfo getGroupInfo(GetGroupInfoRequest request) throws GetGroupInfoException {
+    public Szjusercardgroupinfo getGroupInfo(GetGroupInfoRequest request) throws SZJException {
         // 检查登录码是否合法
         String openId = request.getOpenid();
         if (openId == null || openId.isEmpty() || !szjUserInfoService.existOpenId(openId)) {
-            throw new GetGroupInfoException(1, "登录码不存在！");
+            throw new SZJException(SZJErrorCode.OPENID_ERROR);
         }
         // 检查卡组主键是否存在
         Long id = request.getId();
         if (id == null) {
-            throw new GetGroupInfoException(2, "卡组主键缺失！");
+            throw new SZJException(SZJErrorCode.ARGUMENT_NULL);
         }
         // 获取卡组信息
         try {
             Szjusercardgroupinfo res = this.getById(id);
             return res;
         } catch (Exception e) {
-            throw new GetGroupInfoException(9, e.getMessage());
+            throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
 
     }
 
-    /**
-     * 卡组删除（逻辑删除）
-     *
-     * @param request
-     * @return
-     * @throws DeleteUserCardGroupException errorCode    message
-     *                                      1            登录码不存在！
-     *                                      2            卡组主键缺失！
-     *                                      9            未知错误！
-     */
+
     @Override
-    public boolean delete(DeleteGroupRequest request) throws DeleteUserCardGroupException {
+    public boolean delete(DeleteGroupRequest request) throws SZJException {
         // 检查登录码是否合法
         String openId = request.getOpenid();
         if (openId == null || openId.isEmpty() || !szjUserInfoService.existOpenId(openId)) {
-            throw new DeleteUserCardGroupException(1, "登录码不存在！");
+            throw new SZJException(SZJErrorCode.OPENID_ERROR);
         }
         // 检查卡组主键是否为空
         Long id = request.getId();
         if (id == null) {
-            throw new DeleteUserCardGroupException(2, "卡组主键缺失！");
+            throw new SZJException(SZJErrorCode.ARGUMENT_NULL);
         }
         // 卡组删除
         try {
             szjusercardgroupinfoDao.deleteById(id);
             return true;
         } catch (Exception e) {
-            throw new DeleteUserCardGroupException(9, e.getMessage());
+            throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
     }
 
