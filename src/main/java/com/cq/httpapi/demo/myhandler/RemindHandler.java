@@ -26,13 +26,11 @@ public class RemindHandler implements ApplicationRunner {
 
     // All options
     final static String remindModeDefaultFlag = "-o";
-    //    public static void setRemindService(RemindService remindService1) {
-//        remindService = remindService1;
-//    }
     final static String onceFlag = "-o";
     final static String everyFlag = "-e";
     final static String weekdayFlag = "-w";
     final static String delayFlag = "-d";
+
     final static String messageOptionDefaultFlag = "-n";
     final static String atAllFlag = "-a";
     final static String noTranslateFlag = "-n";
@@ -45,7 +43,7 @@ public class RemindHandler implements ApplicationRunner {
     private static TimerTask checkScheduleTimerTask = null;
     private static String prodTimeZone = "GMT+8";
     private static boolean remindStartFlag = false;
-    //    private static RemindService remindService = null;
+
     @Resource
     private RemindService remindService;
 
@@ -63,7 +61,6 @@ public class RemindHandler implements ApplicationRunner {
      * @return
      */
     @CQResponse
-//    public static PrivateMessageResponse startCheckSchedule(MsgHttpReqHandler msgHttpReqHandler) {
     public PrivateMessageResponse startCheckSchedule(MsgHttpReqHandler msgHttpReqHandler) {
         PrivateMessageResponse privateMessageResponse = new PrivateMessageResponse();
         String msg = msgHttpReqHandler.getMessage();
@@ -91,7 +88,6 @@ public class RemindHandler implements ApplicationRunner {
      * @return
      */
     @CQResponse
-//    public static PrivateMessageResponse stopCheckSchedule(MsgHttpReqHandler msgHttpReqHandler) {
     public PrivateMessageResponse stopCheckSchedule(MsgHttpReqHandler msgHttpReqHandler) {
         PrivateMessageResponse privateMessageResponse = new PrivateMessageResponse();
         String msg = msgHttpReqHandler.getMessage();
@@ -117,7 +113,6 @@ public class RemindHandler implements ApplicationRunner {
      * @return
      */
     @CQResponse
-//    public static PrivateMessageResponse restartCheckSchedule(MsgHttpReqHandler msgHttpReqHandler) {
     public PrivateMessageResponse restartCheckSchedule(MsgHttpReqHandler msgHttpReqHandler) {
         PrivateMessageResponse privateMessageResponse = new PrivateMessageResponse();
         String msg = msgHttpReqHandler.getMessage();
@@ -140,7 +135,6 @@ public class RemindHandler implements ApplicationRunner {
      *
      * @param remindService
      */
-//    private static void startCheckSchedule(RemindService remindService) {
     private void startCheckSchedule(RemindService remindService) {
         if (checkScheduleTimer == null) {
             checkScheduleTimer = new Timer();
@@ -161,7 +155,6 @@ public class RemindHandler implements ApplicationRunner {
     /**
      * 停止提醒任务
      */
-//    private static void stopCheckSchedule() {
     private void stopCheckSchedule() {
         if (checkScheduleTimer != null) {
             checkScheduleTimer.cancel();
@@ -179,7 +172,6 @@ public class RemindHandler implements ApplicationRunner {
      *
      * @param remindService
      */
-//    private static void restartCheckSchedule(RemindService remindService) {
     private void restartCheckSchedule(RemindService remindService) {
         stopCheckSchedule();
         startCheckSchedule(remindService);
@@ -192,7 +184,6 @@ public class RemindHandler implements ApplicationRunner {
      *
      * @param remindService
      */
-//    private static void checkSchedule(RemindService remindService) {
     private void checkSchedule(RemindService remindService) {
         ArrayList<Remind> reminds = remindService.getRemind(5L);
 
@@ -234,7 +225,6 @@ public class RemindHandler implements ApplicationRunner {
      * @param remind
      * @return 下次进行提醒的 Date
      */
-//    private static Remind nextRemind(Remind remind) {
     private Remind nextRemind(Remind remind) {
         Remind res = new Remind();
 
@@ -268,7 +258,6 @@ public class RemindHandler implements ApplicationRunner {
      * @return
      */
     @CQResponse
-//    public static GroupMessageResponse setRemind(GrpMsgHttpReqHandler grpMsgHttpReqHandler) {
     public GroupMessageResponse setRemind(GrpMsgHttpReqHandler grpMsgHttpReqHandler) {
         GroupMessageResponse response = new GroupMessageResponse();
         response.setFlag(false);
@@ -513,7 +502,6 @@ public class RemindHandler implements ApplicationRunner {
      * @return
      */
     @CQResponse
-//    public static GroupMessageResponse getRemind(GrpMsgHttpReqHandler grpMsgHttpReqHandler) {
     public GroupMessageResponse getRemind(GrpMsgHttpReqHandler grpMsgHttpReqHandler) {
         GroupMessageResponse groupMessageResponse = new GroupMessageResponse();
         groupMessageResponse.setFlag(false);
@@ -554,7 +542,6 @@ public class RemindHandler implements ApplicationRunner {
      * @return
      */
     @CQResponse
-//    public static GroupMessageResponse deleteRemind(GrpMsgHttpReqHandler grpMsgHttpReqHandler) {
     public GroupMessageResponse deleteRemind(GrpMsgHttpReqHandler grpMsgHttpReqHandler) {
 
         GroupMessageResponse groupMessageResponse = new GroupMessageResponse();
