@@ -59,9 +59,8 @@ public class SZJUserCardGroupInfoServiceImpl implements SZJUserCardGroupInfoServ
             if (!szjInvitationCodeService.existInvitationCode(invitationCode)) {
                 throw new SZJException(SZJErrorCode.INVITATION_CODE_ERROR);
             }
-        } else {
-            throw new SZJException(SZJErrorCode.ARGUMENT_NULL);
         }
+
         // 检查卡组名称是否为空
         String name = request.getName();
         if (name == null || name.isEmpty()) {
@@ -75,12 +74,10 @@ public class SZJUserCardGroupInfoServiceImpl implements SZJUserCardGroupInfoServ
             long id = szjusercardgroupinfoDao.getLastInsert();
             szjusercardgroupinfoDao.updateCreateInfo(id, TimeKit.getFormalTime(),
                     String.valueOf(userId), String.valueOf(userId));
-
             return id;
         } catch (Exception e) {
             throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
-
     }
 
     @Override
