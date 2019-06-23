@@ -94,16 +94,14 @@ public class SZJUserCardGroupInfoServiceImpl implements SZJUserCardGroupInfoServ
                 throw new SZJException(SZJErrorCode.INVITATION_CODE_ERROR);
             }
         }
-        // 检查卡组名称是否为空
-        String name = request.getName();
-        if (name == null || name.isEmpty()) {
+
+        String name = request.getName();  // 检查卡组名称是否为空
+        Long id = request.getId();  // 检查卡组主键是否存在
+        if (name == null || name.isEmpty() || id == null) {
             throw new SZJException(SZJErrorCode.ARGUMENT_NULL);
         }
-        // 检查卡组主键是否存在
-        Long id = request.getId();
-        if (id == null) {
-            throw new SZJException(SZJErrorCode.ARGUMENT_NULL);
-        }
+
+
         // 卡组编辑
         try {
             Szjuserinfo user = szjuserinfoDao.getByOpenId(openId);
