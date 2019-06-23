@@ -6,7 +6,6 @@ import com.cq.httpapi.demo.dto.SZJ.Request.QueueRequest.CreateQueueInfoRequestDa
 import com.cq.httpapi.demo.dto.SZJ.Request.QueueRequest.CreateQueueInfoRequestDataCard;
 import com.cq.httpapi.demo.entity.SZJ.Szjqueueinfo;
 import com.cq.httpapi.demo.entity.SZJ.Szjuserinfo;
-import com.cq.httpapi.demo.exception.SZJException.QueueException.CreateQueueInfoException;
 import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
 import com.cq.httpapi.demo.exception.SZJException.SZJException;
 import com.cq.httpapi.demo.kit.TimeKit;
@@ -34,7 +33,7 @@ public class SZJQueueInfoServiceImpl implements SZJQueueInfoService {
 
     @Override
     @Transactional
-    public boolean createQueueInfo(CreateQueueInfoRequest request) throws CreateQueueInfoException {
+    public boolean createQueueInfo(CreateQueueInfoRequest request) throws SZJException {
         String openId = request.getOpenid();
         if (openId == null || !szjUserInfoService.existOpenId(openId)) {
             throw new SZJException(SZJErrorCode.OPENID_ERROR);

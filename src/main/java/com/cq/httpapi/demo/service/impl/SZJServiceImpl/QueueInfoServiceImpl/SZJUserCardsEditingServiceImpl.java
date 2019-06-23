@@ -7,7 +7,6 @@ import com.cq.httpapi.demo.dto.SZJ.Request.QueueRequest.GetUserCardsEditingReque
 import com.cq.httpapi.demo.dto.SZJ.Response.QueueResponse.GetUserCardsEditingResponseData;
 import com.cq.httpapi.demo.entity.SZJ.Szjusercardsediting;
 import com.cq.httpapi.demo.entity.SZJ.Szjuserinfo;
-import com.cq.httpapi.demo.exception.SZJException.QueueException.GetUserCardsEditingException;
 import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
 import com.cq.httpapi.demo.exception.SZJException.SZJException;
 import com.cq.httpapi.demo.service.SZJService.SZJUserCardsEditingService;
@@ -49,7 +48,7 @@ public class SZJUserCardsEditingServiceImpl implements SZJUserCardsEditingServic
             }
             return res;
         } catch (Exception e) {
-            throw new GetUserCardsEditingException(9, e.getMessage());
+            throw new SZJException(9, e.getMessage());
         }
     }
 
