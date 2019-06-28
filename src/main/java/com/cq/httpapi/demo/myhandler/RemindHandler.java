@@ -11,6 +11,9 @@ import com.cq.httpapi.demo.exception.CQException.TooManyOptionsException;
 import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.MsgHttpReqHandler;
 import com.cq.httpapi.demo.kit.*;
+import com.cq.httpapi.demo.kit.CQKit.CQCodeKit;
+import com.cq.httpapi.demo.kit.CQKit.CQGroupKit;
+import com.cq.httpapi.demo.kit.CQKit.CQSenderKit;
 import com.cq.httpapi.demo.service.CQService.RemindService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -68,7 +71,7 @@ public class RemindHandler implements ApplicationRunner {
         PrivateMessageResponse privateMessageResponse = new PrivateMessageResponse();
         String msg = msgHttpReqHandler.getMessage();
         if (!remindStartFlag && msg.equals("启动提醒") &&
-                SenderKit.CheckMsgSenderId(msgHttpReqHandler, User.DOLLYBELU.getUserId())) {
+                CQSenderKit.CheckMsgSenderId(msgHttpReqHandler, User.DOLLYBELU.getUserId())) {
             try {
                 startCheckSchedule(remindService);
                 privateMessageResponse.setFlag(true);
@@ -95,7 +98,7 @@ public class RemindHandler implements ApplicationRunner {
     public PrivateMessageResponse stopCheckSchedule(MsgHttpReqHandler msgHttpReqHandler) {
         PrivateMessageResponse privateMessageResponse = new PrivateMessageResponse();
         String msg = msgHttpReqHandler.getMessage();
-        if (msg.equals("停止提醒") && SenderKit.CheckMsgSenderId(msgHttpReqHandler, User.DOLLYBELU.getUserId())) {
+        if (msg.equals("停止提醒") && CQSenderKit.CheckMsgSenderId(msgHttpReqHandler, User.DOLLYBELU.getUserId())) {
             try {
                 stopCheckSchedule();
                 privateMessageResponse.setFlag(true);
@@ -121,7 +124,7 @@ public class RemindHandler implements ApplicationRunner {
     public PrivateMessageResponse restartCheckSchedule(MsgHttpReqHandler msgHttpReqHandler) {
         PrivateMessageResponse privateMessageResponse = new PrivateMessageResponse();
         String msg = msgHttpReqHandler.getMessage();
-        if (msg.equals("重启提醒") && SenderKit.CheckMsgSenderId(msgHttpReqHandler, User.DOLLYBELU.getUserId())) {
+        if (msg.equals("重启提醒") && CQSenderKit.CheckMsgSenderId(msgHttpReqHandler, User.DOLLYBELU.getUserId())) {
             try {
                 restartCheckSchedule(remindService);
                 privateMessageResponse.setFlag(true);
@@ -275,7 +278,7 @@ public class RemindHandler implements ApplicationRunner {
 
         String msg = grpMsgHttpReqHandler.getMessage();
         String remindFlag = "设置提醒 ";
-        if (msg.startsWith(remindFlag) && SenderKit.isAdminOrOwner(grpMsgHttpReqHandler)) {
+        if (msg.startsWith(remindFlag) && CQSenderKit.isAdminOrOwner(grpMsgHttpReqHandler)) {
 
             // 各种变量的声明
             StringBuilder msgBuilder = new StringBuilder(msg.trim());
@@ -520,7 +523,7 @@ public class RemindHandler implements ApplicationRunner {
 
         String msg = grpMsgHttpReqHandler.getMessage();
         String getRemindFlag = "查看提醒";
-        if (msg.equals(getRemindFlag) && SenderKit.isAdminOrOwner(grpMsgHttpReqHandler)) {
+        if (msg.equals(getRemindFlag) && CQSenderKit.isAdminOrOwner(grpMsgHttpReqHandler)) {
             String guild = grpMsgHttpReqHandler.getGroupId();
             ArrayList<Remind> reminds = remindService.getRemindByGuild(guild);
 
@@ -563,7 +566,7 @@ public class RemindHandler implements ApplicationRunner {
         String msg = grpMsgHttpReqHandler.getMessage();
         String guild = grpMsgHttpReqHandler.getGroupId();
         String deleteRemindFlag = "删除提醒";
-        if (msg.startsWith(deleteRemindFlag) && SenderKit.isAdminOrOwner(grpMsgHttpReqHandler)) {
+        if (msg.startsWith(deleteRemindFlag) && CQSenderKit.isAdminOrOwner(grpMsgHttpReqHandler)) {
             StringBuilder deleteIds = new StringBuilder(msg.substring(msg.indexOf(" ") + 1).trim());
             while (deleteIds.indexOf("，") > 0) {
                 deleteIds.replace(deleteIds.indexOf("，"), deleteIds.indexOf("，") + 1, ",");

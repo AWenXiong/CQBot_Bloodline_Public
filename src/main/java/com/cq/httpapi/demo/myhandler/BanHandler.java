@@ -3,7 +3,7 @@ package com.cq.httpapi.demo.myhandler;
 import com.cq.httpapi.demo.annotation.cqannotation.CQResponse;
 import com.cq.httpapi.demo.dto.send.SetGroupBan;
 import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
-import com.cq.httpapi.demo.kit.SenderKit;
+import com.cq.httpapi.demo.kit.CQKit.CQSenderKit;
 
 public class BanHandler {
 
@@ -15,8 +15,8 @@ public class BanHandler {
 
         String banMessage = "禁言 [CQ:at,qq=";
         String banTimeFlag = "] ";
-        if ((SenderKit.CheckGrpMsgSenderRole(grpMsgHttpReqHandler, "admin")
-                || SenderKit.CheckGrpMsgSenderRole(grpMsgHttpReqHandler, "owner"))
+        if ((CQSenderKit.CheckGrpMsgSenderRole(grpMsgHttpReqHandler, "admin")
+                || CQSenderKit.CheckGrpMsgSenderRole(grpMsgHttpReqHandler, "owner"))
                 && message.startsWith(banMessage)) {
 
             response.setGroup_id(grpMsgHttpReqHandler.getGroupId());  //设置被禁言用户所在的群号

@@ -1,4 +1,4 @@
-package com.cq.httpapi.demo.kit;
+package com.cq.httpapi.demo.kit.CQKit;
 
 public class CQCodeKit {
 

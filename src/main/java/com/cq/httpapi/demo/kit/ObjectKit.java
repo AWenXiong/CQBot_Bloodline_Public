@@ -2,6 +2,12 @@ package com.cq.httpapi.demo.kit;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.cq.httpapi.demo.dto.response.message.GroupMessageResponse;
+import com.cq.httpapi.demo.dto.response.message.MessageResponse;
+import com.cq.httpapi.demo.dto.response.message.PrivateMessageResponse;
+import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
+import com.cq.httpapi.demo.handler.httphandler.message.MsgHttpReqHandler;
+import com.cq.httpapi.demo.handler.httphandler.message.PriMsgHttpReqHandler;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -49,9 +55,6 @@ public class ObjectKit {
 
     /**
      * 提取对象o的所有属性名、属性类型、属性值
-     *
-     * @param o
-     * @return
      */
     public static JSONObject parseObjectToJSONObject(Object o) {
         Field[] fields = o.getClass().getDeclaredFields();
@@ -71,9 +74,6 @@ public class ObjectKit {
     /**
      * 将对象o转换为json对象
      * 键为属性名，值为属性值
-     *
-     * @param o
-     * @return
      */
     public static JSONObject parseObjectToKVJSONObject(Object o) {
         JSONObject res = new JSONObject();
@@ -142,12 +142,6 @@ public class ObjectKit {
     /**
      * 遍历集合collection，转换为JSONArray
      * className为集合collection<T>的类型T的完整类名
-     *
-     * @param collection
-     * @param className
-     * @return
-     * @throws ClassNotFoundException
-     * @throws IllegalAccessException
      */
     public static JSONArray parseCollectionToJSONArray(Collection collection, String className) {
         try {
@@ -201,5 +195,21 @@ public class ObjectKit {
             }
         }
         return null;
+    }
+
+    public static MessageResponse getCQMessageResponse(MsgHttpReqHandler handler) {
+        MessageResponse response = null;
+        if (GrpMsgHttpReqHandler.class.isInstance(handler)) {
+            response = new GroupMessageResponse();
+            response.setFlag(false);
+        } else if (PriMsgHttpReqHandler.class.isInstance(handler)) {
+            response = new PrivateMessageResponse();
+            response.setFlag(false);
+        }
+        if (response != null) {
+            return response;
+        } else {
+            return null;
+        }
     }
 }

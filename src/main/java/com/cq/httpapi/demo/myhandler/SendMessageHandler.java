@@ -8,7 +8,7 @@ import com.cq.httpapi.demo.dto.send.GetGroupList;
 import com.cq.httpapi.demo.dto.send.SendGroupMessage;
 import com.cq.httpapi.demo.dto.send.SendPrivateMessage;
 import com.cq.httpapi.demo.handler.httphandler.message.MsgHttpReqHandler;
-import com.cq.httpapi.demo.kit.SenderKit;
+import com.cq.httpapi.demo.kit.CQKit.CQSenderKit;
 
 import java.util.HashSet;
 
@@ -29,7 +29,7 @@ public class SendMessageHandler {
         SendGroupMessage sendGroupMessage = new SendGroupMessage();
 
         String msg = msgHttpReqHandler.getMessage();
-        if (SenderKit.CheckMsgSenderId(msgHttpReqHandler, User.DOLLYBELU.getUserId()) &&
+        if (CQSenderKit.CheckMsgSenderId(msgHttpReqHandler, User.DOLLYBELU.getUserId()) &&
                 (msg.equals(testFlag)) || msg.equals(testFinishedFlag)) {
             HashSet<String> groupIds = getGroupList();
             for (String groupId : groupIds) {
@@ -58,7 +58,7 @@ public class SendMessageHandler {
 
         String allFlag = "-a";
         if (message.startsWith(sendGroupMessageFlag) &&
-                SenderKit.CheckMsgSenderId(msgHttpReqHandlerl, User.DOLLYBELU.getUserId())) {
+                CQSenderKit.CheckMsgSenderId(msgHttpReqHandlerl, User.DOLLYBELU.getUserId())) {
             StringBuilder stringBuilder = new StringBuilder(message);
             stringBuilder.delete(0, sendGroupMessageFlag.length());
 
@@ -98,7 +98,7 @@ public class SendMessageHandler {
         String message = msgHttpReqHandler.getMessage();
 
         if (message.startsWith(sendPrivateMessageFlag) &&
-                SenderKit.CheckMsgSenderId(msgHttpReqHandler, User.DOLLYBELU.getUserId())) {
+                CQSenderKit.CheckMsgSenderId(msgHttpReqHandler, User.DOLLYBELU.getUserId())) {
             StringBuilder stringBuilder = new StringBuilder(message);
             stringBuilder.delete(0, sendPrivateMessageFlag.length());
             String userId = stringBuilder.substring(0, stringBuilder.indexOf(" ")).trim();

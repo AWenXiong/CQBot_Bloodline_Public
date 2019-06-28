@@ -1,8 +1,9 @@
-package com.cq.httpapi.demo.kit;
+package com.cq.httpapi.demo.kit.CQKit;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.cq.httpapi.demo.dto.send.ApiPath;
+import com.cq.httpapi.demo.kit.UrlKit;
 
 import java.util.ArrayList;
 

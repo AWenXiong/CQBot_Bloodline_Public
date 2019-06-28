@@ -24,6 +24,9 @@ public class TranslateKit {
         cardCareerMap.put("5", "牧师");
     }
 
+    /**
+     * 将属性转换为
+     */
     public static String TranslateProp(String table, String key, String value) {
 
         try {
@@ -55,10 +58,6 @@ public class TranslateKit {
 
     /**
      * 将s1 , s2 拼接起来， s1全为小写，s2首字母大写，其余字母全部小写
-     *
-     * @param s1
-     * @param s2
-     * @return
      */
     private static String formalize(String s1, String s2) {
         return s1.toLowerCase() + s2.substring(0, 1).toUpperCase() + s2.substring(1).toLowerCase();
