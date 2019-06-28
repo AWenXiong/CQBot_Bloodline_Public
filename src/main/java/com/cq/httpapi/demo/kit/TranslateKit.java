@@ -98,7 +98,7 @@ public class TranslateKit {
     }
 
     /**
-     * 生成无音调、v式、小写拼音
+     * 生成无音调、v式、小写、普通汉语拼音
      * */
     public static String formatPinYin(String src) {
         HanyuPinyinOutputFormat fmt = new HanyuPinyinOutputFormat();
