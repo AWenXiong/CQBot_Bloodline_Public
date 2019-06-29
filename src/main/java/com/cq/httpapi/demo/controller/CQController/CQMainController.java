@@ -9,7 +9,7 @@ import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.PriMsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.notice.GrpMembChangeHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.notice.GrpNoticeHttpHandler;
-import com.cq.httpapi.demo.kit.SenderKit;
+import com.cq.httpapi.demo.kit.CQKit.CQSenderKit;
 import com.cq.httpapi.demo.myhandler.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -109,7 +109,7 @@ public class CQMainController {
                     case "private": {
 
                         PriMsgHttpReqHandler priMsgHttpReqHandler = new PriMsgHttpReqHandler(header, body);
-                        String userId = SenderKit.GetMsgSenderId(priMsgHttpReqHandler);
+                        String userId = CQSenderKit.GetMsgSenderId(priMsgHttpReqHandler);
 
                         allResponse.add(towerHandler.answerQuestion(priMsgHttpReqHandler));
 

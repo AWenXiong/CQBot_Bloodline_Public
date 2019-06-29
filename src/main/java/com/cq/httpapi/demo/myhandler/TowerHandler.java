@@ -8,7 +8,7 @@ import com.cq.httpapi.demo.entity.CQ.Tower;
 import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.MsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.PriMsgHttpReqHandler;
-import com.cq.httpapi.demo.kit.SenderKit;
+import com.cq.httpapi.demo.kit.CQKit.CQSenderKit;
 import com.cq.httpapi.demo.kit.TimeKit;
 import com.cq.httpapi.demo.service.CQService.TowerService;
 import org.springframework.stereotype.Component;
@@ -59,7 +59,7 @@ public class TowerHandler {
             PriMsgHttpReqHandler priMsgHttpReqHandler = (PriMsgHttpReqHandler) msgHttpReqHandler;
             response = new PrivateMessageResponse();
             response.setFlag(false);
-            userId = SenderKit.GetMsgSenderId(priMsgHttpReqHandler);
+            userId = CQSenderKit.GetMsgSenderId(priMsgHttpReqHandler);
 
             // 查看是否是已存在的问答
             try {
@@ -96,7 +96,7 @@ public class TowerHandler {
             String userId = grpMsgHttpReqHandler.getGroupId();
 
             //查看是否是增加、删除、修改问答
-            if (SenderKit.isAdminOrOwner(grpMsgHttpReqHandler)) {
+            if (CQSenderKit.isAdminOrOwner(grpMsgHttpReqHandler)) {
                 // 增加问答
                 if (message.startsWith("查问 ")) {
                     try {
@@ -126,7 +126,7 @@ public class TowerHandler {
                         // 则删除 answer 中的 -a
                         // 并设置 guild = 0
                         if (message.contains(optionAllFlag) &&
-                                SenderKit.CheckGrpMsgSenderId(grpMsgHttpReqHandler, User.DOLLYBELU.getUserId())) {
+                                CQSenderKit.CheckGrpMsgSenderId(grpMsgHttpReqHandler, User.DOLLYBELU.getUserId())) {
                             stringBuilder.delete(stringBuilder.indexOf(optionAllFlag), stringBuilder.indexOf(optionAllFlag) + optionAllFlag.length());
                             answer = stringBuilder.toString().trim();
                             userId = "0";
@@ -135,11 +135,11 @@ public class TowerHandler {
                         // 若数据库中存在问答，则修改答案
                         // 问题：全局问答和局部问答的关系
                         if (!towerService.exist(question, userId)) {
-                            towerService.insertQuestion(question, answer, userId, SenderKit.GetGrpMsgSenderId(grpMsgHttpReqHandler));
+                            towerService.insertQuestion(question, answer, userId, CQSenderKit.GetGrpMsgSenderId(grpMsgHttpReqHandler));
                             response.setReply("添加问答成功！\n你可以这样问我：" + question + "\n我会这么回答：" + answer);
                             response.setFlag(true);
                         } else {
-                            towerService.updateQuestion(question, answer, userId, SenderKit.GetGrpMsgSenderId(grpMsgHttpReqHandler));
+                            towerService.updateQuestion(question, answer, userId, CQSenderKit.GetGrpMsgSenderId(grpMsgHttpReqHandler));
                             response.setReply("修改问答成功！\n你可以这样问我：" + question + "\n我会这么回答：" + answer);
                             response.setFlag(true);
                         }
@@ -159,7 +159,7 @@ public class TowerHandler {
                         // 去掉问题中的 -a
                         // 删除全局问答
                         if (question.endsWith("-a") &&
-                                SenderKit.CheckGrpMsgSenderId(grpMsgHttpReqHandler, User.DOLLYBELU.getUserId())) {
+                                CQSenderKit.CheckGrpMsgSenderId(grpMsgHttpReqHandler, User.DOLLYBELU.getUserId())) {
                             question = question.substring(0, question.indexOf("-a"));
                             userId = "0";
                         }

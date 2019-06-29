@@ -11,8 +11,9 @@ import com.cq.httpapi.demo.exception.CQException.TooManyOptionsException;
 import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.MsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.PriMsgHttpReqHandler;
+import com.cq.httpapi.demo.kit.ObjectKit;
 import com.cq.httpapi.demo.kit.OptionKit;
-import com.cq.httpapi.demo.kit.SenderKit;
+import com.cq.httpapi.demo.kit.CQKit.CQSenderKit;
 import com.cq.httpapi.demo.kit.TimeKit;
 import com.cq.httpapi.demo.kit.TranslateKit;
 import com.cq.httpapi.demo.service.CQService.PurchaseService;
@@ -46,21 +47,12 @@ public class PurchaseHandler {
     // 若数据库中已存在服务，则延长有效期
     // 添加服务 {userId} {service} [-p] [-mX]
     @CQResponse
-//    public static MessageResponse addPurchase(MsgHttpReqHandler msgHttpReqHandler) {
     public MessageResponse addPurchase(MsgHttpReqHandler msgHttpReqHandler) {
         String message = msgHttpReqHandler.getMessage();
-        MessageResponse response = null;
-
-        if (GrpMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
-            response = new GroupMessageResponse();
-            response.setFlag(false);
-        } else if (PriMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
-            response = new PrivateMessageResponse();
-            response.setFlag(false);
-        }
+        MessageResponse response = ObjectKit.getCQMessageResponse(msgHttpReqHandler);
 
         String addFlag = "添加服务 ";
-        if (message.startsWith(addFlag) && SenderKit.CheckMsgSenderId(msgHttpReqHandler, User.DOLLYBELU.getUserId())) {
+        if (message.startsWith(addFlag) && CQSenderKit.CheckMsgSenderId(msgHttpReqHandler, User.DOLLYBELU.getUserId())) {
 
             StringBuilder msgBuilder = new StringBuilder(message.trim());
             String endTimeOption = "";
@@ -93,7 +85,7 @@ public class PurchaseHandler {
 
                 if (!checkService(userId, service)) {
                     // 新建记录
-                    String createUserId = SenderKit.GetMsgSenderId(msgHttpReqHandler); // 502063298
+                    String createUserId = CQSenderKit.GetMsgSenderId(msgHttpReqHandler); // 502063298
                     String strEndTime = TimeKit.parseTime(TimeKit.getDate(endTime * 30));
 
                     purchaseService.createPurchase(userId, service, strEndTime, createUserId);
@@ -102,7 +94,7 @@ public class PurchaseHandler {
                     response.setFlag(true);
                     return response;
                 } else {
-                    String modifiedUserId = SenderKit.GetMsgSenderId(msgHttpReqHandler); // 502063298
+                    String modifiedUserId = CQSenderKit.GetMsgSenderId(msgHttpReqHandler); // 502063298
                     purchaseService.appendEndTimeByUserIdAndService(userId, service, new Long(endTime * 30), modifiedUserId);
 
                     response.setReply("成功延长服务有效期 " + endTime * 30 + " 天");
@@ -128,18 +120,10 @@ public class PurchaseHandler {
     public MessageResponse deletePurchase(MsgHttpReqHandler msgHttpReqHandler) {
 
         String message = msgHttpReqHandler.getMessage();
-        MessageResponse response = null;
-
-        if (GrpMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
-            response = new GroupMessageResponse();
-            response.setFlag(false);
-        } else if (PriMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
-            response = new PrivateMessageResponse();
-            response.setFlag(false);
-        }
+        MessageResponse response = ObjectKit.getCQMessageResponse(msgHttpReqHandler);
 
         String deleteFlag = "删除服务 ";
-        if (message.startsWith(deleteFlag) && SenderKit.CheckMsgSenderId(msgHttpReqHandler, User.DOLLYBELU.getUserId())) {
+        if (message.startsWith(deleteFlag) && CQSenderKit.CheckMsgSenderId(msgHttpReqHandler, User.DOLLYBELU.getUserId())) {
             StringBuilder stringBuilder = new StringBuilder(message);
             stringBuilder.delete(0, deleteFlag.length());
 
@@ -165,21 +149,12 @@ public class PurchaseHandler {
     // 超级管理员根据qq号或者群号获取服务
     // 查看服务 {userId} [-p]
     @CQResponse
-//    public static MessageResponse SAGetPurchaseByGuild(MsgHttpReqHandler msgHttpReqHandler) {
     public MessageResponse SAGetPurchaseByGuild(MsgHttpReqHandler msgHttpReqHandler) {
         String message = msgHttpReqHandler.getMessage();
-        MessageResponse response = null;
+        MessageResponse response = ObjectKit.getCQMessageResponse(msgHttpReqHandler);
 
         String getFlag = "查看服务 ";
-        if (message.startsWith(getFlag) && SenderKit.CheckMsgSenderId(msgHttpReqHandler, User.DOLLYBELU.getUserId())) {
-
-            if (GrpMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
-                response = new GroupMessageResponse();
-                response.setFlag(false);
-            } else if (PriMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
-                response = new PrivateMessageResponse();
-                response.setFlag(false);
-            }
+        if (message.startsWith(getFlag) && CQSenderKit.CheckMsgSenderId(msgHttpReqHandler, User.DOLLYBELU.getUserId())) {
 
             StringBuilder stringBuilder = new StringBuilder(message);
             stringBuilder.delete(0, getFlag.length());
@@ -209,7 +184,6 @@ public class PurchaseHandler {
     // 查看自己的服务
     // 查看服务
     @CQResponse
-//    public static MessageResponse getOwnPurchase(MsgHttpReqHandler msgHttpReqHandler) {
     public MessageResponse getOwnPurchase(MsgHttpReqHandler msgHttpReqHandler) {
         String message = msgHttpReqHandler.getMessage();
         MessageResponse response = null;
@@ -219,7 +193,7 @@ public class PurchaseHandler {
             GrpMsgHttpReqHandler grpMsgHttpReqHandler = (GrpMsgHttpReqHandler) msgHttpReqHandler;
 
             String getFlag = "查看服务";
-            if (message.equals(getFlag) && SenderKit.isAdminOrOwner(grpMsgHttpReqHandler)) {
+            if (message.equals(getFlag) && CQSenderKit.isAdminOrOwner(grpMsgHttpReqHandler)) {
 
                 response = new GroupMessageResponse();
                 response.setFlag(false);
@@ -247,7 +221,7 @@ public class PurchaseHandler {
 
             String getFlag = "查看服务";
             if (message.equals(getFlag)) {
-                String userId = SenderKit.GetMsgSenderId(msgHttpReqHandler);
+                String userId = CQSenderKit.GetMsgSenderId(msgHttpReqHandler);
                 userId = "p" + userId;
 
                 ArrayList<Purchase> purchases = purchaseService.getPurchaseByUserId(userId);

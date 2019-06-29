@@ -1,11 +1,11 @@
-package com.cq.httpapi.demo.kit;
+package com.cq.httpapi.demo.kit.CQKit;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.MsgHttpReqHandler;
 
-public class SenderKit {
+public class CQSenderKit {
 
     public static String GetGrpMsgSenderRole(GrpMsgHttpReqHandler grpMsgHttpReqHandler) {
         JSONObject sender = JSON.parseObject(grpMsgHttpReqHandler.getSender().toString());
@@ -48,8 +48,8 @@ public class SenderKit {
     }
 
     public static boolean isAdminOrOwner(GrpMsgHttpReqHandler grpMsgHttpReqHandler) {
-        return SenderKit.CheckGrpMsgSenderRole(grpMsgHttpReqHandler, "admin") ||
-                SenderKit.CheckGrpMsgSenderRole(grpMsgHttpReqHandler, "owner");
+        return CQSenderKit.CheckGrpMsgSenderRole(grpMsgHttpReqHandler, "admin") ||
+                CQSenderKit.CheckGrpMsgSenderRole(grpMsgHttpReqHandler, "owner");
     }
 
 }

@@ -8,7 +8,8 @@ import com.cq.httpapi.demo.entity.CQ.Card;
 import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.MsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.PriMsgHttpReqHandler;
-import com.cq.httpapi.demo.kit.SenderKit;
+import com.cq.httpapi.demo.kit.CQKit.CQSenderKit;
+import com.cq.httpapi.demo.kit.ObjectKit;
 import com.cq.httpapi.demo.service.CQService.CardService;
 import org.springframework.stereotype.Component;
 
@@ -33,15 +34,7 @@ public class CardHandler {
     @CQResponse
     public MessageResponse cardChecker(MsgHttpReqHandler msgHttpReqHandler) {
         String message = msgHttpReqHandler.getMessage();
-        MessageResponse response = null;
-
-        if (GrpMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
-            response = new GroupMessageResponse();
-            response.setFlag(false);
-        } else if (PriMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
-            response = new PrivateMessageResponse();
-            response.setFlag(false);
-        }
+        MessageResponse response = ObjectKit.getCQMessageResponse(msgHttpReqHandler);
 
         // 查询卡的好感信息
         String hobbyKeyWord = "喜欢什么";
@@ -102,15 +95,7 @@ public class CardHandler {
 
     public MessageResponse cardChecker2(MsgHttpReqHandler msgHttpReqHandler) {
         String message = msgHttpReqHandler.getMessage();
-        MessageResponse response = null;
-
-        if (GrpMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
-            response = new GroupMessageResponse();
-            response.setFlag(false);
-        } else if (PriMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
-            response = new PrivateMessageResponse();
-            response.setFlag(false);
-        }
+        MessageResponse response = ObjectKit.getCQMessageResponse(msgHttpReqHandler);
 
         // 查询卡的技能信息
         String skillCheckFlag = "技能";
@@ -248,24 +233,16 @@ public class CardHandler {
 //    public static MessageResponse cardHandler(MsgHttpReqHandler msgHttpReqHandler) {
     public MessageResponse cardManager(MsgHttpReqHandler msgHttpReqHandler) {
         String message = msgHttpReqHandler.getMessage();
-        MessageResponse response = null;
+        MessageResponse response = ObjectKit.getCQMessageResponse(msgHttpReqHandler);
 
-        if (GrpMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
-            response = new GroupMessageResponse();
-            response.setFlag(false);
-        } else if (PriMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
-            response = new PrivateMessageResponse();
-            response.setFlag(false);
-        }
-
-        if (SenderKit.CheckMsgSenderId(msgHttpReqHandler, "502063298")) {
+        if (CQSenderKit.CheckMsgSenderId(msgHttpReqHandler, "502063298")) {
             //添加卡片
             String addCardMessage = "添加卡片 ";
             if (message.startsWith(addCardMessage)) {
                 int fullnameStartIndex = message.indexOf(addCardMessage) + addCardMessage.length();
                 String fullname = message.substring(fullnameStartIndex);
 
-                if (cardService.createNewCard(fullname, SenderKit.GetMsgSenderId(msgHttpReqHandler))) {
+                if (cardService.createNewCard(fullname, CQSenderKit.GetMsgSenderId(msgHttpReqHandler))) {
                     response.setReply("成功添加卡片，卡片名为：" + fullname);
                     response.setFlag(true);
                     return response;
@@ -320,7 +297,7 @@ public class CardHandler {
                 int deleteCardStartIndex = message.indexOf(deleteMessage) + deleteMessage.length();
                 String nickname = message.substring(deleteCardStartIndex);
 
-                if (cardService.deleteCard(nickname, SenderKit.GetMsgSenderId(msgHttpReqHandler))) {
+                if (cardService.deleteCard(nickname, CQSenderKit.GetMsgSenderId(msgHttpReqHandler))) {
                     response.setReply("成功删除卡片 " + nickname);
                     response.setFlag(true);
                     return response;

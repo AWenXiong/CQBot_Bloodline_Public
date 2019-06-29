@@ -8,7 +8,7 @@ import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.PriMsgHttpReqHandler;
 import com.cq.httpapi.demo.kit.ExcelKit;
 import com.cq.httpapi.demo.kit.SQLKit;
-import com.cq.httpapi.demo.kit.SenderKit;
+import com.cq.httpapi.demo.kit.CQKit.CQSenderKit;
 import com.cq.httpapi.demo.service.CQService.BloodlineEquipmentService;
 import com.cq.httpapi.demo.service.CQService.BloodlineItemService;
 import com.cq.httpapi.demo.service.CQService.CardService;
@@ -35,7 +35,7 @@ public class ImportHandler {
         String msg = grpMsgHttpReqHandler.getMessage();
         GroupMessageResponse groupMessageResponse = new GroupMessageResponse();
         groupMessageResponse.setFlag(false);
-        if (msg.equals("import") && SenderKit.CheckGrpMsgSenderId(grpMsgHttpReqHandler, User.DOLLYBELU.getUserId())) {
+        if (msg.equals("import") && CQSenderKit.CheckGrpMsgSenderId(grpMsgHttpReqHandler, User.DOLLYBELU.getUserId())) {
 //            JSONArray jsonArray = SQLKit.getCardData("C:\\Users\\Administrator\\Desktop\\2019-3-27Data");
             JSONArray jsonArray = SQLKit.getCardData("C:\\Users\\Public\\Downloads\\bloodline\\CardData");
             SQLKit.importDataToDB(cardService, jsonArray);
@@ -47,7 +47,7 @@ public class ImportHandler {
         String msg = grpMsgHttpReqHandler.getMessage();
         GroupMessageResponse groupMessageResponse = new GroupMessageResponse();
         groupMessageResponse.setFlag(false);
-        if (msg.equals("import") && SenderKit.CheckGrpMsgSenderId(grpMsgHttpReqHandler, User.DOLLYBELU.getUserId())) {
+        if (msg.equals("import") && CQSenderKit.CheckGrpMsgSenderId(grpMsgHttpReqHandler, User.DOLLYBELU.getUserId())) {
             try {
                 Workbook workbook = ExcelKit.getWorkbook("C:\\Users\\Public\\Downloads\\bloodline\\血族资料整合集1.26.xlsx");
                 Sheet sheet = ExcelKit.getSheet(workbook, "100装备表");

@@ -9,6 +9,7 @@ import com.cq.httpapi.demo.entity.CQ.Card;
 import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.MsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.PriMsgHttpReqHandler;
+import com.cq.httpapi.demo.kit.ObjectKit;
 import com.cq.httpapi.demo.service.CQService.BloodlineEquipmentService;
 import com.cq.httpapi.demo.service.CQService.BloodlineItemService;
 import com.cq.httpapi.demo.service.CQService.CardService;
@@ -29,15 +30,7 @@ public class ItemHandler {
     public MessageResponse itemChecker(MsgHttpReqHandler msgHttpReqHandler) {
 
         String message = msgHttpReqHandler.getMessage();
-        MessageResponse response = null;
-
-        if (GrpMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
-            response = new GroupMessageResponse();
-            response.setFlag(false);
-        } else if (PriMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
-            response = new PrivateMessageResponse();
-            response.setFlag(false);
-        }
+        MessageResponse response = ObjectKit.getCQMessageResponse(msgHttpReqHandler);
 
         if (message.endsWith("主手") || message.endsWith("副手")) {
             try {
@@ -89,15 +82,7 @@ public class ItemHandler {
 
     public MessageResponse itemManager(MsgHttpReqHandler msgHttpReqHandler) {
         String message = msgHttpReqHandler.getMessage();
-        MessageResponse response = null;
-
-        if (GrpMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
-            response = new GroupMessageResponse();
-            response.setFlag(false);
-        } else if (PriMsgHttpReqHandler.class.isInstance(msgHttpReqHandler)) {
-            response = new PrivateMessageResponse();
-            response.setFlag(false);
-        }
+        MessageResponse response = ObjectKit.getCQMessageResponse(msgHttpReqHandler);
 
         try {
             if (message.startsWith("修改装备 ")) { // 修改装备 夜刃 主手 轰击晨星
