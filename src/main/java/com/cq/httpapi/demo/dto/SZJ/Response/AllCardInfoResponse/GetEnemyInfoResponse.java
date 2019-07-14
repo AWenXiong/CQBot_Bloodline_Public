@@ -2,13 +2,11 @@ package com.cq.httpapi.demo.dto.SZJ.Response.AllCardInfoResponse;
 
 import com.cq.httpapi.demo.dto.SZJ.SZJResponse;
 
-import java.util.ArrayList;
-
 public class GetEnemyInfoResponse extends SZJResponse {
 
-    public ArrayList<GetEnemyInfoResponseData> data;
+    public GetEnemyInfoResponseData data;
 
-    public void setData(ArrayList<GetEnemyInfoResponseData> data) {
+    public void setData(GetEnemyInfoResponseData data) {
         this.data = data;
     }
 }
