@@ -11,9 +11,9 @@ import com.cq.httpapi.demo.exception.CQException.TooManyOptionsException;
 import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.MsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.PriMsgHttpReqHandler;
+import com.cq.httpapi.demo.kit.CQKit.CQSenderKit;
 import com.cq.httpapi.demo.kit.ObjectKit;
 import com.cq.httpapi.demo.kit.OptionKit;
-import com.cq.httpapi.demo.kit.CQKit.CQSenderKit;
 import com.cq.httpapi.demo.kit.TimeKit;
 import com.cq.httpapi.demo.kit.TranslateKit;
 import com.cq.httpapi.demo.service.CQService.PurchaseService;
@@ -26,15 +26,11 @@ import java.util.ArrayList;
 public class PurchaseHandler {
 
     private static final String monthFlag = "-m";
-    //    public static void setPurchaseService(PurchaseService purchaseService1) {
-//        purchaseService = purchaseService1;
-//    }
     private static final String privateFlag = "-p";
     //    private static PurchaseService purchaseService = null;
     @Resource
     private PurchaseService purchaseService;
 
-    //    public static boolean checkService(String userId, String service) {
     public boolean checkService(String userId, String service) {
         if (purchaseService.haveService(userId, service)) {
             return true;
@@ -116,7 +112,6 @@ public class PurchaseHandler {
     // 管理员根据记录id删除服务
     // 删除服务 {userId} {service}
     @CQResponse
-//    public static MessageResponse deletePurchase(MsgHttpReqHandler msgHttpReqHandler) {
     public MessageResponse deletePurchase(MsgHttpReqHandler msgHttpReqHandler) {
 
         String message = msgHttpReqHandler.getMessage();
@@ -233,7 +228,6 @@ public class PurchaseHandler {
                         sbResponse.append(purchase.getEndTime());
                         sbResponse.append("\n");
                     }
-//                    System.err.println(sbResponse.toString().trim());
                     response.setReply(sbResponse.toString().trim());
                     response.setFlag(true);
                     return response;
