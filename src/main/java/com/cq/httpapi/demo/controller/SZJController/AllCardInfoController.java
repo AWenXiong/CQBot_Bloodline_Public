@@ -140,7 +140,7 @@ public class AllCardInfoController {
     public GetEnemyInfoResponse getEnemyInfo(@RequestBody GetEnemyInfoRequest request) {
         GetEnemyInfoResponse response = new GetEnemyInfoResponse();
         try {
-            ArrayList<GetEnemyInfoResponseData> data = szjEnemyInfoService.getEnemyInfo(request);
+            GetEnemyInfoResponseData data = szjEnemyInfoService.getEnemyInfo(request);
             response.setData(data);
             response.setSuccess(true);
         } catch (SZJException e) {

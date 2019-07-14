@@ -11,7 +11,6 @@ import com.cq.httpapi.demo.service.SZJService.SZJUserInfoService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 
 @Service
 public class SZJEnemyInfoServiceImpl implements SZJEnemyInfoService {
@@ -22,23 +21,20 @@ public class SZJEnemyInfoServiceImpl implements SZJEnemyInfoService {
     private SzjenemyinfoDao szjenemyinfoDao;
 
     @Override
-    public ArrayList<GetEnemyInfoResponseData> getEnemyInfo(GetEnemyInfoRequest request)
+    public GetEnemyInfoResponseData getEnemyInfo(GetEnemyInfoRequest request)
             throws SZJException {
         String openId = request.getOpenid();
         if (openId != null && !openId.isEmpty() && !szjUserInfoService.existOpenId(openId)) {
             throw new SZJException(SZJErrorCode.OPENID_ERROR);
         }
 
-        ArrayList<Szjenemyinfo> datas = szjenemyinfoDao.getAll();
-        if (datas == null) {
+        Szjenemyinfo data = szjenemyinfoDao.getUsable();
+        if (data == null) {
             throw new SZJException(SZJErrorCode.GET_ENEMY_INFO_FAILURE);
         }
 
         try {
-            ArrayList<GetEnemyInfoResponseData> res = new ArrayList<>();
-            for (Szjenemyinfo data : datas) {
-                res.add(new GetEnemyInfoResponseData(data));
-            }
+            GetEnemyInfoResponseData res = new GetEnemyInfoResponseData(data);
             return res;
         } catch (Exception e) {
             throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);

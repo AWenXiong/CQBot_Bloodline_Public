@@ -28,6 +28,14 @@ public interface SzjenemyinfoDao {
             "Id = #{Id}")
     Szjenemyinfo getById(@Param("Id") long Id);
 
+    @Select("select Id, Code, Name, Enabled, " +
+            "Description, SortCode, " +
+            "CreateOn, CreateUserId, CreateBy, " +
+            "ModifiedOn, ModifiedUserId, ModifiedBy " +
+            "from szjenemyinfo " +
+            "where DeletionStateCode = 0 and Enabled = 1")
+    Szjenemyinfo getUsable();
+
     @Insert("insert into szjenemyinfo " +
             "value ()")
     void insertSzjitemscolor();
