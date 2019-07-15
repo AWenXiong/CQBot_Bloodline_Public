@@ -8,6 +8,8 @@ public interface CardService {
 
     boolean existCard(String nickname);
 
+    ArrayList<Card> getAllCard();
+
     Long getId(String nickname);
 
     Card getAllInfo(String nickname);

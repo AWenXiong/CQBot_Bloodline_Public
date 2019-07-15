@@ -19,6 +19,11 @@ public class CardServiceImpl implements CardService {
     private CardDao cardDao;
 
     @Override
+    public ArrayList<Card> getAllCard() {
+        return cardDao.getAllCardInfo();
+    }
+
+    @Override
     public boolean updateCardCareer(String nickname, String career) {
         try {
             Long id = this.getId(nickname);

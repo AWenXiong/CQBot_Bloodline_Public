@@ -16,7 +16,7 @@ public interface CardDao {
             "create_time, create_user_id, modified_time, modified_user_id " +
             "from card " +
             "where deletion_state_code = 0")
-    Card getAllCardInfo();
+    ArrayList<Card> getAllCardInfo();
 
     //通过id获取卡的所有信息
     @Select("select id, fullname, nickname, skill1, skill2, skill3, skill4, skill5, favourate, dislike, career, " +
