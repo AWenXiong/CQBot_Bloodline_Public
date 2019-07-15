@@ -13,4 +13,6 @@ public interface SZJCardInfoService {
     ArrayList<GetAllCardsInfoResponseData> getAllCards(GetAllCardsInfoRequest request);
 
     void insertData(Szjcardinfo szjcardinfo);
+
+    boolean deleteCard(long id);
 }

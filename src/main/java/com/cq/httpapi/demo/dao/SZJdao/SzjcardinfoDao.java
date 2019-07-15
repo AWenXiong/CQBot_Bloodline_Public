@@ -1,6 +1,7 @@
 package com.cq.httpapi.demo.dao.SZJdao;
 
 import com.cq.httpapi.demo.entity.SZJ.Szjcardinfo;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -23,4 +24,8 @@ public interface SzjcardinfoDao {
             "#{c.createOn}, #{c.createUserId}, #{c.createBy}, " +
             "#{c.modifiedOn}, #{c.modifiedUserId}, #{c.modifiedBy})")
     void insertCardInfo(@Param("c") Szjcardinfo szjcardinfo);
+
+    @Delete("delete from szjcardinfo " +
+            "where Id = #{id}")
+    void deleteCardInfo(@Param("id") long id);
 }

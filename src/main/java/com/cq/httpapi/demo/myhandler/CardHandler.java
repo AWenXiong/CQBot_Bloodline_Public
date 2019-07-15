@@ -1,7 +1,6 @@
 package com.cq.httpapi.demo.myhandler;
 
 import com.cq.httpapi.demo.annotation.cqannotation.CQResponse;
-import com.cq.httpapi.demo.dao.SZJdao.SzjcardinfoDao;
 import com.cq.httpapi.demo.dto.response.message.MessageResponse;
 import com.cq.httpapi.demo.entity.CQ.Card;
 import com.cq.httpapi.demo.entity.SZJ.Szjcardinfo;
@@ -10,6 +9,7 @@ import com.cq.httpapi.demo.kit.CQKit.CQSenderKit;
 import com.cq.httpapi.demo.kit.ObjectKit;
 import com.cq.httpapi.demo.kit.TranslateKit;
 import com.cq.httpapi.demo.service.CQService.CardService;
+import com.cq.httpapi.demo.service.SZJService.SZJCardInfoService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -21,7 +21,7 @@ public class CardHandler {
     @Resource
     private CardService cardService;
     @Resource
-    SzjcardinfoDao szjcardinfoDao;
+    SZJCardInfoService szjCardInfoService;
 
     private static String showProp(Object o) {
         if (o != null) {
@@ -297,8 +297,9 @@ public class CardHandler {
             if (message.startsWith(deleteMessage)) {
                 int deleteCardStartIndex = message.indexOf(deleteMessage) + deleteMessage.length();
                 String nickname = message.substring(deleteCardStartIndex);
-
-                if (cardService.deleteCard(nickname, CQSenderKit.GetMsgSenderId(msgHttpReqHandler))) {
+                long cardId = cardService.getId(nickname);
+                if (cardService.deleteCard(nickname, CQSenderKit.GetMsgSenderId(msgHttpReqHandler)) &&
+                        szjCardInfoService.deleteCard(cardId)) {
                     response.setReply("成功删除卡片 " + nickname);
                     response.setFlag(true);
                     return response;
@@ -560,7 +561,7 @@ public class CardHandler {
                 c.setModifiedUserId(card.getModifiedUserId());
                 c.setModifiedBy(card.getModifiedUserId());
                 try {
-                    szjcardinfoDao.insertCardInfo(c);
+                    szjCardInfoService.insertData(c);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

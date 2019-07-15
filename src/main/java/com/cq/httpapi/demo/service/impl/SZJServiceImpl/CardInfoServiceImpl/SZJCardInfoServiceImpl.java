@@ -110,8 +110,19 @@ public class SZJCardInfoServiceImpl implements SZJCardInfoService {
             try {
                 szjcardinfoDao.insertCardInfo(c);
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
             }
+        }
+    }
+
+    @Override
+    public boolean deleteCard(long id) {
+        try {
+            szjcardinfoDao.deleteCardInfo(id);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new SZJException(SZJErrorCode.DELETE_CARD_INFO_ERROR);
         }
     }
 }
