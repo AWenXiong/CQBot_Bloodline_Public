@@ -72,6 +72,7 @@ public class SZJCardInfoServiceImpl implements SZJCardInfoService {
         }
     }
 
+    // 初始化SzjCardInfo
     @Override
     public void init() {
         ArrayList<Card> cards = cardService.getAllCard();
@@ -85,6 +86,7 @@ public class SZJCardInfoServiceImpl implements SZJCardInfoService {
             c.setName(fullName);
             c.setNickName(card.getNickname());
 
+            // 处理双属性的情况
             String color = card.getColor();
             if (color != null && color.length() > 1) {
                 String color1 = color.substring(0, 1);

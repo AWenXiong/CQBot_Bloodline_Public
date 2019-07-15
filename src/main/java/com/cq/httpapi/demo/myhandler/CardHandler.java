@@ -1,15 +1,14 @@
 package com.cq.httpapi.demo.myhandler;
 
 import com.cq.httpapi.demo.annotation.cqannotation.CQResponse;
-import com.cq.httpapi.demo.dto.response.message.GroupMessageResponse;
+import com.cq.httpapi.demo.dao.SZJdao.SzjcardinfoDao;
 import com.cq.httpapi.demo.dto.response.message.MessageResponse;
-import com.cq.httpapi.demo.dto.response.message.PrivateMessageResponse;
 import com.cq.httpapi.demo.entity.CQ.Card;
-import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
+import com.cq.httpapi.demo.entity.SZJ.Szjcardinfo;
 import com.cq.httpapi.demo.handler.httphandler.message.MsgHttpReqHandler;
-import com.cq.httpapi.demo.handler.httphandler.message.PriMsgHttpReqHandler;
 import com.cq.httpapi.demo.kit.CQKit.CQSenderKit;
 import com.cq.httpapi.demo.kit.ObjectKit;
+import com.cq.httpapi.demo.kit.TranslateKit;
 import com.cq.httpapi.demo.service.CQService.CardService;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +20,8 @@ public class CardHandler {
 
     @Resource
     private CardService cardService;
+    @Resource
+    SzjcardinfoDao szjcardinfoDao;
 
     private static String showProp(Object o) {
         if (o != null) {
@@ -518,6 +519,50 @@ public class CardHandler {
                     response.setReply("为 " + nickname + " 修改全名 " + fullname + " 成功");
                     response.setFlag(true);
                     return response;
+                }
+            }
+
+            // 同步某张卡到SzjCardInfo中
+            String syncFlag = "同步 ";
+            if (message.startsWith(syncFlag)) {
+                StringBuilder stringBuilder = new StringBuilder(message);
+                stringBuilder.delete(0, syncFlag.length());
+                String nickname = stringBuilder.substring(0, stringBuilder.length());
+                Card card = cardService.getAllInfo(nickname);
+                Szjcardinfo c = new Szjcardinfo();
+                c.setId(card.getId());
+                c.setCode(String.valueOf(card.getId()));
+
+                String fullName = TranslateKit.formatPinYin(card.getFullname());
+
+                c.setName(fullName);
+                c.setNickName(card.getNickname());
+
+                // 处理双属性的情况
+                String color = card.getColor();
+                if (color != null && color.length() > 1) {
+                    String color1 = color.substring(0, 1);
+                    String color2 = color.substring(1);
+                    c.setColor(color1);
+                    c.setColor2(color2);
+                } else {
+                    c.setColor(color);
+                }
+
+                c.setSex(card.getSex());
+                c.setOccupation(card.getCareer());
+                c.setCamp(card.getFaction());
+                c.setDescription(card.getDescription());
+                c.setCreateOn(card.getCreateTime());
+                c.setCreateUserId(card.getCreateUserId());
+                c.setCreateBy(card.getCreateUserId());
+                c.setModifiedOn(card.getModifiedTime());
+                c.setModifiedUserId(card.getModifiedUserId());
+                c.setModifiedBy(card.getModifiedUserId());
+                try {
+                    szjcardinfoDao.insertCardInfo(c);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
