@@ -41,6 +41,8 @@ public enum SZJErrorCode {
     DELETE_GROUP_FAILURE(30, "删除卡组失败"),
     INVITATION_CODE_ERROR(31, "邀请码不存在"),
 
+    INSERT_CARD_INFO_ERROR(32, "插入卡牌信息失败"),
+
     UNKNOWN_EXCEPTION(99, "未知异常");
 
     private int errorCode;
