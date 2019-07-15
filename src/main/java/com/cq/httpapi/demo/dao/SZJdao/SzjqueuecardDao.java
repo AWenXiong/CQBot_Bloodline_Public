@@ -41,6 +41,12 @@ public interface SzjqueuecardDao {
                             @Param("cardInfoId") long cardInfoId,
                             @Param("position") double position);
 
+    @Insert("insert into szjqueuecard(QueueInfoId, Level, Position) " +
+            "value(#{queueInfoId}, #{level}, #{position})")
+    void insertSzjqueuecardNullCardInfoId(@Param("queueInfoId") long queueInfoId,
+                                          @Param("level") double level,
+                                          @Param("position") double position);
+
     @Update("update szjqueuecard " +
             "set CreateOn = #{CreateOn}, CreateUserId = #{CreateUserId}, CreateBy = #{CreateBy} " +
             "where Id = #{Id}")

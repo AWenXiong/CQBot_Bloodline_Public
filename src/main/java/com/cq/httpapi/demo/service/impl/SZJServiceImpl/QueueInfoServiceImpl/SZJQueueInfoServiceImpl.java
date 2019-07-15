@@ -78,6 +78,7 @@ public class SZJQueueInfoServiceImpl implements SZJQueueInfoService {
         } catch (SZJException e) {
             throw e;
         } catch (Exception e) {
+            e.printStackTrace();
             throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
     }

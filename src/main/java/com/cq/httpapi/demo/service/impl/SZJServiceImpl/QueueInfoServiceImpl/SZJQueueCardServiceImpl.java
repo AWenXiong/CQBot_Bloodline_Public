@@ -40,7 +40,11 @@ public class SZJQueueCardServiceImpl implements SZJQueueCardService {
     public Long insertSzjqueuecard(Long userId, Long queueInfoId, Double level, Long cardInfoId, Double position) {
         try {
             // 插入新的数据到 SZJQueueCard
-            szjqueuecardDao.insertSzjqueuecard(queueInfoId, level, cardInfoId, position);
+            if (cardInfoId == null) {
+                szjqueuecardDao.insertSzjqueuecardNullCardInfoId(queueInfoId, level, position);
+            } else {
+                szjqueuecardDao.insertSzjqueuecard(queueInfoId, level, cardInfoId, position);
+            }
             Long newQueueCardId = szjqueuecardDao.getLastInsertByQueueInfoId(queueInfoId);
             // 更新相关信息
             szjqueuecardDao.updateCreateInfo(newQueueCardId, TimeKit.getFormalTime(), String.valueOf(userId), String.valueOf(userId));
