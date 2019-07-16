@@ -13,6 +13,7 @@ import com.cq.httpapi.demo.service.CQService.CardService;
 import com.cq.httpapi.demo.service.SZJService.SZJCardInfoService;
 import com.cq.httpapi.demo.service.SZJService.SZJUserInfoService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -74,6 +75,7 @@ public class SZJCardInfoServiceImpl implements SZJCardInfoService {
 
     // 初始化SzjCardInfo
     @Override
+    @Transactional
     public void init() {
         ArrayList<Card> cards = cardService.getAllCard();
         for (Card card : cards) {
@@ -81,7 +83,8 @@ public class SZJCardInfoServiceImpl implements SZJCardInfoService {
             c.setId(card.getId());
             c.setCode(String.valueOf(card.getId()));
 
-            String fullName = TranslateKit.formatPinYin(card.getFullname());
+            String fullName = TranslateKit.formatPinYin(card.getColor()) + "_" +
+                    TranslateKit.formatPinYin(card.getFullname());
 
             c.setName(fullName);
             c.setNickName(card.getNickname());
@@ -98,7 +101,33 @@ public class SZJCardInfoServiceImpl implements SZJCardInfoService {
             }
 
             c.setSex(card.getSex());
-            c.setOccupation(card.getCareer());
+
+            String career = card.getCareer();
+            if (career != null && !career.isEmpty()) {
+                switch (career) {
+                    case "1": {
+                        career = "战士";
+                        break;
+                    }
+                    case "2": {
+                        career = "刺客";
+                        break;
+                    }
+                    case "3": {
+                        career = "射手";
+                        break;
+                    }
+                    case "4": {
+                        career = "法师";
+                        break;
+                    }
+                    case "5": {
+                        career = "牧师";
+                        break;
+                    }
+                }
+            }
+            c.setOccupation(career);
             c.setCamp(card.getFaction());
             c.setDescription(card.getDescription());
             c.setCreateOn(card.getCreateTime());
@@ -110,7 +139,7 @@ public class SZJCardInfoServiceImpl implements SZJCardInfoService {
             try {
                 szjcardinfoDao.insertCardInfo(c);
             } catch (Exception e) {
-                throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
+                throw new SZJException(SZJErrorCode.INIT_CARD_INFO_ERROR);
             }
         }
     }
