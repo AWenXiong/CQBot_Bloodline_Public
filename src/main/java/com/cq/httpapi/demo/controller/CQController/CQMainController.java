@@ -36,6 +36,8 @@ public class CQMainController {
     private ItemHandler itemHandler;
     @Resource
     private ImportHandler importHandler;
+    @Resource
+    private PartnerHandler partnerHandler;
 
     @RequestMapping(value = "/deliver")
     @ResponseBody
@@ -82,14 +84,16 @@ public class CQMainController {
                             // 卡牌信息管理
                             allResponse.add(cardHandler.cardManager(grpMsgHttpReqHandler));
 
+                            // 伙伴
+                            allResponse.add(partnerHandler.getMaster(grpMsgHttpReqHandler));
                         }
 
                         if (user.equals(User.DOLLYBELU.getUserId())) {
                             allResponse.add(itemHandler.itemManager(grpMsgHttpReqHandler));
                         }
 
+                        // 禁言
                         if (purchaseHandler.checkService(guild, "ban")) {
-                            // 禁言
                             allResponse.add(BanHandler.banHandler(grpMsgHttpReqHandler));
                         }
 
@@ -100,6 +104,7 @@ public class CQMainController {
                             allResponse.add(remindHandler.deleteRemind(grpMsgHttpReqHandler));
                         }
 
+                        // 查看服务
                         allResponse.add(purchaseHandler.getOwnPurchase(grpMsgHttpReqHandler));
 
                         break;
@@ -111,10 +116,11 @@ public class CQMainController {
                         PriMsgHttpReqHandler priMsgHttpReqHandler = new PriMsgHttpReqHandler(header, body);
                         String userId = CQSenderKit.GetMsgSenderId(priMsgHttpReqHandler);
 
+                        // 回答问题
                         allResponse.add(towerHandler.answerQuestion(priMsgHttpReqHandler));
 
+                        // 问答管理
                         if (purchaseHandler.checkService("p" + userId, "tower")) {
-                            // 问答
                             allResponse.add(towerHandler.towerManager(priMsgHttpReqHandler));
                         }
 
@@ -124,6 +130,7 @@ public class CQMainController {
                             allResponse.add(remindHandler.stopCheckSchedule(priMsgHttpReqHandler));
                             allResponse.add(remindHandler.restartCheckSchedule(priMsgHttpReqHandler));
 
+                            // 服务管理
                             allResponse.add(purchaseHandler.addPurchase(priMsgHttpReqHandler));
                             allResponse.add(purchaseHandler.deletePurchase(priMsgHttpReqHandler));
                             allResponse.add(purchaseHandler.SAGetPurchaseByGuild(priMsgHttpReqHandler));
@@ -135,10 +142,17 @@ public class CQMainController {
                             allResponse.add(SendMessageHandler.sendGroupMessage(priMsgHttpReqHandler));
                             allResponse.add(SendMessageHandler.sendPrivateMessage(priMsgHttpReqHandler));
 
+                            // 导入极限图
                             allResponse.add(importHandler.importMaxData(priMsgHttpReqHandler));
 
                             // 添加服务
                             allResponse.add(purchaseHandler.getOwnPurchase(priMsgHttpReqHandler));
+
+                            // 同步命运伙伴信息
+                            allResponse.add(partnerHandler.sync(priMsgHttpReqHandler));
+
+                            // 物品管理
+                            allResponse.add(itemHandler.itemManager(priMsgHttpReqHandler));
                         }
 
                         // 好感度
@@ -148,9 +162,9 @@ public class CQMainController {
 
                         // 物品
                         allResponse.add(itemHandler.itemChecker(priMsgHttpReqHandler));
-                        if (userId.equals(User.DOLLYBELU.getUserId())) {
-                            allResponse.add(itemHandler.itemManager(priMsgHttpReqHandler));
-                        }
+
+                        // 逆向查询命运伙伴
+                        allResponse.add(partnerHandler.getMaster(priMsgHttpReqHandler));
 
                         break;
                     }
