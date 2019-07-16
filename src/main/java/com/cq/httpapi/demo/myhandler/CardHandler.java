@@ -21,7 +21,7 @@ public class CardHandler {
     @Resource
     private CardService cardService;
     @Resource
-    SZJCardInfoService szjCardInfoService;
+    private SZJCardInfoService szjCardInfoService;
 
     private static String showProp(Object o) {
         if (o != null) {
