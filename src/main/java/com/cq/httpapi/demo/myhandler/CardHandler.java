@@ -551,7 +551,31 @@ public class CardHandler {
                 }
 
                 c.setSex(card.getSex());
-                c.setOccupation(card.getCareer());
+
+                String career = card.getCareer();
+                switch (career) {
+                    case "1": {
+                        career = "战士";
+                        break;
+                    }
+                    case "2": {
+                        career = "刺客";
+                        break;
+                    }
+                    case "3": {
+                        career = "射手";
+                        break;
+                    }
+                    case "4": {
+                        career = "法师";
+                        break;
+                    }
+                    case "5": {
+                        career = "牧师";
+                        break;
+                    }
+                }
+                c.setOccupation(career);
                 c.setCamp(card.getFaction());
                 c.setDescription(card.getDescription());
                 c.setCreateOn(card.getCreateTime());
