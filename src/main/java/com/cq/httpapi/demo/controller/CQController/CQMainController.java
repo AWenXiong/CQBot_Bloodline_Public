@@ -79,15 +79,16 @@ public class CQMainController {
                                 allResponse.add(cardHandler.cardChecker2(grpMsgHttpReqHandler));
                                 // 好感度
                                 allResponse.add(cardHandler.cardChecker(grpMsgHttpReqHandler));
+                                // 命运链接伙伴
+                                allResponse.add(partnerHandler.getMaster(grpMsgHttpReqHandler));
                             }
 
                             // 卡牌信息管理
                             allResponse.add(cardHandler.cardManager(grpMsgHttpReqHandler));
 
-                            // 伙伴
-                            allResponse.add(partnerHandler.getMaster(grpMsgHttpReqHandler));
                         }
 
+                        // 游戏道具信息管理
                         if (user.equals(User.DOLLYBELU.getUserId())) {
                             allResponse.add(itemHandler.itemManager(grpMsgHttpReqHandler));
                         }
