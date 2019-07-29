@@ -39,6 +39,11 @@ public interface SzjqueuelevelDao {
                              @Param("level") double level,
                              @Param("userSpellInfoId") long userSpellInfoId);
 
+    @Insert("insert into szjqueuelevel(QueueInfoId, Level) value" +
+            "(#{queueInfoId}, #{level})")
+    void insertSzjqueuelevelNullSpell(@Param("queueInfoId") long queueInfoId,
+                                      @Param("level") double level);
+
     @Update("update szjqueuelevel " +
             "set CreateOn = #{CreateOn}, CreateUserId = #{CreateUserId}, CreateBy = #{CreateBy} " +
             "where Id = #{Id}")

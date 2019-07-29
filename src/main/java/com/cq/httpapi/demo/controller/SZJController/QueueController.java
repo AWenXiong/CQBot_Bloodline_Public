@@ -80,7 +80,7 @@ public class QueueController {
     public CreateQueueInfoResponse createQueueInfo(@RequestBody CreateQueueInfoRequest request) {
         CreateQueueInfoResponse response = new CreateQueueInfoResponse();
         try {
-            szjQueueInfoService.createQueueInfo(request);
+            response = szjQueueInfoService.createQueueInfo(request);
             response.setSuccess(true);
         } catch (SZJException e) {
             response.setError(e);

@@ -20,7 +20,12 @@ public class SZJQueueLevelServiceImpl implements SZJQueueLevelService {
 
         try {
             // 插入新的数据到 SZJQueueLevel
-            szjqueuelevelDao.insertSzjqueuelevel(queueInfoId, level, userSpellInfo);
+            if (userSpellInfo != null) {
+                szjqueuelevelDao.insertSzjqueuelevel(queueInfoId, level, userSpellInfo);
+            } else {
+                szjqueuelevelDao.insertSzjqueuelevelNullSpell(queueInfoId, level);
+            }
+
             // 更新相关信息
             Long newLevelId = szjqueuelevelDao.getLastInsert(queueInfoId);
             szjqueuelevelDao.updateCreateInfo(newLevelId, TimeKit.getFormalTime(), String.valueOf(userId), String.valueOf(userId));

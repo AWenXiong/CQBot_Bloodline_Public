@@ -4,6 +4,7 @@ import com.cq.httpapi.demo.dao.SZJdao.SzjqueueinfoDao;
 import com.cq.httpapi.demo.dto.SZJ.Request.QueueRequest.CreateQueueInfoRequest;
 import com.cq.httpapi.demo.dto.SZJ.Request.QueueRequest.CreateQueueInfoRequestData;
 import com.cq.httpapi.demo.dto.SZJ.Request.QueueRequest.CreateQueueInfoRequestDataCard;
+import com.cq.httpapi.demo.dto.SZJ.Response.QueueResponse.CreateQueueInfoResponse;
 import com.cq.httpapi.demo.entity.SZJ.Szjqueueinfo;
 import com.cq.httpapi.demo.entity.SZJ.Szjuserinfo;
 import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
@@ -33,8 +34,9 @@ public class SZJQueueInfoServiceImpl implements SZJQueueInfoService {
 
     @Override
     @Transactional
-    public boolean createQueueInfo(CreateQueueInfoRequest request) throws SZJException {
+    public CreateQueueInfoResponse createQueueInfo(CreateQueueInfoRequest request) throws SZJException {
         String openId = request.getOpenid();
+        CreateQueueInfoResponse response = new CreateQueueInfoResponse();
         if (openId == null || !szjUserInfoService.existOpenId(openId)) {
             throw new SZJException(SZJErrorCode.OPENID_ERROR);
         }
@@ -55,6 +57,7 @@ public class SZJQueueInfoServiceImpl implements SZJQueueInfoService {
 
             // 插入新的数据到 SZJQueueInfo 己方阵容配置表
             Long newQueueInfoId = this.insertQueueInfo(userId, groupId);
+            response.setId(newQueueInfoId);
 
             for (CreateQueueInfoRequestData level : levels) {
                 Double realLevel = level.getLevel();
@@ -74,11 +77,10 @@ public class SZJQueueInfoServiceImpl implements SZJQueueInfoService {
                     Long newQueueCardId = szjQueueCardService.insertSzjqueuecard(userId, newQueueInfoId, realLevel, cardId, position);
                 }
             }
-            return true;
+            return response;
         } catch (SZJException e) {
             throw e;
         } catch (Exception e) {
-            e.printStackTrace();
             throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
     }
