@@ -10,10 +10,11 @@ import com.cq.httpapi.demo.exception.CQException.InvalidRemindOptionException;
 import com.cq.httpapi.demo.exception.CQException.TooManyOptionsException;
 import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.MsgHttpReqHandler;
-import com.cq.httpapi.demo.kit.*;
 import com.cq.httpapi.demo.kit.CQKit.CQCodeKit;
 import com.cq.httpapi.demo.kit.CQKit.CQGroupKit;
 import com.cq.httpapi.demo.kit.CQKit.CQSenderKit;
+import com.cq.httpapi.demo.kit.OptionKit;
+import com.cq.httpapi.demo.kit.TimeKit;
 import com.cq.httpapi.demo.service.CQService.RemindService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -42,9 +43,10 @@ public class RemindHandler implements ApplicationRunner {
     final static String TimeZone_Default = "GMT+8";
     final static String TimeZone_BJ = "-BJ";
     final static String TimeZone_LA = "-LA";
+    private static String prodTimeZone = "GMT+8";
+    /// 真正用作提醒的东西
     private static Timer checkScheduleTimer = null;
     private static TimerTask checkScheduleTimerTask = null;
-    private static String prodTimeZone = "GMT+8";
     private static boolean remindStartFlag = false;
 
     @Resource
@@ -59,9 +61,6 @@ public class RemindHandler implements ApplicationRunner {
     /**
      * 手动启动任务
      * 口令 启动提醒
-     *
-     * @param msgHttpReqHandler
-     * @return
      */
     @CQResponse
     public PrivateMessageResponse startCheckSchedule(MsgHttpReqHandler msgHttpReqHandler) {
@@ -86,9 +85,6 @@ public class RemindHandler implements ApplicationRunner {
     /**
      * 手动停止提醒任务
      * 口令 停止提醒
-     *
-     * @param msgHttpReqHandler
-     * @return
      */
     @CQResponse
     public PrivateMessageResponse stopCheckSchedule(MsgHttpReqHandler msgHttpReqHandler) {
@@ -111,9 +107,6 @@ public class RemindHandler implements ApplicationRunner {
     /**
      * 手动重启提醒任务
      * 口令 重启提醒
-     *
-     * @param msgHttpReqHandler
-     * @return
      */
     @CQResponse
     public PrivateMessageResponse restartCheckSchedule(MsgHttpReqHandler msgHttpReqHandler) {
@@ -135,14 +128,11 @@ public class RemindHandler implements ApplicationRunner {
 
     /**
      * 启动提醒任务
-     *
-     * @param remindService
      */
     private void startCheckSchedule(RemindService remindService) {
         if (checkScheduleTimer == null) {
             checkScheduleTimer = new Timer();
         }
-
         if (checkScheduleTimerTask == null) {
             checkScheduleTimerTask = new TimerTask() {
                 @Override
@@ -151,7 +141,6 @@ public class RemindHandler implements ApplicationRunner {
                 }
             };
         }
-
         checkScheduleTimer.scheduleAtFixedRate(checkScheduleTimerTask, 0, 5 * 60 * 1000);
     }
 
@@ -172,8 +161,6 @@ public class RemindHandler implements ApplicationRunner {
 
     /**
      * 重启提醒任务
-     *
-     * @param remindService
      */
     private void restartCheckSchedule(RemindService remindService) {
         stopCheckSchedule();
@@ -184,8 +171,6 @@ public class RemindHandler implements ApplicationRunner {
      * 每五分钟执行一次
      * 检查数据库中接下来五分钟需要执行的提醒，并将提醒加入到队列中
      * 更新下次进行提醒的时间
-     *
-     * @param remindService
      */
     private void checkSchedule(RemindService remindService) {
         ArrayList<Remind> reminds = remindService.getRemind(5L);
@@ -224,9 +209,6 @@ public class RemindHandler implements ApplicationRunner {
 
     /**
      * 给定一个提醒，计算下一次需要进行提醒的时间
-     *
-     * @param remind
-     * @return 下次进行提醒的 Date
      */
     private Remind nextRemind(Remind remind) {
         Remind res = new Remind();
@@ -256,9 +238,6 @@ public class RemindHandler implements ApplicationRunner {
 
     /**
      * 设置提醒
-     *
-     * @param grpMsgHttpReqHandler
-     * @return
      */
     @CQResponse
     public GroupMessageResponse setRemind(GrpMsgHttpReqHandler grpMsgHttpReqHandler) {
@@ -500,9 +479,6 @@ public class RemindHandler implements ApplicationRunner {
 
     /**
      * 查看提醒
-     *
-     * @param grpMsgHttpReqHandler
-     * @return
      */
     @CQResponse
     public GroupMessageResponse getRemind(GrpMsgHttpReqHandler grpMsgHttpReqHandler) {
@@ -540,9 +516,6 @@ public class RemindHandler implements ApplicationRunner {
 
     /**
      * 删除提醒 可以批量删除
-     *
-     * @param grpMsgHttpReqHandler
-     * @return
      */
     @CQResponse
     public GroupMessageResponse deleteRemind(GrpMsgHttpReqHandler grpMsgHttpReqHandler) {

@@ -112,6 +112,7 @@ public class ObjectKit {
         }
     }
 
+    // 将from对象的属性拷贝到to对象中，拷贝的范围是忽略大小写情况下属性名相同的属性
     public static void deliverPropIgnoreCase(Object to, Object from) throws Exception {
         Class fromClass = from.getClass();
         Class toClass = to.getClass();
@@ -169,6 +170,7 @@ public class ObjectKit {
         }
     }
 
+    // 利用对象输入输出流进行深拷贝
     public static Object deepClone(Object o) {
         try {
             // 将对象写入流中
@@ -186,6 +188,8 @@ public class ObjectKit {
         }
     }
 
+    // 给定一个对象o，以及一个类到类的映射集
+    // 从这个映射集中找出键为o的类A所对应的类B，并返回B的实例
     public static Object generateObject(Object o, Map<Class, Class> map) throws InstantiationException, IllegalAccessException {
         Set<Class> classes = map.keySet();
         for (Class c : classes) {
@@ -197,6 +201,7 @@ public class ObjectKit {
         return null;
     }
 
+    // 根据消息类型(群消息、私聊消息)获取相应的响应对象
     public static MessageResponse getCQMessageResponse(MsgHttpReqHandler handler) {
         MessageResponse response = null;
         if (GrpMsgHttpReqHandler.class.isInstance(handler)) {
@@ -212,4 +217,6 @@ public class ObjectKit {
             return null;
         }
     }
+
+
 }
