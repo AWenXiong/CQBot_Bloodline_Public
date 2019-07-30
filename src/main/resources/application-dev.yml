@@ -15,7 +15,14 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true # 驼峰命名规范
 
+#logging:
+#  level:
+#    com.cq.httpapi.demo.dao: debug
+##    com.cq.httpapi.demo.myhandler: debug
+
 logging:
-  level:
-    com.cq.httpapi.demo.dao: debug
-#    com.cq.httpapi.demo.myhandler: debug
+#  file: C:/Users/Administrator/Desktop/logTest/log.txt
+#  level:
+#    com.cq.httpapi.demo.dao: info
+#    com.cq.httpapi.demo.myhandler: info
+  config: classpath:logback-dev.xml

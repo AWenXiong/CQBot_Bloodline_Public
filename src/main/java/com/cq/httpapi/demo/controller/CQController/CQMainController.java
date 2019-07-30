@@ -6,11 +6,14 @@ import com.cq.httpapi.demo.dto.response.Response;
 import com.cq.httpapi.demo.handler.eventhandler.RequestEventHandler;
 import com.cq.httpapi.demo.handler.httphandler.CQHttpHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
+import com.cq.httpapi.demo.handler.httphandler.message.MsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.PriMsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.notice.GrpMembChangeHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.notice.GrpNoticeHttpHandler;
 import com.cq.httpapi.demo.kit.CQKit.CQSenderKit;
 import com.cq.httpapi.demo.myhandler.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +41,8 @@ public class CQMainController {
     private ImportHandler importHandler;
     @Resource
     private PartnerHandler partnerHandler;
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @RequestMapping(value = "/deliver")
     @ResponseBody
@@ -174,17 +179,33 @@ public class CQMainController {
 //            // import
 //            allResponse.add(ImportHandler.importHandler(reqHandler, cardService));
                 //=================================================================================
-                int count = 0;
+
                 try {
+                    // 遍历响应列表，若flag为真则返回该条响应
+                    // 并记录触发响应的消息以及回复的消息
                     for (Response response : allResponse) {
                         if (response != null) {
                             if (response.isFlag()) {
+                                MsgHttpReqHandler handler = null;
+                                switch (message_type) {
+                                    case "group": {
+                                        handler = new GrpMsgHttpReqHandler(header, body);
+                                        break;
+                                    }
+                                    case "private": {
+                                        handler = new PriMsgHttpReqHandler(header, body);
+                                        break;
+                                    }
+                                }
+                                logger.info(handler.toString());
+                                logger.warn(handler.getMessage() + " " + handler.getUserId());
+                                logger.info(response.toString());
+                                logger.warn(response.toString());
                                 return response;
                             }
                             if (response.isOpFlag()) {
                                 response.execute();
                             }
-                            count++;
                         }
                     }
                 } catch (Exception e) {

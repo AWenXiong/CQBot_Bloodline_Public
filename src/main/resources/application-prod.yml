@@ -24,7 +24,8 @@ mybatis:
     map-underscore-to-camel-case: true # 驼峰命名规范
 
 logging:
-  file: C:/Users/Public/Downloads/bloodline/log/log.txt
+#  file: C:/Users/Administrator/Desktop/logTest/log.txt
 #  level:
-#    com.cq.httpapi.demo.dao: debug
-#    com.cq.httpapi.demo.myhandler: debug
+#    com.cq.httpapi.demo.dao: info
+#    com.cq.httpapi.demo.myhandler: info
+  config: classpath:logback-prod.xml

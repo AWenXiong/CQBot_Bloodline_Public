@@ -19,6 +19,14 @@ public class GrpMsgHttpReqHandler implements MsgHttpReqHandler {
     }
 
     @Override
+    public String toString() {
+        return "GrpMsgHttpReqHandler{" +
+                "header=" + header +
+                ", requestMsg=" + requestMsg +
+                '}';
+    }
+
+    @Override
     public String getPostType() {
         return this.requestMsg.get("post_type").toString();
     }
