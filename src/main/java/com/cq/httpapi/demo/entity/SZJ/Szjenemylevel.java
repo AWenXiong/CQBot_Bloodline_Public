@@ -18,7 +18,15 @@ public class Szjenemylevel {
     private java.sql.Timestamp modifiedOn;
     private String modifiedUserId;
     private String modifiedBy;
+    private long maxNum;
 
+    public long getMaxNum() {
+        return maxNum;
+    }
+
+    public void setMaxNum(long maxNum) {
+        this.maxNum = maxNum;
+    }
 
     public long getId() {
         return id;

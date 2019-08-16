@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public interface SzjenemylevelDao {
 
     @Select("select Id, EnemyInfoId, Level, FightingCapacity, " +
-            "AdditionType, AdditionOption, AdditionAmmount, " +
+            "AdditionType, AdditionOption, AdditionAmmount, MaxNum, " +
             "Description, SortCode, " +
             "CreateOn, CreateUserId, CreateBy, " +
             "ModifiedOn, ModifiedUserId, ModifiedBy " +
@@ -21,7 +21,7 @@ public interface SzjenemylevelDao {
     ArrayList<Szjenemylevel> getAll();
 
     @Select("select Id, EnemyInfoId, Level, FightingCapacity, " +
-            "AdditionType, AdditionOption, AdditionAmmount, " +
+            "AdditionType, AdditionOption, AdditionAmmount, MaxNum, " +
             "Description, SortCode, " +
             "CreateOn, CreateUserId, CreateBy, " +
             "ModifiedOn, ModifiedUserId, ModifiedBy " +
