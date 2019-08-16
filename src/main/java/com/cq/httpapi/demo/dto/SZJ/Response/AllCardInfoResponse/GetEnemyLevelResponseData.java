@@ -22,6 +22,11 @@ public class GetEnemyLevelResponseData {
     public Timestamp ModifiedOn;
     public String ModifiedUserId;
     public String ModifiedBy;
+    public Long MaxNum;
+
+    public void setMaxNum(Long maxNum) {
+        MaxNum = maxNum;
+    }
 
     public GetEnemyLevelResponseData(Szjenemylevel szjenemylevel) throws Exception {
         ObjectKit.deliverPropIgnoreCase(this, szjenemylevel);
