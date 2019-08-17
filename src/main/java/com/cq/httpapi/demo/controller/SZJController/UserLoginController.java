@@ -1,9 +1,6 @@
 package com.cq.httpapi.demo.controller.SZJController;
 
-import com.cq.httpapi.demo.dto.SZJ.Request.UserLoginRequest.BindingWechatRequest;
-import com.cq.httpapi.demo.dto.SZJ.Request.UserLoginRequest.GetUserInfoRequest;
-import com.cq.httpapi.demo.dto.SZJ.Request.UserLoginRequest.UserLoginRequest;
-import com.cq.httpapi.demo.dto.SZJ.Request.UserLoginRequest.UserRegisterRequest;
+import com.cq.httpapi.demo.dto.SZJ.Request.UserLoginRequest.*;
 import com.cq.httpapi.demo.dto.SZJ.Response.UserLoginResponse.*;
 import com.cq.httpapi.demo.entity.SZJ.Szjuserinfo;
 import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
@@ -94,6 +91,19 @@ public class UserLoginController {
         try {
             boolean res = szjUserInfoService.bindingUserWechat(request);
             response.setSuccess(res);
+        } catch (SZJException e) {
+            response.setError(e);
+        } catch (Exception e) {
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/UpdateUserInfoRequest", method = RequestMethod.POST)
+    public UpdateUserInfoResponse UpdateUserInfo(@RequestBody UpdateUserInfoRequest request) {
+        UpdateUserInfoResponse response = new UpdateUserInfoResponse();
+        try {
+
         } catch (SZJException e) {
             response.setError(e);
         } catch (Exception e) {
