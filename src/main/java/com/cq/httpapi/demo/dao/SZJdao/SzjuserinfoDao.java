@@ -29,7 +29,7 @@ public interface SzjuserinfoDao {
             "Id = #{Id}")
     Szjuserinfo getById(@Param("Id") Long Id);
 
-    @Select("select Id, Code, Name, Openid, Mobile, Email, FreeQueueTime " +
+    @Select("select Id, Code, Name, Openid, Mobile, Email, FreeQueueTime, WechatOpenid " +
             "from szjuserinfo " +
             "where code = #{code} and password = #{password}")
     Szjuserinfo login(@Param("code") String code,
@@ -49,7 +49,7 @@ public interface SzjuserinfoDao {
             "where Openid = #{openId}")
     Long existOpenId(@Param("openId") String openId);
 
-    @Select("select Id, Code, Name, Openid, Mobile, Email, FreeQueueTime " +
+    @Select("select Id, Code, Name, Openid, Mobile, Email, FreeQueueTime, WechatOpenid " +
             "from szjuserinfo " +
             "where Openid = #{openId}")
     Szjuserinfo getByOpenId(@Param("openId") String openId);

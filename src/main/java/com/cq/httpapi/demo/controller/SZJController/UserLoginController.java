@@ -1,5 +1,6 @@
 package com.cq.httpapi.demo.controller.SZJController;
 
+import com.cq.httpapi.demo.dto.SZJ.Request.UserLoginRequest.BindingWechatRequest;
 import com.cq.httpapi.demo.dto.SZJ.Request.UserLoginRequest.GetUserInfoRequest;
 import com.cq.httpapi.demo.dto.SZJ.Request.UserLoginRequest.UserLoginRequest;
 import com.cq.httpapi.demo.dto.SZJ.Request.UserLoginRequest.UserRegisterRequest;
@@ -25,12 +26,7 @@ public class UserLoginController {
     @Resource
     private SZJUserInfoService szjUserInfoService;
 
-    /**
-     * 用户注册
-     *
-     * @param request
-     * @return
-     */
+    // 用户注册
     @ApiOperation(value = "注册")
     @RequestMapping(value = "/UserRegister", method = RequestMethod.POST)
     public UserRegisterResponse register(@RequestBody UserRegisterRequest request) {
@@ -53,12 +49,7 @@ public class UserLoginController {
         return response;
     }
 
-    /**
-     * 用户登录
-     *
-     * @param request
-     * @return
-     */
+    // 用户登录
     @ApiOperation(value = "登录")
     @RequestMapping(value = "/UserLogOn", method = RequestMethod.POST)
     public UserLoginResponse login(@RequestBody UserLoginRequest request) {
@@ -77,12 +68,7 @@ public class UserLoginController {
         return response;
     }
 
-    /**
-     * 获取用户信息
-     *
-     * @param request
-     * @return
-     */
+    // 获取用户信息
     @ApiOperation(value = "获取用户信息")
     @RequestMapping(value = "/GetUserInfo", method = RequestMethod.POST)
     public GetUserInfoResponse getUserInfo(@RequestBody GetUserInfoRequest request) {
@@ -93,6 +79,21 @@ public class UserLoginController {
             // 设置回复
             response.setSuccess(true);
             response.setData(data);
+        } catch (SZJException e) {
+            response.setError(e);
+        } catch (Exception e) {
+            response.setError(SZJErrorCode.UNKNOWN_EXCEPTION);
+        }
+        return response;
+    }
+
+    // 绑定微信
+    @RequestMapping(value = "/BindingUserWechat", method = RequestMethod.POST)
+    public BindingWechatResponse BindingUserWechat(@RequestBody BindingWechatRequest request) {
+        BindingWechatResponse response = new BindingWechatResponse();
+        try {
+            boolean res = szjUserInfoService.bindingUserWechat(request);
+            response.setSuccess(res);
         } catch (SZJException e) {
             response.setError(e);
         } catch (Exception e) {

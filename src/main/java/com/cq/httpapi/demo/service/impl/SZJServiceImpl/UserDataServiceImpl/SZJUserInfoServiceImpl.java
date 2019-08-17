@@ -1,6 +1,7 @@
 package com.cq.httpapi.demo.service.impl.SZJServiceImpl.UserDataServiceImpl;
 
 import com.cq.httpapi.demo.dao.SZJdao.SzjuserinfoDao;
+import com.cq.httpapi.demo.dto.SZJ.Request.UserLoginRequest.BindingWechatRequest;
 import com.cq.httpapi.demo.dto.SZJ.Request.UserLoginRequest.GetUserInfoRequest;
 import com.cq.httpapi.demo.dto.SZJ.Request.UserLoginRequest.UserLoginRequest;
 import com.cq.httpapi.demo.dto.SZJ.Request.UserLoginRequest.UserRegisterRequest;
@@ -22,7 +23,6 @@ public class SZJUserInfoServiceImpl implements SZJUserInfoService {
 
     @Resource
     SzjuserinfoDao szjuserinfoDao;
-
 
     @Override
     @Transactional
@@ -129,25 +129,14 @@ public class SZJUserInfoServiceImpl implements SZJUserInfoService {
         }
     }
 
-    /**
-     * 根据id获取用户信息
-     *
-     * @param id
-     * @return
-     */
+    // 根据id获取用户信息
     @Override
     public Szjuserinfo getById(Long id) {
         Szjuserinfo szjuserinfo = szjuserinfoDao.getById(id);
         return szjuserinfo;
     }
 
-    /**
-     * 根据OpenId获取用户信息
-     *
-     * @param openId 登录码
-     * @return 用户信息
-     * @throws SZJException 用户不存在
-     */
+    // 根据OpenId获取用户信息
     @Override
     public Szjuserinfo getUserInfoByOpenId(String openId) throws SZJException {
         if (existOpenId(openId)) {
@@ -157,12 +146,7 @@ public class SZJUserInfoServiceImpl implements SZJUserInfoService {
         }
     }
 
-    /**
-     * 检查OpenId是否存在
-     *
-     * @param openId 登录码
-     * @return
-     */
+    // 检查OpenId是否存在
     @Override
     public boolean existOpenId(String openId) {
         Long openIdNum = szjuserinfoDao.existOpenId(openId);
@@ -173,12 +157,7 @@ public class SZJUserInfoServiceImpl implements SZJUserInfoService {
         }
     }
 
-    /**
-     * 根据Code检查数据库中是否存在用户
-     *
-     * @param userName
-     * @return
-     */
+    // 根据Code检查数据库中是否存在用户
     @Override
     public boolean existCode(String userName) {
         Long id = szjuserinfoDao.existCode(userName);
@@ -201,4 +180,21 @@ public class SZJUserInfoServiceImpl implements SZJUserInfoService {
         return 0;
     }
 
+    @Override
+    @Transactional
+    public boolean bindingUserWechat(BindingWechatRequest request) {
+        String openId = request.getOpenid();
+        if (openId == null || openId.isEmpty() || !existOpenId(openId)) {
+            throw new SZJException(SZJErrorCode.OPENID_ERROR);
+        }
+        Szjuserinfo userInfo = szjuserinfoDao.getByOpenId(openId);
+        String wechatOpenid = userInfo.getWechatOpenid();
+        if (wechatOpenid == null || wechatOpenid.isEmpty()) {
+            szjuserinfoDao.updateWechatOpenid(userInfo.getId(), request.getWechatOpenid());
+            szjuserinfoDao.updateModifyInfo(userInfo.getId(), TimeKit.getFormalTime(), userInfo.getCode(), userInfo.getName());
+            return true;
+        } else {
+            throw new SZJException(SZJErrorCode.Wechat_Already_Binded);
+        }
+    }
 }

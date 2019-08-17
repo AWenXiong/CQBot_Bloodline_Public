@@ -1,5 +1,6 @@
 package com.cq.httpapi.demo.service.SZJService;
 
+import com.cq.httpapi.demo.dto.SZJ.Request.UserLoginRequest.BindingWechatRequest;
 import com.cq.httpapi.demo.dto.SZJ.Request.UserLoginRequest.GetUserInfoRequest;
 import com.cq.httpapi.demo.dto.SZJ.Request.UserLoginRequest.UserLoginRequest;
 import com.cq.httpapi.demo.dto.SZJ.Request.UserLoginRequest.UserRegisterRequest;
@@ -25,4 +26,6 @@ public interface SZJUserInfoService {
     long delete(UserRegisterRequest userRegisterRequest);
 
     long update(UserRegisterRequest userRegisterRequest);
+
+    boolean bindingUserWechat(BindingWechatRequest request);
 }
