@@ -13,31 +13,27 @@ public interface RemindDao {
     ArrayList<Remind> getAllRemindInfo();
 
     @Select("select guild, message, remind_time, mode " +
-            "from remind " +
-            "where usable = 1")
+            "from remind")
     ArrayList<Remind> getAllUsableRemind();
 
     @Select("select id, guild, message, remind_time, mode " +
             "from remind " +
-            "where id = #{id} " +
-            "and usable = 1")
+            "where id = #{id}")
     Remind getRemindInfoById(@Param("id") String id);
 
     @Select("select id, guild, message, remind_time, mode " +
             "from remind " +
-            "where guild = #{guild} " +
-            "and usable = 1")
+            "where guild = #{guild}")
     ArrayList<Remind> getRemindInfoByGuild(@Param("guild") String guild);
 
     @Select("select id, remind_time " +
             "from remind")
     Remind getRemindIdAndTime();
 
-    @Select("select id, guild, message, remind_time, mode " +
+    @Select("select id, guild, message, remind_time, mode, usable " +
             "from remind " +
             "where remind_time < date_add(now(), interval #{minute} minute) " +
-            "and remind_time > now() " +
-            "and usable = 1")
+            "and remind_time > now()")
     ArrayList<Remind> getUsableRemindByTime(@Param("minute") Long minute);
 
     @Update("update remind " +
@@ -72,14 +68,16 @@ public interface RemindDao {
 
     @Update("update remind " +
             "set create_user_id = #{userId} " +
-            ", create_time = #{createTime}")
+            ", create_time = #{createTime} " +
+            "where id = #{id}")
     void updateRemindCreatorInfoById(@Param("id") String id,
                                      @Param("createTime") Timestamp createTime,
                                      @Param("userId") String userId);
 
     @Update("update remind " +
             "set modified_user_id = #{userId} " +
-            ", modified_time = #{modifiedTime}")
+            ", modified_time = #{modifiedTime} " +
+            "where id = #{id}")
     void updateRemindUpdateInfoById(@Param("id") String id,
                                     @Param("modifiedTime") Timestamp modifiedTime,
                                     @Param("userId") String userId);
@@ -89,7 +87,7 @@ public interface RemindDao {
     void insertRemind(@Param("guild") String guild,
                       @Param("message") String message,
                       @Param("remindTime") String remindTime,
-                      @Param("usable") int usable,
+                      @Param("usable") String usable,
                       @Param("mode") String mode,
                       @Param("createTime") String createTime,
                       @Param("createUserId") String createUserId);

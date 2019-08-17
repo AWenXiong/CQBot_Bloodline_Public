@@ -10,6 +10,15 @@ public class SetGroupAddRequest extends Response {
     private String sub_type;
     private boolean approve = true;
     private String reason;
+    private String ip;
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
     @Override
     public void execute() {
@@ -19,7 +28,7 @@ public class SetGroupAddRequest extends Response {
             jsonObject.put("sub_type", this.getSub_type());
             jsonObject.put("approve", this.isApprove());
             jsonObject.put("reason", this.getReason());
-            UrlKit.sendPost(ApiPath.SET_GROUP_ADD_REQUEST, jsonObject);
+            UrlKit.sendPost(this.ip + ApiPath.SET_GROUP_ADD_REQUEST.getUrlPath(), jsonObject);
         } catch (Exception e) {
 
         }

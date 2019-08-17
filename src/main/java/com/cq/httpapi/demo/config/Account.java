@@ -6,7 +6,8 @@ public enum Account {
 
     ROBOT1("中多莉", "2078003617", "http://localhost:5700"),
     ROBOT2("小多莉", "1239298446", "http://localhost:5701"),
-    TEST_ROBOT("测试多莉", "3210530348", "http://localhost:5702");
+    TEST_ROBOT("测试多莉", "3210530348", "http://localhost:5702"),
+    TEST_ROBOT2("测试狗屎", "502063298", "http://localhost:5703");
 
     private String name;
     private String id;

@@ -10,6 +10,15 @@ public class SetGroupAnonymousBan extends Response {
     private Object anonymous;
     private String anonymous_flag;
     private Long duration;
+    private String ip;
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
     @Override
     public void execute() {
@@ -19,7 +28,7 @@ public class SetGroupAnonymousBan extends Response {
             jsonObject.put("anonymous", this.getAnonymous());
             jsonObject.put("anonymous_flag", this.getAnonymous_flag());
             jsonObject.put("duration", this.getDuration());
-            UrlKit.sendPost(ApiPath.SET_GROUP_ANONYMOUS_BAN, jsonObject);
+            UrlKit.sendPost(this.ip + ApiPath.SET_GROUP_ANONYMOUS_BAN.getUrlPath(), jsonObject);
         } catch (Exception e) {
 
         }

@@ -8,6 +8,15 @@ public class GetStrangerInfo extends Response {
 
     private String user_id;
     private boolean no_cache = false;
+    private String ip;
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
     @Override
     public void execute() {
@@ -15,7 +24,7 @@ public class GetStrangerInfo extends Response {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("user_id", this.getUser_id());
             jsonObject.put("no_cache", this.isNo_cache());
-            UrlKit.sendPost(ApiPath.GET_STRANGER_INFO, jsonObject);
+            UrlKit.sendPost(this.ip + ApiPath.GET_STRANGER_INFO, jsonObject);
         } catch (Exception e) {
 
         }

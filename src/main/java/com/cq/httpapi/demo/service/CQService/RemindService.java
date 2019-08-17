@@ -87,7 +87,7 @@ public interface RemindService {
     boolean createRemind(String guild,
                          String message,
                          String remindTime,
-                         int usable,
+                         String usable,
                          String mode,
                          String createTime,
                          String createUserId);

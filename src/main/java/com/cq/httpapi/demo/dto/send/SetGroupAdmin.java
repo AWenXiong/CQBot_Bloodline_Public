@@ -9,6 +9,15 @@ public class SetGroupAdmin extends Response {
     private String group_id;
     private String user_id;
     private boolean enable = true;
+    private String ip;
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
     @Override
     public void execute() {
@@ -17,7 +26,7 @@ public class SetGroupAdmin extends Response {
             jsonObject.put("group_id", this.getGroup_id());
             jsonObject.put("user_id", this.getUser_id());
             jsonObject.put("enable", this.isEnable());
-            UrlKit.sendPost(ApiPath.SET_GROUP_ADMIN, jsonObject);
+            UrlKit.sendPost(this.ip + ApiPath.SET_GROUP_ADMIN.getUrlPath(), jsonObject);
         } catch (Exception e) {
 
         }

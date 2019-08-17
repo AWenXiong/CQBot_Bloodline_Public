@@ -1,6 +1,7 @@
 package com.cq.httpapi.demo.myhandler;
 
 import com.cq.httpapi.demo.annotation.cqannotation.CQResponse;
+import com.cq.httpapi.demo.config.Account;
 import com.cq.httpapi.demo.dto.send.SetGroupBan;
 import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
 import com.cq.httpapi.demo.kit.CQKit.CQSenderKit;
@@ -46,6 +47,7 @@ public class BanHandler {
             }
 
         }
+        response.setIp(Account.getIpById(grpMsgHttpReqHandler.getSelfId()));
         response.setOpFlag(true);
         return response;
     }

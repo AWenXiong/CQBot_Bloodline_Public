@@ -9,6 +9,15 @@ public class SendDiscussMessage extends Response {
     private String discuss_id;
     private String message;
     private boolean auto_escape;
+    private String ip;
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
     @Override
     public void execute() {
@@ -17,7 +26,7 @@ public class SendDiscussMessage extends Response {
             jsonObject.put("discuss_id", this.getDiscuss_id());
             jsonObject.put("message", this.getMessage());
             jsonObject.put("auto_escape", this.isAuto_escape());
-            UrlKit.sendPost(ApiPath.SEND_DISCUSS_MESSAGE, jsonObject);
+            UrlKit.sendPost(this.ip + ApiPath.SEND_DISCUSS_MESSAGE.getUrlPath(), jsonObject);
         } catch (Exception e) {
 
         }

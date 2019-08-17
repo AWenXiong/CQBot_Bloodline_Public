@@ -83,7 +83,7 @@ public class RemindServiceImpl implements RemindService {
     }
 
     @Override
-    public boolean createRemind(String guild, String message, String remindTime, int usable, String mode,
+    public boolean createRemind(String guild, String message, String remindTime, String usable, String mode,
                                 String createTime, String createUserId) {
         try {
             remindDao.insertRemind(guild, message, remindTime, usable, mode, createTime, createUserId);

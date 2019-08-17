@@ -9,6 +9,15 @@ public class SetFriendAddRequest extends Response {
     private String flag;
     private boolean approve = true;
     private String remark;
+    private String ip;
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
     @Override
     public void execute() {
@@ -17,7 +26,7 @@ public class SetFriendAddRequest extends Response {
             jsonObject.put("flag", this.getFlag());
             jsonObject.put("approve", this.isApprove());
             jsonObject.put("remark", this.getRemark());
-            UrlKit.sendPost(ApiPath.SET_FRIEND_ADD_REQUEST, jsonObject);
+            UrlKit.sendPost(this.ip + ApiPath.SET_FRIEND_ADD_REQUEST.getUrlPath(), jsonObject);
         } catch (Exception e) {
 
         }

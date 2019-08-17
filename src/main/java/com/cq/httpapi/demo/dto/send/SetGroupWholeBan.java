@@ -8,6 +8,15 @@ public class SetGroupWholeBan extends Response {
 
     private String group_id;
     private boolean enable = true;
+    private String ip;
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
     @Override
     public void execute() {
@@ -15,7 +24,7 @@ public class SetGroupWholeBan extends Response {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("group_id", this.getGroup_id());
             jsonObject.put("enable", this.isEnable());
-            UrlKit.sendPost(ApiPath.SET_GROUP_WHOLE_BAN, jsonObject);
+            UrlKit.sendPost(this.ip + ApiPath.SET_GROUP_WHOLE_BAN.getUrlPath(), jsonObject);
         } catch (Exception e) {
 
         }

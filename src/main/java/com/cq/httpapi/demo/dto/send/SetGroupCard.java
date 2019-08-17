@@ -9,6 +9,15 @@ public class SetGroupCard extends Response {
     private String group_id;
     private String user_id;
     private String card;
+    private String ip;
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
     @Override
     public void execute() {
@@ -17,7 +26,7 @@ public class SetGroupCard extends Response {
             jsonObject.put("group_id", this.getGroup_id());
             jsonObject.put("user_id", this.getUser_id());
             jsonObject.put("card", this.getCard());
-            UrlKit.sendPost(ApiPath.SET_GROUP_CARD, jsonObject);
+            UrlKit.sendPost(this.ip + ApiPath.SET_GROUP_CARD.getUrlPath(), jsonObject);
         } catch (Exception e) {
 
         }

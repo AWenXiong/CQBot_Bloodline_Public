@@ -7,7 +7,7 @@ public class Remind {
     private String guild;
     private String message;
     private String remindTime;
-    private long usable;
+    private String usable;
     private String description;
     private java.sql.Timestamp createTime;
     private String createUserId;
@@ -68,11 +68,11 @@ public class Remind {
     }
 
 
-    public long getUsable() {
+    public String getUsable() {
         return usable;
     }
 
-    public void setUsable(long usable) {
+    public void setUsable(String usable) {
         this.usable = usable;
     }
 

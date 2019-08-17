@@ -45,6 +45,13 @@ public interface SzjusercardinfoDao {
                                @Param("fate") long fate,
                                @Param("isGodofWar") long isGodofWar);
 
+    @Select("select count(*) " +
+            "from szjusercardinfo " +
+            "where UserId = #{userId} and GroupId = #{groupId} and CardInfoId = #{cardInfoId}")
+    int exists(@Param("userId") long userId,
+               @Param("groupId") long groupId,
+               @Param("cardInfoId") long cardInfoId);
+
     @Update("update szjusercardinfo " +
             "set CreateOn = #{CreateOn}, CreateUserId = #{CreateUserId}, CreateBy = #{CreateBy} " +
             "where Id = #{Id}")

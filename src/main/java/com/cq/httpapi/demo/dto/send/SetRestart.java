@@ -9,6 +9,15 @@ public class SetRestart extends Response {
     private boolean clean_log = false;
     private boolean clean_cache = false;
     private boolean clean_event = false;
+    private String ip;
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
     @Override
     public void execute() {
@@ -17,7 +26,7 @@ public class SetRestart extends Response {
             jsonObject.put("clean_log", this.isClean_log());
             jsonObject.put("clean_cache", this.isClean_cache());
             jsonObject.put("clean_event", this.isClean_event());
-            UrlKit.sendPost(ApiPath.SET_RESTART, jsonObject);
+            UrlKit.sendPost(this.ip + ApiPath.SET_RESTART.getUrlPath(), jsonObject);
         } catch (Exception e) {
 
         }

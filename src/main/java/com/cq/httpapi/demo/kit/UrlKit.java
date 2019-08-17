@@ -2,7 +2,6 @@ package com.cq.httpapi.demo.kit;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.cq.httpapi.demo.dto.send.ApiPath;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -12,12 +11,11 @@ import java.net.URL;
 
 public class UrlKit {
 
-    public static JSONObject sendPost(ApiPath url, Object Data) {
+    public static JSONObject sendPost(String url, Object Data) {
         try {
             JSONObject jsonObject = JSON.parseObject(Data.toString());
-
             try {
-                URL path = new URL(url.getUrlPath()); //url地址
+                URL path = new URL(url); //url地址
 
                 HttpURLConnection connection = (HttpURLConnection) path.openConnection();
                 connection.setDoInput(true);
@@ -28,10 +26,10 @@ public class UrlKit {
                 connection.setRequestProperty("Content-Type", "application/json");
                 connection.connect();
 
+                // 读取响应
                 try (OutputStream os = connection.getOutputStream()) {
                     os.write(jsonObject.toString().getBytes("UTF-8"));
                 }
-
                 StringBuffer sbf = new StringBuffer();
                 try (BufferedReader reader = new BufferedReader(
                         new InputStreamReader(connection.getInputStream()))) {
@@ -44,12 +42,11 @@ public class UrlKit {
                 connection.disconnect();
                 return JSONObject.parseObject(sbf.toString());
             } catch (Exception e) {
-                e.printStackTrace();
+//                e.printStackTrace();
+                return new JSONObject();
             }
         } catch (Exception e) {
-
+            return new JSONObject();
         }
-        return new JSONObject();
     }
-
 }

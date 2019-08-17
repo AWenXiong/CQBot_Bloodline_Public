@@ -8,7 +8,17 @@ public class SetGroupKick extends Response {
 
     private String group_id;
     private String user_id;
-    private boolean reject_add_reqeust = false;
+    private boolean reject_add_request = false;
+    private String ip;
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
 
     @Override
     public void execute() {
@@ -16,8 +26,8 @@ public class SetGroupKick extends Response {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("group_id", this.getGroup_id());
             jsonObject.put("user_id", this.getUser_id());
-            jsonObject.put("reject_add_request", this.isReject_add_reqeust());
-            UrlKit.sendPost(ApiPath.SET_GROUP_KICK, jsonObject);
+            jsonObject.put("reject_add_request", this.isReject_add_request());
+            UrlKit.sendPost(this.ip + ApiPath.SET_GROUP_KICK.getUrlPath(), jsonObject);
         } catch (Exception e) {
 
         }
@@ -39,11 +49,11 @@ public class SetGroupKick extends Response {
         this.user_id = user_id;
     }
 
-    public boolean isReject_add_reqeust() {
-        return reject_add_reqeust;
+    public boolean isReject_add_request() {
+        return reject_add_request;
     }
 
-    public void setReject_add_reqeust(boolean reject_add_reqeust) {
-        this.reject_add_reqeust = reject_add_reqeust;
+    public void setReject_add_request(boolean reject_add_reqeust) {
+        this.reject_add_request = reject_add_reqeust;
     }
 }

@@ -8,6 +8,15 @@ public class SetGroupLeave extends Response {
 
     private String group_id;
     private boolean is_dismiss = false;
+    private String ip;
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
     @Override
     public void execute() {
@@ -15,7 +24,7 @@ public class SetGroupLeave extends Response {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("group_id", this.getGroup_id());
             jsonObject.put("is_dismiss", this.is_dismiss);
-            UrlKit.sendPost(ApiPath.SET_GROUP_LEAVE, jsonObject);
+            UrlKit.sendPost(this.ip + ApiPath.SET_GROUP_LEAVE.getUrlPath(), jsonObject);
         } catch (Exception e) {
 
         }

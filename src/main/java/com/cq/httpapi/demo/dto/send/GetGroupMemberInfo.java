@@ -6,9 +6,19 @@ import com.cq.httpapi.demo.kit.UrlKit;
 
 public class GetGroupMemberInfo extends Response {
 
+
     private String group_id;
     private String user_id;
     private boolean no_cache;
+    private String ip;
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
     @Override
     public void execute() {
@@ -17,7 +27,7 @@ public class GetGroupMemberInfo extends Response {
             jsonObject.put("group_id", this.getGroup_id());
             jsonObject.put("user_id", this.getUser_id());
             jsonObject.put("no_cache", this.isNo_cache());
-            UrlKit.sendPost(ApiPath.GET_GROUP_MEMBER_INFO, jsonObject);
+            UrlKit.sendPost(this.ip + ApiPath.GET_GROUP_MEMBER_INFO.getUrlPath(), jsonObject);
         } catch (Exception e) {
 
         }

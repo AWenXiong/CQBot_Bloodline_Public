@@ -84,16 +84,21 @@ public class SZJUserCardInfoServiceImpl implements SZJUserCardInfoService {
                 Long cardId = data.getId();
                 if (cardId == null || cardId.intValue() == 0) { // 若cardId为 null/0 表示新增卡片
                     Long cardInfoId = data.getCardInfoId();
-                    Long fightingCapacity = data.getFightingCapacity();
-                    Long fate = data.getFate();
-                    Long isGodofWar = data.getIsGodofWar();
-                    if (fightingCapacity != null && fate != null && isGodofWar != null) {
-                        szjusercardinfoDao.insertSzjusercardinfo(cardInfoId, userId, groupId, fightingCapacity, fate, isGodofWar);
-                        long id = szjusercardinfoDao.getLastInsert(groupId);
-                        szjusercardinfoDao.updateCreateInfo(id, TimeKit.getFormalTime(), String.valueOf(userId), String.valueOf(userId));
-                        szjusercardinfoDao.updateDescription(id, "增加卡牌信息");
+                    int exists = szjusercardinfoDao.exists(userId, groupId, cardInfoId);
+                    if (exists < 1) {
+                        Long fightingCapacity = data.getFightingCapacity();
+                        Long fate = data.getFate();
+                        Long isGodofWar = data.getIsGodofWar();
+                        if (fightingCapacity != null && fate != null && isGodofWar != null) {
+                            szjusercardinfoDao.insertSzjusercardinfo(cardInfoId, userId, groupId, fightingCapacity, fate, isGodofWar);
+                            long id = szjusercardinfoDao.getLastInsert(groupId);
+                            szjusercardinfoDao.updateCreateInfo(id, TimeKit.getFormalTime(), String.valueOf(userId), String.valueOf(userId));
+                            szjusercardinfoDao.updateDescription(id, "增加卡牌信息");
+                        } else {
+                            throw new SZJException(SZJErrorCode.USER_CARD_INFO_LOST);
+                        }
                     } else {
-                        throw new SZJException(SZJErrorCode.USER_CARD_INFO_LOST);
+                        throw new SZJException(SZJErrorCode.INSERT_CARD_INFO_ERROR);
                     }
                 } else if (cardId.intValue() > 0) { // 否则 表示编辑卡片
                     Long cardInfoId = data.getCardInfoId();

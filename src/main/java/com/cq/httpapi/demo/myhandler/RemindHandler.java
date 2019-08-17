@@ -1,6 +1,7 @@
 package com.cq.httpapi.demo.myhandler;
 
 import com.cq.httpapi.demo.annotation.cqannotation.CQResponse;
+import com.cq.httpapi.demo.config.Account;
 import com.cq.httpapi.demo.dto.User;
 import com.cq.httpapi.demo.dto.response.message.GroupMessageResponse;
 import com.cq.httpapi.demo.dto.response.message.PrivateMessageResponse;
@@ -58,10 +59,8 @@ public class RemindHandler implements ApplicationRunner {
         startCheckSchedule(remindService);
     }
 
-    /**
-     * 手动启动任务
-     * 口令 启动提醒
-     */
+    // 手动启动任务
+    // 口令 启动提醒
     @CQResponse
     public PrivateMessageResponse startCheckSchedule(MsgHttpReqHandler msgHttpReqHandler) {
         PrivateMessageResponse privateMessageResponse = new PrivateMessageResponse();
@@ -82,10 +81,8 @@ public class RemindHandler implements ApplicationRunner {
         return privateMessageResponse;
     }
 
-    /**
-     * 手动停止提醒任务
-     * 口令 停止提醒
-     */
+    // 手动停止提醒任务
+    // 口令 停止提醒
     @CQResponse
     public PrivateMessageResponse stopCheckSchedule(MsgHttpReqHandler msgHttpReqHandler) {
         PrivateMessageResponse privateMessageResponse = new PrivateMessageResponse();
@@ -104,10 +101,8 @@ public class RemindHandler implements ApplicationRunner {
         return privateMessageResponse;
     }
 
-    /**
-     * 手动重启提醒任务
-     * 口令 重启提醒
-     */
+    // 手动重启提醒任务
+    // 口令 重启提醒
     @CQResponse
     public PrivateMessageResponse restartCheckSchedule(MsgHttpReqHandler msgHttpReqHandler) {
         PrivateMessageResponse privateMessageResponse = new PrivateMessageResponse();
@@ -126,13 +121,13 @@ public class RemindHandler implements ApplicationRunner {
         return privateMessageResponse;
     }
 
-    /**
-     * 启动提醒任务
-     */
+    // 启动提醒任务
     private void startCheckSchedule(RemindService remindService) {
+        // 初始化 Timer
         if (checkScheduleTimer == null) {
             checkScheduleTimer = new Timer();
         }
+        // 初始化 TimerTask
         if (checkScheduleTimerTask == null) {
             checkScheduleTimerTask = new TimerTask() {
                 @Override
@@ -141,12 +136,11 @@ public class RemindHandler implements ApplicationRunner {
                 }
             };
         }
+        // Timer 每 5 分钟执行一次 TimerTask
         checkScheduleTimer.scheduleAtFixedRate(checkScheduleTimerTask, 0, 5 * 60 * 1000);
     }
 
-    /**
-     * 停止提醒任务
-     */
+    // 停止提醒任务
     private void stopCheckSchedule() {
         if (checkScheduleTimer != null) {
             checkScheduleTimer.cancel();
@@ -159,19 +153,15 @@ public class RemindHandler implements ApplicationRunner {
         }
     }
 
-    /**
-     * 重启提醒任务
-     */
+    // 重启提醒任务
     private void restartCheckSchedule(RemindService remindService) {
         stopCheckSchedule();
         startCheckSchedule(remindService);
     }
 
-    /**
-     * 每五分钟执行一次
-     * 检查数据库中接下来五分钟需要执行的提醒，并将提醒加入到队列中
-     * 更新下次进行提醒的时间
-     */
+    // 每五分钟执行一次
+    // 检查数据库中接下来五分钟需要执行的提醒，并将提醒加入到队列中
+    // 更新下次进行提醒的时间
     private void checkSchedule(RemindService remindService) {
         ArrayList<Remind> reminds = remindService.getRemind(5L);
 
@@ -183,16 +173,14 @@ public class RemindHandler implements ApplicationRunner {
                     @Override
                     public void run() {
                         SendGroupMessage sendGroupMessage = new SendGroupMessage();
+                        sendGroupMessage.setIp(Account.getIpById(remind.getUsable()));
                         sendGroupMessage.setGroup_id(remind.getGuild());
                         sendGroupMessage.setMessage(remind.getMessage());
                         sendGroupMessage.execute();
                     }
                 }, TimeKit.parseTime(remind.getRemindTime()));
 
-                /*TODO*/
-                // 这里可以封装为一个方法，以后可以顺便把 -o 的 usable 更新为 0
                 // 更新这个提醒
-//                Remind nextRemind = RemindHandler.nextRemind(remind);
                 Remind nextRemind = nextRemind(remind);
                 remindService.updateRemindTimeById(
                         Long.toString(remind.getId()),
@@ -202,14 +190,12 @@ public class RemindHandler implements ApplicationRunner {
                         "更新提醒时间"    // update description
                 );
             } catch (Exception e) {
-                e.printStackTrace();
+
             }
         }
     }
 
-    /**
-     * 给定一个提醒，计算下一次需要进行提醒的时间
-     */
+    // 给定一个提醒，计算下一次需要进行提醒的时间
     private Remind nextRemind(Remind remind) {
         Remind res = new Remind();
 
@@ -236,9 +222,7 @@ public class RemindHandler implements ApplicationRunner {
         return res;
     }
 
-    /**
-     * 设置提醒
-     */
+    // 设置提醒
     @CQResponse
     public GroupMessageResponse setRemind(GrpMsgHttpReqHandler grpMsgHttpReqHandler) {
         GroupMessageResponse response = new GroupMessageResponse();
@@ -333,7 +317,7 @@ public class RemindHandler implements ApplicationRunner {
 
                     // 艾特全体管理
                     case atManagerFlag: {
-                        ArrayList<String> admins = CQGroupKit.getGroupAdmin(grpMsgHttpReqHandler.getGroupId());
+                        ArrayList<String> admins = CQGroupKit.getGroupAdmin(grpMsgHttpReqHandler.getSelfId(), grpMsgHttpReqHandler.getGroupId());
                         for (String admin : admins) {
                             remindMsg.append(CQCodeKit.atSomebody(admin));
                             remindMsg.append(" ");
@@ -440,21 +424,19 @@ public class RemindHandler implements ApplicationRunner {
                 remindTime.replace(0, remindTime.length(), TimeKit.parseStringToFormalTimeFormat(remindTime.toString(), timeZone));
 
                 /*TODO*/
-                // usable 选项尚未完成
                 // 将提醒记录插入数据库中
                 remindService.createRemind(
                         grpMsgHttpReqHandler.getGroupId(), // 提醒的群
                         remindMsg.toString(), // 提醒消息
                         remindTime.toString(), // 提醒时间
-//                        TimeKit.parseStringToFormalTimeFormat(remindTime.toString(), timeZone), // 提醒时间
-                        1, // 是否可用
+                        /*TODO*/
+                        grpMsgHttpReqHandler.getSelfId(), // 用来提醒的QQ号
                         mode,  // 提醒模式
                         TimeKit.getFormalTime(), // 提醒创建时间
                         grpMsgHttpReqHandler.getUserId() // 提醒创建者
                 );
 
                 // 设置回复
-
                 response.setReply("设置提醒成功，将会在 " + timeZoneReply + " " +
                         TimeKit.parseTime(TimeKit.convertTimeTo(TimeKit.parseTime(remindTime.toString()), TimeZone_Default, timeZone)) +
                         " 进行提醒\n提醒消息为：" +
@@ -477,9 +459,7 @@ public class RemindHandler implements ApplicationRunner {
         return response;
     }
 
-    /**
-     * 查看提醒
-     */
+    // 查看提醒
     @CQResponse
     public GroupMessageResponse getRemind(GrpMsgHttpReqHandler grpMsgHttpReqHandler) {
         GroupMessageResponse groupMessageResponse = new GroupMessageResponse();
@@ -514,9 +494,7 @@ public class RemindHandler implements ApplicationRunner {
         return groupMessageResponse;
     }
 
-    /**
-     * 删除提醒 可以批量删除
-     */
+    // 删除提醒 可以批量删除
     @CQResponse
     public GroupMessageResponse deleteRemind(GrpMsgHttpReqHandler grpMsgHttpReqHandler) {
 

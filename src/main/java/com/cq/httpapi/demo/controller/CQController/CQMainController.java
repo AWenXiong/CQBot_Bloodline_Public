@@ -130,7 +130,7 @@ public class CQMainController {
                             allResponse.add(towerHandler.towerManager(priMsgHttpReqHandler));
                         }
 
-                        if (userId.equals(User.DOLLYBELU.getUserId())) {
+                        if (true/*userId.equals(User.DOLLYBELU.getUserId())*/) {
                             // 启动、停止、重启提醒
                             allResponse.add(remindHandler.startCheckSchedule(priMsgHttpReqHandler));
                             allResponse.add(remindHandler.stopCheckSchedule(priMsgHttpReqHandler));
@@ -142,20 +142,17 @@ public class CQMainController {
                             allResponse.add(purchaseHandler.SAGetPurchaseByGuild(priMsgHttpReqHandler));
                             allResponse.add(purchaseHandler.getOwnPurchase(priMsgHttpReqHandler));
 
-                            // 更新
-                            // 发送更新信息
-                            allResponse.add(SendMessageHandler.sendTestMessage(priMsgHttpReqHandler));
+                            // 发送私聊或群信息
                             allResponse.add(SendMessageHandler.sendGroupMessage(priMsgHttpReqHandler));
                             allResponse.add(SendMessageHandler.sendPrivateMessage(priMsgHttpReqHandler));
 
                             // 导入极限图
                             allResponse.add(importHandler.importMaxData(priMsgHttpReqHandler));
+                            // 同步命运伙伴信息
+                            allResponse.add(partnerHandler.sync(priMsgHttpReqHandler));
 
                             // 添加服务
                             allResponse.add(purchaseHandler.getOwnPurchase(priMsgHttpReqHandler));
-
-                            // 同步命运伙伴信息
-                            allResponse.add(partnerHandler.sync(priMsgHttpReqHandler));
 
                             // 物品管理
                             allResponse.add(itemHandler.itemManager(priMsgHttpReqHandler));

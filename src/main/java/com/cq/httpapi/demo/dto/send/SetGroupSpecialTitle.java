@@ -10,6 +10,15 @@ public class SetGroupSpecialTitle extends Response {
     private String user_id;
     private String special_title;
     private Long duration = new Long(-1);
+    private String ip;
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
     @Override
     public void execute() {
@@ -19,7 +28,7 @@ public class SetGroupSpecialTitle extends Response {
             jsonObject.put("user_id", this.getUser_id());
             jsonObject.put("special_title", this.getSpecial_title());
             jsonObject.put("duration", getDuration());
-            UrlKit.sendPost(ApiPath.SET_GROUP_SPECIAL_TITLE, jsonObject);
+            UrlKit.sendPost(this.ip + ApiPath.SET_GROUP_SPECIAL_TITLE.getUrlPath(), jsonObject);
         } catch (Exception e) {
 
         }

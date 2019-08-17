@@ -7,13 +7,22 @@ import com.cq.httpapi.demo.kit.UrlKit;
 public class SetDiscussLeave extends Response {
 
     private String discuss_id;
+    private String ip;
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
     @Override
     public void execute() {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("discuss_id", this.getDiscuss_id());
-            UrlKit.sendPost(ApiPath.SET_DISCUSS_LEAVE, jsonObject);
+            UrlKit.sendPost(this.ip + ApiPath.SET_DISCUSS_LEAVE.getUrlPath(), jsonObject);
         } catch (Exception e) {
 
         }

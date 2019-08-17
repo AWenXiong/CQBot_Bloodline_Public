@@ -9,6 +9,15 @@ public class SetGroupBan extends Response {
     Long duration;
     private String group_id;
     private String user_id;
+    private String ip;
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
     public String getGroup_id() {
         return group_id;
@@ -41,7 +50,7 @@ public class SetGroupBan extends Response {
             jsonObject.put("group_id", this.getGroup_id());
             jsonObject.put("user_id", this.getUser_id());
             jsonObject.put("duration", this.getDuration());
-            UrlKit.sendPost(ApiPath.SET_GROUP_BAN, jsonObject);
+            UrlKit.sendPost(this.ip + ApiPath.SET_GROUP_BAN.getUrlPath(), jsonObject);
         } catch (Exception e) {
             e.printStackTrace();
         }

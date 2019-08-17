@@ -6,14 +6,23 @@ import com.cq.httpapi.demo.kit.UrlKit;
 
 public class CleanDataDir extends Response {
 
+    private String ip;
     private String data_dir;
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
     @Override
     public void execute() {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("data_dir", this.getData_dir());
-            UrlKit.sendPost(ApiPath.CLEAN_DATA_DIR, jsonObject);
+            UrlKit.sendPost(this.ip + ApiPath.CLEAN_DATA_DIR.getUrlPath(), jsonObject);
         } catch (Exception e) {
 
         }

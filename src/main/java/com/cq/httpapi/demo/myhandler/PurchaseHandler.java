@@ -84,7 +84,14 @@ public class PurchaseHandler {
                     String createUserId = CQSenderKit.GetMsgSenderId(msgHttpReqHandler); // 502063298
                     String strEndTime = TimeKit.parseTime(TimeKit.getDate(endTime * 30));
 
-                    purchaseService.createPurchase(userId, service, strEndTime, createUserId);
+                    String baseServiceName = "base";
+                    if (service.equals(baseServiceName)) {
+                        purchaseService.createPurchase(userId, "tower", strEndTime, createUserId);
+                        purchaseService.createPurchase(userId, "card", strEndTime, createUserId);
+                    } else {
+                        purchaseService.createPurchase(userId, service, strEndTime, createUserId);
+                    }
+
 
                     response.setReply("成功为 " + userId + "\n添加服务 " + service + "\n有效期至 " + strEndTime);
                     response.setFlag(true);
@@ -92,7 +99,6 @@ public class PurchaseHandler {
                 } else {
                     String modifiedUserId = CQSenderKit.GetMsgSenderId(msgHttpReqHandler); // 502063298
                     purchaseService.appendEndTimeByUserIdAndService(userId, service, new Long(endTime * 30), modifiedUserId);
-
                     response.setReply("成功延长服务有效期 " + endTime * 30 + " 天");
                     response.setFlag(true);
                 }

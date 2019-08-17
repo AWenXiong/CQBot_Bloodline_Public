@@ -3,12 +3,25 @@ package com.cq.httpapi.demo.dto.send;
 import com.alibaba.fastjson.JSONObject;
 import com.cq.httpapi.demo.dto.response.Response;
 import com.cq.httpapi.demo.kit.UrlKit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SendGroupMessage extends Response {
 
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    private String ip;
     private String group_id;
     private String message;
     private boolean auto_escape;
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
     public String getGroup_id() {
         return group_id;
@@ -41,10 +54,10 @@ public class SendGroupMessage extends Response {
             jsonObject.put("group_id", this.getGroup_id());
             jsonObject.put("message", this.getMessage());
             jsonObject.put("auto_escape", this.isAuto_escape());
-            UrlKit.sendPost(ApiPath.SEND_GROUP_MESSAGE, jsonObject);
+            UrlKit.sendPost(this.ip + ApiPath.SEND_GROUP_MESSAGE.getUrlPath(), jsonObject);
+            logger.warn(jsonObject.toString());
         } catch (Exception e) {
 
         }
-
     }
 }
