@@ -27,8 +27,8 @@ public class SendMessageHandler {
         String message = msgHttpReqHandler.getMessage();
 
         String allFlag = "-a";
-        if (message.startsWith(sendGroupMessageFlag) /*&&
-                CQSenderKit.CheckMsgSenderId(msgHttpReqHandler, User.DOLLYBELU.getUserId())*/) {
+        if (message.startsWith(sendGroupMessageFlag) &&
+                CQSenderKit.CheckMsgSenderId(msgHttpReqHandler, User.DOLLYBELU.getUserId())) {
             StringBuilder stringBuilder = new StringBuilder(message);
             stringBuilder.delete(0, sendGroupMessageFlag.length());
 
@@ -37,7 +37,7 @@ public class SendMessageHandler {
                 String sendMessage = stringBuilder.toString().trim();
                 sendGroupMessage.setMessage(sendMessage);
                 for (Account account : Account.values()) {
-                    if (account.getId().equals("502063298") || account.getId().equals("2078003617")) {
+                    if (account.getId().equals("502063298") || account.getId().equals("3210530348")) {
                         continue;
                     }
                     HashSet<String> groups = getGroupList(account.getId());

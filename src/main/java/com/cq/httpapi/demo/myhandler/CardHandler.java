@@ -9,6 +9,7 @@ import com.cq.httpapi.demo.kit.CQKit.CQSenderKit;
 import com.cq.httpapi.demo.kit.ObjectKit;
 import com.cq.httpapi.demo.kit.TranslateKit;
 import com.cq.httpapi.demo.service.CQService.CardService;
+import com.cq.httpapi.demo.service.CQService.TowerService;
 import com.cq.httpapi.demo.service.SZJService.SZJCardInfoService;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,8 @@ public class CardHandler {
     private CardService cardService;
     @Resource
     private SZJCardInfoService szjCardInfoService;
+    @Resource
+    private TowerService towerService;
 
     private static String showProp(Object o) {
         if (o != null) {
@@ -231,7 +234,6 @@ public class CardHandler {
     // 修改别名
     // 修改全名
     @CQResponse
-//    public static MessageResponse cardHandler(MsgHttpReqHandler msgHttpReqHandler) {
     public MessageResponse cardManager(MsgHttpReqHandler msgHttpReqHandler) {
         String message = msgHttpReqHandler.getMessage();
         MessageResponse response = ObjectKit.getCQMessageResponse(msgHttpReqHandler);
@@ -588,6 +590,31 @@ public class CardHandler {
                     szjCardInfoService.insertData(c);
                 } catch (Exception e) {
                     e.printStackTrace();
+                }
+            }
+        }
+        return response;
+    }
+
+    // 查极限图
+    @CQResponse
+    public MessageResponse maxCardChecker(MsgHttpReqHandler msgHttpReqHandler) {
+        String message = msgHttpReqHandler.getMessage();
+        MessageResponse response = ObjectKit.getCQMessageResponse(msgHttpReqHandler);
+        String maxFlag = "极限";
+        if (message.startsWith(maxFlag)) {
+            String cardName = message.substring(maxFlag.length());
+            String[] nicknames = cardService.getAllInfo(cardName).getNickname().split("/");
+            for (String nickname : nicknames) {
+                if (nickname == null || nickname.isEmpty() || nickname.equals("//") || nickname.equals("/")) {
+                    continue;
+                }
+                String question = maxFlag + nickname;
+                String answer = towerService.getAnswer(question, "0");
+                if (answer != null && answer.length() > 0) {
+                    response.setReply(answer);
+                    response.setFlag(true);
+                    break;
                 }
             }
         }

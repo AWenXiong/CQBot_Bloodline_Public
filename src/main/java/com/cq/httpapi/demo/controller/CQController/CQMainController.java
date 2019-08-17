@@ -86,6 +86,8 @@ public class CQMainController {
                                 allResponse.add(cardHandler.cardChecker(grpMsgHttpReqHandler));
                                 // 命运链接伙伴
                                 allResponse.add(partnerHandler.getMaster(grpMsgHttpReqHandler));
+                                // 查极限
+                                allResponse.add(cardHandler.maxCardChecker(grpMsgHttpReqHandler));
                             }
 
                             // 卡牌信息管理
@@ -124,13 +126,15 @@ public class CQMainController {
 
                         // 回答问题
                         allResponse.add(towerHandler.answerQuestion(priMsgHttpReqHandler));
+                        // 查极限
+                        allResponse.add(cardHandler.maxCardChecker(priMsgHttpReqHandler));
 
                         // 问答管理
                         if (purchaseHandler.checkService("p" + userId, "tower")) {
                             allResponse.add(towerHandler.towerManager(priMsgHttpReqHandler));
                         }
 
-                        if (true/*userId.equals(User.DOLLYBELU.getUserId())*/) {
+                        if (userId.equals(User.DOLLYBELU.getUserId())) {
                             // 启动、停止、重启提醒
                             allResponse.add(remindHandler.startCheckSchedule(priMsgHttpReqHandler));
                             allResponse.add(remindHandler.stopCheckSchedule(priMsgHttpReqHandler));
