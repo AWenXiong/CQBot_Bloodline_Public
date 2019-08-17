@@ -11,6 +11,7 @@ public class UserRegisterResponseUserInfo {
     public String Openid;
     public String Mobile;
     public String Email;
+    public String WechatOpenid;
 
     public UserRegisterResponseUserInfo(Szjuserinfo szjuserinfo) throws Exception {
         ObjectKit.deliverPropIgnoreCase(this, szjuserinfo);

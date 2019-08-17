@@ -12,6 +12,7 @@ public class GetUserInfoResponseData {
     public String Mobile;
     public String Email;
     public Long FreeQueueTime;
+    public String WechatOpenid;
 
     public GetUserInfoResponseData(Szjuserinfo szjuserinfo) throws Exception {
         ObjectKit.deliverPropIgnoreCase(this, szjuserinfo);
