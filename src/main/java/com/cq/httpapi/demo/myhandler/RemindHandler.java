@@ -528,4 +528,28 @@ public class RemindHandler implements ApplicationRunner {
         }
         return groupMessageResponse;
     }
+
+    @CQResponse
+    public GroupMessageResponse updateRemind(GrpMsgHttpReqHandler grpMsgHttpReqHandler) {
+        String message = grpMsgHttpReqHandler.getMessage();
+        String updateRemindFlag = "修改提醒内容 ";
+        GroupMessageResponse response = new GroupMessageResponse();
+        if (message.startsWith(updateRemindFlag)) {
+            try {
+                StringBuilder sb = new StringBuilder(message);
+                sb.delete(0, message.indexOf(updateRemindFlag) + updateRemindFlag.length());
+                String remindId = sb.toString().trim().substring(0, sb.toString().indexOf(" "));
+                sb.delete(0, sb.indexOf(remindId) + remindId.length());
+                String remindContent = sb.toString().trim();
+                remindService.updateRemindMessageById(remindId, remindContent);
+                Remind newRemind = remindService.getRemindById(remindId);
+                response.setReply("设置提醒成功，将会在 " +
+                        newRemind.getRemindTime() + " 进行提醒\n提醒消息为：" + newRemind.getMessage());
+                response.setFlag(true);
+            } catch (Exception e) {
+
+            }
+        }
+        return response;
+    }
 }

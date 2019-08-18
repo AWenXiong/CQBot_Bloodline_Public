@@ -110,6 +110,7 @@ public class CQMainController {
                             allResponse.add(remindHandler.setRemind(grpMsgHttpReqHandler));
                             allResponse.add(remindHandler.getRemind(grpMsgHttpReqHandler));
                             allResponse.add(remindHandler.deleteRemind(grpMsgHttpReqHandler));
+                            allResponse.add(remindHandler.updateRemind(grpMsgHttpReqHandler));
                         }
 
                         // 查看服务
