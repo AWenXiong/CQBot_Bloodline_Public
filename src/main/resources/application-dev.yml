@@ -22,7 +22,7 @@ mybatis:
 
 logging:
 #  file: C:/Users/Administrator/Desktop/logTest/log.txt
-#  level:
-#    com.cq.httpapi.demo.dao: info
-#    com.cq.httpapi.demo.myhandler: info
-  config: classpath:logback-dev.xml
+  level:
+    com.cq.httpapi.demo.dao: debug
+    com.cq.httpapi.demo.myhandler: debug
+#  config: classpath:logback-dev.xml

@@ -27,5 +27,5 @@ logging:
 #  file: C:/Users/Administrator/Desktop/logTest/log.txt
 #  level:
 #    com.cq.httpapi.demo.dao: info
-#    com.cq.httpapi.demo.myhandler: info
+#    com.cq.httpapi.demo.controller.SZJController: debug
   config: classpath:logback-prod.xml
