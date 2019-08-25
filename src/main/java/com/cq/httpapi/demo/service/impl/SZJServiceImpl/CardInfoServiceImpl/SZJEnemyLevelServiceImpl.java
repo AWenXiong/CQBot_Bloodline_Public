@@ -34,7 +34,7 @@ public class SZJEnemyLevelServiceImpl implements SZJEnemyLevelService {
             throw new SZJException(SZJErrorCode.ENEMY_INFO_ID_LOST);
         }
 
-        ArrayList<Szjenemylevel> datas = szjenemylevelDao.getAll();
+        ArrayList<Szjenemylevel> datas = szjenemylevelDao.getByEnemyInfoId(id);
         if (datas == null) {
             throw new SZJException(SZJErrorCode.GET_ENEMY_LEVEL_FAILURE);
         }
@@ -47,6 +47,12 @@ public class SZJEnemyLevelServiceImpl implements SZJEnemyLevelService {
         } catch (Exception e) {
             throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
+        return res;
+    }
+
+    @Override
+    public ArrayList<Szjenemylevel> getEnemyLevelsByInfoId(Long enemyInfoId) {
+        ArrayList<Szjenemylevel> res = szjenemylevelDao.getByEnemyInfoId(enemyInfoId);
         return res;
     }
 }

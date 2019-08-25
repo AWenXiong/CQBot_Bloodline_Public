@@ -6,13 +6,12 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public interface SzjenemylevelDao {
 
     @Select("select Id, EnemyInfoId, Level, FightingCapacity, " +
-            "AdditionType, AdditionOption, AdditionAmmount, MaxNum, " +
+            "AdditionType, AdditionOption, AdditionAmmount, MaxNum, AttackDefense, " +
             "Description, SortCode, " +
             "CreateOn, CreateUserId, CreateBy, " +
             "ModifiedOn, ModifiedUserId, ModifiedBy " +
@@ -21,7 +20,7 @@ public interface SzjenemylevelDao {
     ArrayList<Szjenemylevel> getAll();
 
     @Select("select Id, EnemyInfoId, Level, FightingCapacity, " +
-            "AdditionType, AdditionOption, AdditionAmmount, MaxNum, " +
+            "AdditionType, AdditionOption, AdditionAmmount, MaxNum, AttackDefense, " +
             "Description, SortCode, " +
             "CreateOn, CreateUserId, CreateBy, " +
             "ModifiedOn, ModifiedUserId, ModifiedBy " +
@@ -30,15 +29,25 @@ public interface SzjenemylevelDao {
             "Id = #{Id}")
     Szjenemylevel getById(@Param("Id") long Id);
 
+    @Select("select Id, EnemyInfoId, Level, FightingCapacity, " +
+            "AdditionType, AdditionOption, AdditionAmmount, MaxNum, AttackDefense, " +
+            "Description, SortCode, " +
+            "CreateOn, CreateUserId, CreateBy, " +
+            "ModifiedOn, ModifiedUserId, ModifiedBy " +
+            "from szjenemylevel " +
+            "where DeletionStateCode = 0 and " +
+            "EnemyInfoId = #{infoId}")
+    ArrayList<Szjenemylevel> getByEnemyInfoId(@Param("infoId") long Id);
+
     @Insert("insert into szjenemylevel " +
             "value ()")
-    void insertSzjitemscolor();
+    void insertSzjenemylevel();
 
     @Update("update szjenemylevel " +
             "set CreateOn = #{CreateOn}, CreateUserId = #{CreateUserId}, CreateBy = #{CreateBy} " +
             "where Id = #{Id}")
     void updateCreateInfo(@Param("Id") long Id,
-                          @Param("CreateOn") Timestamp CreateOn,
+                          @Param("CreateOn") String CreateOn,
                           @Param("CreateUserId") String CreateUserId,
                           @Param("CreateBy") String CreateBy);
 
@@ -46,7 +55,7 @@ public interface SzjenemylevelDao {
             "set ModifiedOn = #{ModifiedOn}, ModifiedUserId = #{ModifiedUserId}, ModifiedBy = #{ModifiedBy} " +
             "where Id = #{Id}")
     void updateModifyInfo(@Param("Id") long Id,
-                          @Param("ModifiedOn") Timestamp ModifiedOn,
+                          @Param("ModifiedOn") String ModifiedOn,
                           @Param("ModifiedUserId") String ModifiedUserId,
                           @Param("ModifiedBy") String ModifiedBy);
 
@@ -83,7 +92,19 @@ public interface SzjenemylevelDao {
             "set Level = #{Level} " +
             "where Id = #{Id}")
     void updateLevel(@Param("Id") long Id,
-                     @Param("Level") int Level);
+                     @Param("Level") double Level);
+
+    @Update("update szjenemylevel " +
+            "set AttackDefense = #{AttackDefense} " +
+            "where Id = #{Id}")
+    void updateAttackDefense(@Param("Id") long Id,
+                             @Param("AttackDefense") String AttackDefense);
+
+    @Update("update szjenemylevel " +
+            "set MaxNum = #{MaxNum} " +
+            "where Id = #{Id}")
+    void updateMaxNum(@Param("Id") long Id,
+                      @Param("MaxNum") long MaxNum);
 
     @Update("update szjenemylevel " +
             "set FightingCapacity = #{FightingCapacity} " +
@@ -107,6 +128,6 @@ public interface SzjenemylevelDao {
             "set AdditionAmmount = #{AdditionAmmount} " +
             "where Id = #{Id}")
     void updateAdditionAmmount(@Param("Id") long Id,
-                               @Param("AdditionAmmount") int AdditionAmmount);
+                               @Param("AdditionAmmount") double AdditionAmmount);
 }
 

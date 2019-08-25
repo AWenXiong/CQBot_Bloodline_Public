@@ -56,4 +56,9 @@ public class SZJEnemyCardServiceImpl implements SZJEnemyCardService {
         }
         return res;
     }
+
+    @Override
+    public ArrayList<Szjenemycard> getEnemyCardByLevelId(Long levelId) {
+        return szjenemycardDao.getByLevelId(levelId);
+    }
 }

@@ -19,6 +19,15 @@ public class Szjenemylevel {
     private String modifiedUserId;
     private String modifiedBy;
     private long maxNum;
+    private String attackDefense;
+
+    public String getAttackDefense() {
+        return attackDefense;
+    }
+
+    public void setAttackDefense(String attackDefense) {
+        this.attackDefense = attackDefense;
+    }
 
     public long getMaxNum() {
         return maxNum;

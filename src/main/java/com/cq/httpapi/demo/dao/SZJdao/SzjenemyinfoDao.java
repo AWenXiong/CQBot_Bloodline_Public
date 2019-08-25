@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public interface SzjenemyinfoDao {
@@ -38,13 +37,13 @@ public interface SzjenemyinfoDao {
 
     @Insert("insert into szjenemyinfo " +
             "value ()")
-    void insertSzjitemscolor();
+    void insertSzjenemyinfo();
 
     @Update("update szjenemyinfo " +
             "set CreateOn = #{CreateOn}, CreateUserId = #{CreateUserId}, CreateBy = #{CreateBy} " +
             "where Id = #{Id}")
     void updateCreateInfo(@Param("Id") long Id,
-                          @Param("CreateOn") Timestamp CreateOn,
+                          @Param("CreateOn") String CreateOn,
                           @Param("CreateUserId") String CreateUserId,
                           @Param("CreateBy") String CreateBy);
 
@@ -52,7 +51,7 @@ public interface SzjenemyinfoDao {
             "set ModifiedOn = #{ModifiedOn}, ModifiedUserId = #{ModifiedUserId}, ModifiedBy = #{ModifiedBy} " +
             "where Id = #{Id}")
     void updateModifyInfo(@Param("Id") long Id,
-                          @Param("ModifiedOn") Timestamp ModifiedOn,
+                          @Param("ModifiedOn") String ModifiedOn,
                           @Param("ModifiedUserId") String ModifiedUserId,
                           @Param("ModifiedBy") String ModifiedBy);
 
@@ -83,7 +82,7 @@ public interface SzjenemyinfoDao {
             "set Code = #{Code} " +
             "where Id = #{Id}")
     void updateCode(@Param("Id") long Id,
-                    @Param("Code") long Code);
+                    @Param("Code") String Code);
 
     @Update("update szjenemyinfo " +
             "set Name = #{Name} " +
@@ -92,7 +91,7 @@ public interface SzjenemyinfoDao {
                     @Param("Name") String Name);
 
     @Update("update szjenemyinfo " +
-            "set Enabled = #{Enabled }" +
+            "set Enabled = #{Enabled} " +
             "where Id = #{Id}")
     void updateEnabled(@Param("Id") long Id,
                        @Param("Enabled") int Enabled);

@@ -33,8 +33,8 @@ public interface SzjusercardinfoDao {
             "from szjusercardinfo " +
             "where DeletionStateCode = 0 and " +
             "UserId = #{userId} and GroupId = #{groupId}")
-    ArrayList<Szjusercardinfo> getByUserId(@Param("userId") long userId,
-                                           @Param("groupId") long groupId);
+    ArrayList<Szjusercardinfo> getByUserIdAndGroupId(@Param("userId") long userId,
+                                                     @Param("groupId") long groupId);
 
     @Insert("insert into szjusercardinfo(CardInfoId, UserId, GroupId, FightingCapacity, Fate, IsGodofWar) " +
             "value (#{cardInfoId}, #{userId}, #{groupId}, #{fightingCapacity}, #{fate}, #{isGodofWar})")
@@ -84,6 +84,7 @@ public interface SzjusercardinfoDao {
             "set DeletionStateCode = 1 " +
             "where Id = #{Id}")
     void deleteById(@Param("Id") long Id);
+
 
     @Select("select max(Id) " +
             "from szjusercardinfo " +

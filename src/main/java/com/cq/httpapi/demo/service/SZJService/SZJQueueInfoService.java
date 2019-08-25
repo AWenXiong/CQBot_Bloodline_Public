@@ -11,4 +11,6 @@ public interface SZJQueueInfoService {
     Long insertQueueInfo(Long userId, Long groupId);
 
     Szjqueueinfo getQueueInfo(Long userId, Long groupId);
+
+    boolean deleteQueueInfo(Long userId, Long groupId);
 }

@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public interface SzjenemycardDao {
@@ -41,15 +40,20 @@ public interface SzjenemycardDao {
             "EnemyInfoId = #{enemyInfoId}")
     ArrayList<Szjenemycard> getByGroup(@Param("enemyInfoId") long enemyInfoId);
 
+    @Select("select * from szjenemycard " +
+            "where DeletionStateCode = 0 and " +
+            "Level = #{levelId}")
+    ArrayList<Szjenemycard> getByLevelId(@Param("levelId") long levelId);
+
     @Insert("insert into szjenemycard " +
             "value ()")
-    void insertSzjitemscolor();
+    void insertSzjenemycard();
 
     @Update("update szjenemycard " +
             "set CreateOn = #{CreateOn}, CreateUserId = #{CreateUserId}, CreateBy = #{CreateBy} " +
             "where Id = #{Id}")
     void updateCreateInfo(@Param("Id") long Id,
-                          @Param("CreateOn") Timestamp CreateOn,
+                          @Param("CreateOn") String CreateOn,
                           @Param("CreateUserId") String CreateUserId,
                           @Param("CreateBy") String CreateBy);
 
@@ -57,7 +61,7 @@ public interface SzjenemycardDao {
             "set ModifiedOn = #{ModifiedOn}, ModifiedUserId = #{ModifiedUserId}, ModifiedBy = #{ModifiedBy} " +
             "where Id = #{Id}")
     void updateModifyInfo(@Param("Id") long Id,
-                          @Param("ModifiedOn") Timestamp ModifiedOn,
+                          @Param("ModifiedOn") String ModifiedOn,
                           @Param("ModifiedUserId") String ModifiedUserId,
                           @Param("ModifiedBy") String ModifiedBy);
 
@@ -94,7 +98,7 @@ public interface SzjenemycardDao {
             "set Level = #{Level} " +
             "where Id = #{Id}")
     void updateLevel(@Param("Id") long Id,
-                     @Param("Level") int Level);
+                     @Param("Level") double Level);
 
     @Update("update szjenemycard " +
             "set CardInfoId = #{CardInfoId} " +
@@ -106,5 +110,5 @@ public interface SzjenemycardDao {
             "set IsLeader = #{IsLeader} " +
             "where Id = #{Id}")
     void updateIsLeader(@Param("Id") long Id,
-                        @Param("IsLeader") int IsLeader);
+                        @Param("IsLeader") long IsLeader);
 }

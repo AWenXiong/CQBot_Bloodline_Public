@@ -2,23 +2,23 @@ package com.cq.httpapi.demo.dto.SZJ.Request.BackEndDataRequest;
 
 public class CreateEnemyInfoRequestLevelCard {
 
-    public Integer CardInfoId;
-    public Integer IsLeader;
+    public Long CardInfoId;
+    public Long IsLeader;
 
-    public Integer getIsLeader() {
+    public Long getIsLeader() {
         return IsLeader;
     }
 
-    public void setIsLeader(Integer isLeader) {
+    public void setIsLeader(Long isLeader) {
         IsLeader = isLeader;
     }
 
-    public Integer getCardInfoId() {
+    public Long getCardInfoId() {
 
         return CardInfoId;
     }
 
-    public void setCardInfoId(Integer cardInfoId) {
+    public void setCardInfoId(Long cardInfoId) {
         CardInfoId = cardInfoId;
     }
 }

@@ -34,6 +34,8 @@ public interface SzjqueueinfoDao {
     Szjqueueinfo getQueueInfo(@Param("userId") long userId,
                               @Param("groupId") long groupId);
 
+    ;
+
     @Insert("insert into szjqueueinfo(UserId, GroupId, Enabled) " +
             "value (#{userId}, #{groupId}, 1)")
     void insertSzjqueueinfo(@Param("userId") long userId,

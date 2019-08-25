@@ -115,4 +115,21 @@ public class SZJQueueInfoServiceImpl implements SZJQueueInfoService {
             throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
     }
+
+    @Override
+    @Transactional
+    public boolean deleteQueueInfo(Long userId, Long groupId) {
+        try {
+            Szjqueueinfo queueInfo = szjqueueinfoDao.getQueueInfo(userId, groupId);
+            if (queueInfo != null) {
+                szjqueueinfoDao.updateEnabled(queueInfo.getId(), 0);
+                szjqueueinfoDao.updateDescription(queueInfo.getId(), "数据迁移-删除原有配队信息");
+                szjqueueinfoDao.updateModifyInfo(queueInfo.getId(), TimeKit.getFormalTime(), "admin", "admin");
+                szjqueueinfoDao.deleteById(queueInfo.getId());
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

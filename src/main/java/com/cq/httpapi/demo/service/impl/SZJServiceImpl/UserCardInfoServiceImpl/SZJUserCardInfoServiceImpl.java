@@ -1,16 +1,20 @@
 package com.cq.httpapi.demo.service.impl.SZJServiceImpl.UserCardInfoServiceImpl;
 
 import com.cq.httpapi.demo.dao.SZJdao.SzjusercardinfoDao;
+import com.cq.httpapi.demo.dto.SZJ.Request.BackEndDataRequest.BatchAddUserCardsData;
+import com.cq.httpapi.demo.dto.SZJ.Request.BackEndDataRequest.BatchAddUserCardsRequest;
 import com.cq.httpapi.demo.dto.SZJ.Request.UserCardInfoRequest.DeleteUserCardRequest;
 import com.cq.httpapi.demo.dto.SZJ.Request.UserCardInfoRequest.EditUserCardsInfoData;
 import com.cq.httpapi.demo.dto.SZJ.Request.UserCardInfoRequest.EditUserCardsInfoRequest;
 import com.cq.httpapi.demo.dto.SZJ.Request.UserCardInfoRequest.GetUserCardsInfoRequest;
+import com.cq.httpapi.demo.dto.SZJ.Response.BackEndDataResponse.BatchAddUserCardsResponse;
 import com.cq.httpapi.demo.dto.SZJ.Response.UserCardInfoResponse.GetUserCardsInfoResponseData;
 import com.cq.httpapi.demo.entity.SZJ.Szjusercardinfo;
 import com.cq.httpapi.demo.entity.SZJ.Szjuserinfo;
 import com.cq.httpapi.demo.exception.SZJException.SZJErrorCode;
 import com.cq.httpapi.demo.exception.SZJException.SZJException;
 import com.cq.httpapi.demo.kit.TimeKit;
+import com.cq.httpapi.demo.service.SZJService.SZJQueueInfoService;
 import com.cq.httpapi.demo.service.SZJService.SZJUserCardInfoService;
 import com.cq.httpapi.demo.service.SZJService.SZJUserInfoService;
 import org.springframework.stereotype.Service;
@@ -26,6 +30,8 @@ public class SZJUserCardInfoServiceImpl implements SZJUserCardInfoService {
     private SZJUserInfoService szjUserInfoService;
     @Resource
     private SzjusercardinfoDao szjusercardinfoDao;
+    @Resource
+    private SZJQueueInfoService szjQueueInfoService;
 
     @Override
     public ArrayList<GetUserCardsInfoResponseData> getCardInfo(GetUserCardsInfoRequest request)
@@ -47,7 +53,7 @@ public class SZJUserCardInfoServiceImpl implements SZJUserCardInfoService {
 
         try {
             long userId = szjuserinfo.getId();
-            ArrayList<Szjusercardinfo> datas = szjusercardinfoDao.getByUserId(userId, groupId);
+            ArrayList<Szjusercardinfo> datas = szjusercardinfoDao.getByUserIdAndGroupId(userId, groupId);
             ArrayList<GetUserCardsInfoResponseData> res = new ArrayList<>();
             for (Szjusercardinfo data : datas) {
                 res.add(new GetUserCardsInfoResponseData(data));
@@ -160,5 +166,42 @@ public class SZJUserCardInfoServiceImpl implements SZJUserCardInfoService {
         } catch (Exception e) {
             throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
         }
+    }
+
+    @Override
+    @Transactional
+    public BatchAddUserCardsResponse batchAddUserCards(BatchAddUserCardsRequest request) {
+        BatchAddUserCardsResponse response = new BatchAddUserCardsResponse();
+        String openId = request.getOpenId();
+        if (!szjUserInfoService.existOpenId(openId)) {
+            throw new SZJException(SZJErrorCode.OPENID_ERROR);
+        }
+        Long groupId = request.getGroupId();
+        ArrayList<BatchAddUserCardsData> cards = request.getUserCards();
+        Long userId = szjUserInfoService.getUserInfoByOpenId(openId).getId();
+
+        // 删除用户卡组中原有的卡牌信息
+        ArrayList<Szjusercardinfo> cardInfos = szjusercardinfoDao.getByUserIdAndGroupId(userId, groupId);
+        for (Szjusercardinfo cardInfo : cardInfos) {
+            szjusercardinfoDao.deleteById(cardInfo.getId());
+            szjusercardinfoDao.updateModifyInfo(cardInfo.getId(), TimeKit.getFormalTime(), "admin", "batch");
+            szjusercardinfoDao.updateDescription(cardInfo.getId(), "数据迁移-删除原有卡牌信息");
+        }
+
+        // 插入新的数据
+        for (BatchAddUserCardsData card : cards) {
+            szjusercardinfoDao.insertSzjusercardinfo(card.getCardInfoId(), userId, groupId,
+                    card.getFightingCapacity(), card.getFate(), card.getIsGodOfWar());
+            long newCardInfoId = szjusercardinfoDao.getLastInsert(groupId);
+            szjusercardinfoDao.updateCreateInfo(newCardInfoId, TimeKit.getFormalTime(), "admin", "batch");
+            szjusercardinfoDao.updateDescription(newCardInfoId, "数据迁移-导入数据");
+        }
+
+        // 逻辑删除原有的配队
+        if (!szjQueueInfoService.deleteQueueInfo(userId, groupId)) {
+            throw new SZJException(SZJErrorCode.BATCH_ADD_DELETE_QUEUE_INFO_ERROR);
+        }
+
+        return response;
     }
 }
