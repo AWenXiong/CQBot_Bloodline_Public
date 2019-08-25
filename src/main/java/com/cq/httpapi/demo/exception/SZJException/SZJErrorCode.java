@@ -47,6 +47,7 @@ public enum SZJErrorCode {
     DELETE_CARD_INFO_ERROR(34, "删除卡牌信息失败"),
 
     BATCH_ADD_DELETE_QUEUE_INFO_ERROR(35, "数据迁移过程删除原卡组配队失败"),
+    WECHAT_HAVE_BEEN_BIND(36, "此微信已被绑定"),
 
     UNKNOWN_EXCEPTION(99, "未知异常");
 

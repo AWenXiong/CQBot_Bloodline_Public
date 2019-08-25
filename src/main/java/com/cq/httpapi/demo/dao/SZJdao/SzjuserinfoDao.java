@@ -49,6 +49,11 @@ public interface SzjuserinfoDao {
             "where Openid = #{openId}")
     Long existOpenId(@Param("openId") String openId);
 
+    @Select("select count(*) " +
+            "from szjuserinfo " +
+            "where WechatOpenid = #{wechatOpenId}")
+    Long existWechatOpenId(@Param("wechatOpenId") String WechatOpenId);
+
     @Select("select Id, Code, Name, Openid, Mobile, Email, FreeQueueTime, WechatOpenid " +
             "from szjuserinfo " +
             "where Openid = #{openId}")
@@ -138,10 +143,10 @@ public interface SzjuserinfoDao {
                       @Param("Mobile") String Mobile);
 
     @Update("update szjuserinfo " +
-            "set Emile = #{Emile} " +
+            "set Email = #{Email} " +
             "where Id = #{Id}")
     void updateEmail(@Param("Id") Long Id,
-                     @Param("Emile") String Emile);
+                     @Param("Email") String Email);
 
     @Update("update szjuserinfo " +
             "set FreeQueueTime = #{FreeQueueTime} " +

@@ -58,11 +58,12 @@ public class SZJUserInfoServiceImpl implements SZJUserInfoService {
                 }
                 // 若邮箱地址不为空，则修改邮箱地址
                 if (email != null && !email.isEmpty()) {
-                    szjuserinfoDao.updateMobile(id, email);
+                    szjuserinfoDao.updateEmail(id, email);
                 }
                 szjuserinfoDao.updateCreateInfo(id, TimeKit.getFormalTime(), "register", "register");
                 return id;
             } catch (Exception e) {
+                e.printStackTrace();
                 throw new SZJException(SZJErrorCode.UNKNOWN_EXCEPTION);
             }
         }
@@ -180,6 +181,7 @@ public class SZJUserInfoServiceImpl implements SZJUserInfoService {
         return 0;
     }
 
+    // 绑定微信号
     @Override
     @Transactional
     public boolean bindingUserWechat(BindingWechatRequest request) {
@@ -189,6 +191,10 @@ public class SZJUserInfoServiceImpl implements SZJUserInfoService {
         }
         Szjuserinfo userInfo = szjuserinfoDao.getByOpenId(openId);
         String wechatOpenid = userInfo.getWechatOpenid();
+        Long exist = szjuserinfoDao.existWechatOpenId(request.getWechatOpenid());
+        if (exist > 0) {
+            throw new SZJException(SZJErrorCode.WECHAT_HAVE_BEEN_BIND);
+        }
         if (wechatOpenid == null || wechatOpenid.isEmpty()) {
             szjuserinfoDao.updateWechatOpenid(userInfo.getId(), request.getWechatOpenid());
             szjuserinfoDao.updateModifyInfo(userInfo.getId(), TimeKit.getFormalTime(), userInfo.getCode(), userInfo.getName());

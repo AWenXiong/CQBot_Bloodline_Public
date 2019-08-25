@@ -86,6 +86,7 @@ public class SZJEnemyInfoServiceImpl implements SZJEnemyInfoService {
                 }
             }
             szjenemyinfoDao.updateEnabled(enemyInfoId, 1);
+            szjenemyinfoDao.updateModifyInfo(enemyInfoId, TimeKit.getFormalTime(), "admin", "admin");
         } catch (Exception e) {
             throw e;
         }
