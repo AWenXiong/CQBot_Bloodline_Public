@@ -47,7 +47,10 @@ public interface SzjusercardinfoDao {
 
     @Select("select count(*) " +
             "from szjusercardinfo " +
-            "where UserId = #{userId} and GroupId = #{groupId} and CardInfoId = #{cardInfoId}")
+            "where UserId = #{userId} and " +
+            "GroupId = #{groupId} and " +
+            "CardInfoId = #{cardInfoId} and " +
+            "DeletionStateCode = 0")
     int exists(@Param("userId") long userId,
                @Param("groupId") long groupId,
                @Param("cardInfoId") long cardInfoId);

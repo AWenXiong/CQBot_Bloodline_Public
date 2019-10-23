@@ -6,9 +6,9 @@ import com.cq.httpapi.demo.dto.response.message.GroupMessageResponse;
 import com.cq.httpapi.demo.dto.response.message.PrivateMessageResponse;
 import com.cq.httpapi.demo.handler.httphandler.message.GrpMsgHttpReqHandler;
 import com.cq.httpapi.demo.handler.httphandler.message.PriMsgHttpReqHandler;
+import com.cq.httpapi.demo.kit.CQKit.CQSenderKit;
 import com.cq.httpapi.demo.kit.ExcelKit;
 import com.cq.httpapi.demo.kit.SQLKit;
-import com.cq.httpapi.demo.kit.CQKit.CQSenderKit;
 import com.cq.httpapi.demo.service.CQService.BloodlineEquipmentService;
 import com.cq.httpapi.demo.service.CQService.BloodlineItemService;
 import com.cq.httpapi.demo.service.CQService.CardService;
@@ -122,7 +122,7 @@ public class ImportHandler {
                                 }
                                 answer = stringBuilder.toString().trim();
                             }
-                            if (answer.endsWith(".jpg") || answer.endsWith(".png") || answer.endsWith(".")) {
+                            if (answer.endsWith(".jpg") || answer.endsWith(".png")) {
                                 answer = filePath + answer;
                                 answer = "[CQ:image,file=file:///" + answer + "]";
                             }
