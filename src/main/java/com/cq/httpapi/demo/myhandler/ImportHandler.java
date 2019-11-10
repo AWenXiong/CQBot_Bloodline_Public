@@ -115,46 +115,59 @@ public class ImportHandler {
                             }
                             question = question.trim();
                             answer = answer.trim();
-                            if (answer.contains("\\n")) {
-                                StringBuilder stringBuilder = new StringBuilder(answer);
-                                while (stringBuilder.indexOf("\\n") >= 0) {
-                                    stringBuilder.replace(stringBuilder.indexOf("\\n"), stringBuilder.indexOf("\\n") + 2, "\n");
+                            if (answer.equals("\\t")) {
+                                int tmpRowNum = i + 1;
+                                StringBuilder tmpAnswer = new StringBuilder("请选择\n");
+                                String tmpCellValue = "";
+                                boolean flag = false;
+                                do {
+                                    Row tmpRow = sheet.getRow(tmpRowNum);
+                                    if (tmpRow == null) {
+                                        tmpRowNum++;
+                                        continue;
+                                    }
+                                    Cell tmpCell = tmpRow.getCell(0);
+                                    tmpCellValue = tmpCell.getStringCellValue();
+                                    if (tmpCellValue == null) {
+                                        tmpRowNum++;
+                                        continue;
+                                    } else if (!tmpCellValue.isEmpty()) {
+                                        if (tmpCellValue.contains("\\i")) {
+                                            flag = true;
+                                        } else {
+                                            tmpAnswer.append(tmpCellValue);
+                                            tmpAnswer.append("\n");
+                                        }
+                                    }
+                                    tmpRowNum++;
+                                } while (!tmpCellValue.contains("\\t"));
+                                String tail = flag ? "......" : "";
+                                if (tmpAnswer.indexOf("\\t") > 0) {
+                                    tmpAnswer.replace(tmpAnswer.indexOf("\\t"), tmpAnswer.indexOf("\\t") + 2, "");
                                 }
-                                answer = stringBuilder.toString().trim();
+                                tmpAnswer.append(tail);
+                                answer = tmpAnswer.toString().trim();
                             }
-                            if (answer.endsWith(".jpg") || answer.endsWith(".png")) {
+
+                            if (answer.endsWith(".jpg") || answer.endsWith(".png") || answer.endsWith(".jpeg")) {
                                 answer = filePath + answer;
                                 answer = "[CQ:image,file=file:///" + answer + "]";
                             }
-
-//                                System.err.println(question + "\t\t" + answer);
+                            if (question.contains("\\t")) {
+                                StringBuilder tmpQuestion = new StringBuilder(question);
+                                tmpQuestion.replace(tmpQuestion.indexOf("\\t"), tmpQuestion.indexOf("\\t") + 2, "");
+                                question = tmpQuestion.toString();
+                            }
+                            if (question.contains("\\i")) {
+                                StringBuilder tmpQuestion = new StringBuilder(question);
+                                tmpQuestion.replace(tmpQuestion.indexOf("\\i"), tmpQuestion.indexOf("\\i") + 2, "");
+                                question = tmpQuestion.toString();
+                            }
                             if (towerService.exist(question, "0")) {
                                 towerService.updateQuestion(question, answer, "0", "多莉贝露");
                             } else {
                                 towerService.insertQuestion(question, answer, "0", "多莉贝露");
                             }
-//                            if (answer != null && !answer.isEmpty()) {
-//                                question = question.trim();
-//                                answer = answer.trim();
-//                                if (answer.contains("\\n")) {
-//                                    StringBuilder stringBuilder = new StringBuilder(answer);
-//                                    while (stringBuilder.indexOf("\\n")>=0) {
-//                                        stringBuilder.replace(stringBuilder.indexOf("\\n"), stringBuilder.indexOf("\\n") + 2, "\n");
-//                                    }
-//                                    answer = stringBuilder.toString().trim();
-//                                }
-//                                if (answer.endsWith(".jpg") || answer.endsWith(".png") || answer.endsWith(".")) {
-//                                    answer = filePath + answer;
-//                                    answer = "[CQ:image,file=file:///" + answer + "]";
-//                                }
-//
-////                                System.err.println(question + "\t\t" + answer);
-//                                if (towerService.exist(question, "0")) {
-//                                    towerService.updateQuestion(question, answer, "0", "多莉贝露");
-//                                } else {
-//                                    towerService.insertQuestion(question, answer, "0", "多莉贝露");
-//                                }
-//                            }
                         }
                     }
                 }
