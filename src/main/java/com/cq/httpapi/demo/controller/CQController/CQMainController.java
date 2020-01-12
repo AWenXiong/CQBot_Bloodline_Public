@@ -69,7 +69,7 @@ public class CQMainController {
                         String guild = grpMsgHttpReqHandler.getGroupId();
                         String user = grpMsgHttpReqHandler.getUserId();
 
-                        if (!guild.equals("192870189") && !guild.equals("471572605")) {
+                        if (!guild.equals("192870189") && !guild.equals("471572605") && !guild.equals("717123368")) {
 
                             if (purchaseHandler.checkService(guild, "tower")) {
                                 // 问答
