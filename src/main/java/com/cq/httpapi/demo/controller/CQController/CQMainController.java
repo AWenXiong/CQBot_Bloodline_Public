@@ -41,6 +41,8 @@ public class CQMainController {
     private ImportHandler importHandler;
     @Resource
     private PartnerHandler partnerHandler;
+    @Resource
+    private STZBSkillHandler stzbSkillHandler;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -58,7 +60,7 @@ public class CQMainController {
                 String message_type = body.getString("message_type");
                 ArrayList<Response> allResponse = new ArrayList<>();
 
-//            System.err.println(body);
+                System.err.println(body);
                 //=================================================================================
 
                 switch (message_type) {
@@ -116,6 +118,10 @@ public class CQMainController {
                         // 查看服务
                         allResponse.add(purchaseHandler.getOwnPurchase(grpMsgHttpReqHandler));
 
+                        // 率土之滨
+                        if (purchaseHandler.checkService(guild, "stzb")) {
+                            allResponse.add(stzbSkillHandler.skillChecker(grpMsgHttpReqHandler));
+                        }
                         break;
                     }
 

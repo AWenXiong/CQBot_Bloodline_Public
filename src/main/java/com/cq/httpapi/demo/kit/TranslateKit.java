@@ -23,6 +23,7 @@ public class TranslateKit {
         purchaseServiceMap.put("remind", "定时提醒");
         purchaseServiceMap.put("ban", "群内禁言");
         purchaseServiceMap.put("memberChanged", "群成员变更");
+        purchaseServiceMap.put("stzb", "率土之滨资料");
 
         cardCareerMap.put("1", "战士");
         cardCareerMap.put("2", "刺客");
