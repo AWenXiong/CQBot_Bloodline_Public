@@ -4,12 +4,10 @@ import java.util.ArrayList;
 
 public enum Account {
 
-    ROBOT1("大多莉", "2078003617", "http://localhost:5700"),
-    ROBOT2("中多莉", "1239298446", "http://localhost:5701"),
-    ROBOT3("小多莉", "3416875131", "http://localhost:5702"),
-    ROBOT4("小小多莉", "2972745180", "http://localhost:5703"),
-    TEST_ROBOT("测试多莉", "3210530348", "http://localhost:5703"),
-    TEST_ROBOT2("测试狗屎", "502063298", "http://localhost:5704");
+    ROBOT1("大多莉", "20787", "http://localhost:5700"),
+    ROBOT2("中多莉", "1239", "http://localhost:5701"),
+    ROBOT3("小多莉", "34168", "http://localhost:5702"),
+    ROBOT4("小小多莉", "29727", "http://localhost:5703");
 
     private String name;
     private String id;

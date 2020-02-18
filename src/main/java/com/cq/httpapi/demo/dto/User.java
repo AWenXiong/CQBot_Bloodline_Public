@@ -2,8 +2,8 @@ package com.cq.httpapi.demo.dto;
 
 public enum User {
 
-    DOLLYBELU("502063298"),
-    ROBOTTESTGROUP("927582523");
+    DOLLYBELU("5020"),
+    ROBOTTESTGROUP("9275");
 
     private String userId;
 

@@ -1,6 +1,6 @@
 # 服务端口号
 server:
-  port: 40001
+  port: ${port}
 
 spring:
   datasource: # 数据库配置
@@ -14,11 +14,6 @@ mybatis:
   type-aliases-package: com.cq.httpapi.demo.dao
   configuration:
     map-underscore-to-camel-case: true # 驼峰命名规范
-
-#logging:
-#  level:
-#    com.cq.httpapi.demo.dao: debug
-##    com.cq.httpapi.demo.myhandler: debug
 
 logging:
 #  file: C:/Users/Administrator/Desktop/logTest/log.txt

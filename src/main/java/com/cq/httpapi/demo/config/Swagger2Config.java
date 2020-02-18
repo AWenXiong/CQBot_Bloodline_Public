@@ -98,7 +98,7 @@ public class Swagger2Config {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("接口文档")
-                .description("多莉的接口文档")
+                .description("接口文档")
                 .version("1.0")
                 .build();
     }
